@@ -17,7 +17,7 @@ class CourseList extends Component
 
     componentDidMount() {
         this.setState( { loading: true });
-        get('/v1/courses?include[]=instructors').then(courses => {
+        get('/v1/courses?include[]=instructors&endsAfter=now').then(courses => {
             this.setState({ courses, loading: false });
         });
     }

@@ -2,6 +2,7 @@ import i18n from "i18next";
 import { reactI18nextModule } from "react-i18next";
 import detector from "i18next-browser-languagedetector";
 import moment from 'moment';
+import 'moment/locale/da';
 import translationEN from '../locales/en/translation.json';
 import translationDA from '../locales/da/translation.json';
 
