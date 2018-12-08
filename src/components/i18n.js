@@ -4,7 +4,9 @@ import detector from "i18next-browser-languagedetector";
 import moment from 'moment';
 import 'moment/locale/da';
 import translationEN from '../locales/en/translation.json';
+import translationENCustom from '../locales/en/translation.custom.json';
 import translationDA from '../locales/da/translation.json';
+import translationDACustom from '../locales/da/translation.custom.json';
 
 // the translations
 // (tip move them in a JSON file and import them)
@@ -37,7 +39,13 @@ i18n
             order: ['cookie', 'navigator'],
             caches: ['cookie'],
             cookieMinutes: 60*24*365,
-        }
+        },
+
+        missingKeyHandler: function(lng, ns, key, fallbackValue) {
+            // We don't want users to see translation keys ever, let's crash the app instead
+            throw new Error("Missing translation key: " + key);
+        },
+        saveMissing: true
     });
 
 i18n.on('languageChanged', function(lng) {
@@ -45,5 +53,20 @@ i18n.on('languageChanged', function(lng) {
 });
 
 moment.locale(i18n.language);
+
+i18n.addResourceBundle(
+    'da', // lng
+    'translation', // ns
+    translationDACustom, 
+    true, // deep
+    true // overwrite
+    );
+i18n.addResourceBundle(
+    'en', // lng
+    'translation', // ns
+    translationENCustom, 
+    true, // deep
+    true // overwrite
+    );
 
 export default i18n;
