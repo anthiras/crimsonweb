@@ -1,8 +1,11 @@
 {
   "common": {
     "cancel": "Fortryd",
+    "email": "E-mail",
     "manage": "Administrer",
     "name": "Navn",
+    "saving": "Gemmer...",
+    "saved": "Gemt!",
     "startDate": "Startdato",
     "time": "Tidspunkt",
     "weeks": "Antal uger",
@@ -22,7 +25,10 @@
     "signIn": "Log ind",
     "signOut": "Log ud",
     "saveCourse": "Gem hold",
-    "confirmSignup": "Bekræft tilmelding"
+    "confirmSignup": "Bekræft tilmelding",
+    "fillOutYourInfo": "Udfyld dine oplysninger nu",
+    "registerNow": "Registrér medlemskab nu",
+    "saveInfo": "Gem information"
   },
   "courses": {
     "signupConfirmed": "Tilmelding bekræftet",
@@ -38,8 +44,26 @@
     "scheduleSummary_plural": "{{ startDate, dddd }}e {{ startDate, HH:mm }}–{{ endDate, HH:mm }} fra {{ startDate, ll }}"
   },
   "users": {
-    "instructors": "Undervisere"
+    "instructors": "Undervisere",
+    "birthDate": "Fødselsdato",
+    "gender": "Køn",
+    "male": "Mand",
+    "female": "Kvinde"
   },
   "membership": {
+    "period": "{{ lastRenewal, L}} – {{ nextRenewal, L}}",
+    "yourRegistrationWillBeValidUntilX": "Dit medlemskab vil være gyldigt indtil {{ nextRenewal, L }}",
+    "step1UserDetails": "1. Udfyld medlemsoplysninger",
+    "step2Register": "2. Registrér/forny dit medlemskab",
+    "step3Payment": "3. Betal dit medlemskontingent",
+    "infoOk": "Information udfyldt",
+    "registrationInstructions": "",
+    "signupComment": "Tilmeldingskommentar",
+    "weeNeedAFewDetails": "Vi har brug for et par oplysninger om dig for at registrere dig som medlem.",
+    "registrationReceived": "Registrering modtaget",
+    "paymentPending": "Afventer bekræftelse på betaling",
+    "paymentInstructions": "Du kan nu betale medlemskontingentet, hvis du ikke allerede har gjort det. Så snart kassereren har bekræftet din betaling er du registreret som medlem.",
+    "completed": "Betaling registreret, medlemskab godkendt!",
+    "payment": "Betaling"
   }
 }

@@ -1,8 +1,11 @@
 {
   "common": {
     "cancel": "Cancel",
+    "email": "Email",
     "manage": "Manage",
     "name": "Name",
+    "saving": "Saving...",
+    "saved": "Saved!",
     "startDate": "Start date",
     "time": "Time",
     "weeks": "Weeks",
@@ -22,7 +25,10 @@
     "signIn": "Sign in",
     "signOut": "Sign out",
     "saveCourse": "Save class",
-    "confirmSignup": "Confirm signup"
+    "confirmSignup": "Confirm signup",
+    "fillOutYourInfo": "Fill out your information now",
+    "registerNow": "Register now",
+    "saveInfo": "Save information"
   },
   "courses": {
     "signupConfirmed": "Signup confirmed",
@@ -38,8 +44,26 @@
     "scheduleSummary_plural": "{{ startDate, dddd }}s {{ startDate, HH:mm }}–{{ endDate, HH:mm }} from {{ startDate, ll }}"
   },
   "users": {
-    "instructors": "Instructors"
+    "instructors": "Instructors",
+    "birthDate": "Birth date",
+    "gender": "Gender",
+    "male": "Male",
+    "female": "Female"
   },
   "membership": {
+    "period": "{{ lastRenewal, L}} – {{ nextRenewal, L}}",
+    "yourRegistrationWillBeValidUntilX": "Your registration will be valid until {{ nextRenewal, L }}",
+    "step1UserDetails": "1. Fill out your information",
+    "step2Register": "2. Register/renew your membership",
+    "step3Payment": "3. Pay your membership fee",
+    "infoOk": "Information supplied",
+    "registrationInstructions": "",
+    "signupComment": "Signup comment",
+    "weeNeedAFewDetails": "We need a few details about you to register you as a member.",
+    "registrationReceived": "Registration received",
+    "paymentPending": "Waiting for payment confirmation",
+    "paymentInstructions": "Please pay your membership now if you haven't done so already. As soon as our staff has confirmed your payment, your registration is completed.",
+    "completed": "Payment confirmed and registration completed!",
+    "payment": "Payment"
   }
 }
