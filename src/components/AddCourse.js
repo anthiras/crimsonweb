@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { post, get } from './Api';
-import { Async } from 'react-select';
-import 'react-select/dist/react-select.css';
+import AsyncSelect from 'react-select/lib/Async';
 import { withNamespaces } from 'react-i18next';
 
 class AddCourse extends Component {
@@ -48,15 +47,13 @@ class AddCourse extends Component {
 
 	searchUsers(input) {
 	    return get('/v1/users?query='+input)
-            .then(users => {
-                return {
-                    options: users.map(user => {
-                        return {
-                            value: user.id,
-                            label: user.name
-                        }
-                })};
-            });
+            .then(result => result.data.map(user => {
+                    return {
+                        value: user.id,
+                        label: user.name
+                    }
+                })
+            );
     }
 
 	render() {
@@ -69,7 +66,7 @@ class AddCourse extends Component {
                 </div>
                 <div className="form-group">
                     <label htmlFor="instructors">{t('users:instructors')}</label>
-                    <Async name="instructors" multi={true} loadOptions={this.searchUsers} autoload={false} value={this.state.newCourse.instructors} onChange={(e)=>this.handleInput('instructors', e)} />
+                    <AsyncSelect name="instructors" cacheOptions isMulti loadOptions={this.searchUsers} value={this.state.newCourse.instructors} onChange={(e)=>this.handleInput('instructors', e)} />
                 </div>
                 <div className="form-row">
                     <div className="form-group col-md-3 col-sm-6">
