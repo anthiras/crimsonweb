@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import {get} from "./Api";
 import UserRow from "./UserRow";
-import { Loading } from './Utilities';
+import { Loading, Pagination } from './Utilities';
 
 class UserList extends Component
 {
@@ -10,8 +10,11 @@ class UserList extends Component
         this.state = {
             roles: [],
             users: [],
-            loading: false
+            loading: false,
+            page: 1,
+            lastPage: 1
         }
+        this.setPage = this.setPage.bind(this);
     }
 
     componentDidMount() {
@@ -19,14 +22,26 @@ class UserList extends Component
         get('/v1/roles').then(roles => {
             this.setState({ roles })
         });
-        get('/v1/users?include[]=roles&include[]=memberships').then(users => {
-            this.setState({ users, loading: false });
+        this.loadUsers(this.state.page);
+    }
+
+    loadUsers(page) {
+        get('/v1/users?include[]=roles&include[]=memberships&page='+page).then(result => {
+            this.setState({ users: result.data, loading: false, lastPage: result.meta.last_page });
         });
+    }
+
+    setPage(page) {
+        this.setState({ page: page });
+        this.loadUsers(page);
     }
 
     render() {
         if (this.state.loading) return <Loading />;
+        const page = this.state.page;
+        const lastPage = this.state.lastPage;
         return (
+            <React.Fragment>
             <table className="table">
                 <thead>
                     <tr>
@@ -42,6 +57,8 @@ class UserList extends Component
                     )}
                 </tbody>
             </table>
+            <Pagination page={page} lastPage={lastPage} onSetPage={this.setPage} />
+            </React.Fragment>
         );
     }
 }
