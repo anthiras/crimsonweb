@@ -1,5 +1,5 @@
 import React from 'react';
-import AddCourse from './AddCourse'
+import CourseEditor from './CourseEditor'
 import CourseList from './CourseList'
 import CourseNavigation from './CourseNavigation'
 import CourseDetails from './CourseDetails';
@@ -29,7 +29,8 @@ const App = ({ t }) => (
                             <CourseNavigation/>
                             <Switch>
                                 <Route exact path="/courses" component={CourseList} />
-                                <Route exact path="/courses/create" component={AddCourse} />
+                                <Route exact path="/courses/create" component={CourseEditor} />
+                                <Route exact path="/courses/:courseId/edit" component={CourseEditor} />
                                 <Route exact path="/courses/:courseId" component={CourseDetails} />
                             </Switch>
                         </React.Fragment>

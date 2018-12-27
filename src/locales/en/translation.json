@@ -28,7 +28,8 @@
     "confirmSignup": "Confirm signup",
     "fillOutYourInfo": "Fill out your information now",
     "registerNow": "Register now",
-    "saveInfo": "Save information"
+    "saveInfo": "Save information",
+    "editCourse": "Edit class"
   },
   "courses": {
     "signupConfirmed": "Signup confirmed",

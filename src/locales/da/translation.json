@@ -28,7 +28,8 @@
     "confirmSignup": "Bekræft tilmelding",
     "fillOutYourInfo": "Udfyld dine oplysninger nu",
     "registerNow": "Registrér medlemskab nu",
-    "saveInfo": "Gem information"
+    "saveInfo": "Gem information",
+    "editCourse": "Rediger hold"
   },
   "courses": {
     "signupConfirmed": "Tilmelding bekræftet",

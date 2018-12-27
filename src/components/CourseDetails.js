@@ -2,6 +2,10 @@ import React, {Component} from 'react';
 import moment from 'moment';
 import {get} from "./Api";
 import ParticipantList from "./ParticipantList";
+import CourseEditor from './CourseEditor';
+import { Loading } from './Utilities';
+import { withNamespaces } from 'react-i18next';
+import { NavLink } from "react-router-dom";
 
 class CourseDetails extends Component
 {
@@ -9,7 +13,8 @@ class CourseDetails extends Component
         super(props);
         this.courseId = props.match.params.courseId;
         this.state = {
-            course: null
+            course: null,
+            uiState: 'show'
         }
     }
 
@@ -21,8 +26,12 @@ class CourseDetails extends Component
 
     render() {
         if (this.state.course == null) {
-            return "Loading...";
+            return <Loading />;
         }
+        if (this.state.uiState === 'edit') {
+            return <CourseEditor course={this.state.course} />
+        }
+        const t = this.props.t;
         const {
             name,
             instructors,
@@ -40,6 +49,8 @@ class CourseDetails extends Component
                 <h1>{name}</h1>
                 <p>{ instructors.map(instructor => instructor.name).join(" & ") }</p>
                 <p>{ courseStartsAt.format("dddd") }s { courseStartsAt.format("HH:mm") }–{ firstLessonEndsAt.format("HH:mm") } from { courseStartsAt.format("MMM D") }</p>
+                {/*<button className="btn btn-secondary" onClick={() => this.setState({'uiState': 'edit'})}>{ t('actions:editCourse') }</button>*/}
+                <NavLink to={"/courses/"+this.courseId+"/edit"} className="btn btn-secondary">{ t('actions:editCourse') }</NavLink>
                 <h2>Participants</h2>
                 <ParticipantList participants={participants} />
             </React.Fragment>
@@ -47,4 +58,4 @@ class CourseDetails extends Component
     }
 }
 
-export default CourseDetails;
+export default withNamespaces()(CourseDetails);
