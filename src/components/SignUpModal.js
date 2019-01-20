@@ -1,5 +1,4 @@
 import React, {Component} from "react";
-import {post} from "./Api";
 import Modal from 'react-bootstrap4-modal';
 import { withNamespaces } from 'react-i18next';
 
@@ -8,14 +7,12 @@ class SignUpModal extends Component
     constructor(props) {
         super(props);
         this.modalId = "signup" + props.course.id;
-        this.signupUrl = '/v1/courses/' + props.course.id + '/signUp';
         this.submitSignup = this.submitSignup.bind(this);
         this.setSignUpDetails = this.setSignUpDetails.bind(this);
         this.state = {
             signUpDetails: {
                 role: null
-            },
-            error: false
+            }
         }
     }
 
@@ -27,19 +24,17 @@ class SignUpModal extends Component
 
     submitSignup(e) {
         e.preventDefault();
-        this.setState({error: false});
-        post(this.signupUrl, this.state.signUpDetails)
-            .then(this.props.onSignedUp)
-            .catch(() => this.setState({error: true}));
+        this.props.signup(this.props.course.id, this.state.signUpDetails);
     }
 
     render() {
-        const t = this.props.t;
-        return <Modal visible={this.props.visible} onClickBackdrop={this.props.onClose}>
+        const { t, course, close, error } = this.props;
+
+        return <Modal visible={course.showSignupModal || false} onClickBackdrop={close}>
             <form onSubmit={this.submitSignup}>
                 <div className="modal-header">
-                    <h5 className="modal-title">{t('courses:signupFor')} {this.props.course.name}</h5>
-                    <button type="button" className="close" aria-label="Close" onClick={this.props.onClose}>
+                    <h5 className="modal-title">{t('courses:signupFor')} {course.name}</h5>
+                    <button type="button" className="close" aria-label="Close" onClick={close}>
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
@@ -55,10 +50,10 @@ class SignUpModal extends Component
                                value="follow" onChange={(e) => this.setSignUpDetails('role', e)} required />
                         <label className="form-check-label" htmlFor={this.modalId + "_follow"}>{t('courses:follow')}</label>
                     </div>
-                    {this.state.error && <div className="alert alert-danger">{t('courses:signupError')}</div>}
+                    {error && <div className="alert alert-danger">{t('courses:signupError')}</div>}
                 </div>
                 <div className="modal-footer">
-                    <button type="button" onClick={this.props.onClose} className="btn btn-secondary">{t('common:cancel')}
+                    <button type="button" onClick={close} className="btn btn-secondary">{t('common:cancel')}
                     </button>
                     <button type="submit" className="btn btn-primary">{t('actions:confirmSignup')}</button>
                 </div>

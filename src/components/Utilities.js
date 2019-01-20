@@ -1,6 +1,7 @@
 import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {faSpinner} from "@fortawesome/free-solid-svg-icons/index";
+import { NavLink } from "react-router-dom";
 
 const Loading = () => (
     <div className="d-flex justify-content-center text-secondary p-4">
@@ -8,7 +9,7 @@ const Loading = () => (
     </div>
 );
 
-const Pagination = ({page, lastPage, onSetPage}) => {
+const Pagination = ({page, lastPage, urlForPage }) => {
     const pageDiffs = [-2, -1, 0, 1, 2];
     const underflow = Math.min(0, page - 2 - 1);
     const overflow = Math.max(lastPage, page + 2) - lastPage;
@@ -20,17 +21,17 @@ const Pagination = ({page, lastPage, onSetPage}) => {
         <nav aria-label="Page navigation">
           <ul className="pagination">
             <li className={"page-item" + (page === 1 ? " disabled" : "")}>
-                <button className="page-link" onClick={() => onSetPage(page-1)}>Previous</button>
+                <NavLink className="page-link" to={urlForPage(page-1)}>Previous</NavLink>
             </li>
             
             {pageNumbers.map(pageNumber => 
                 <li key={pageNumber} className={"page-item" + (pageNumber === page ? " active": "")}>
-                    <button className="page-link" onClick={() => onSetPage(pageNumber)}>{pageNumber}</button>
+                    <NavLink className="page-link" to={urlForPage(pageNumber)}>{pageNumber}</NavLink>
                 </li>
             )}
 
             <li className={"page-item" + (page === lastPage ? " disabled" : "")}>
-                <button className="page-link" onClick={() => onSetPage(page+1)}>Next</button>
+                <NavLink className="page-link" to={urlForPage(page+1)}>Next</NavLink>
             </li>
           </ul>
         </nav>

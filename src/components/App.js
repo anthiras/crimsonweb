@@ -1,11 +1,13 @@
 import React from 'react';
 import CourseEditor from './CourseEditor'
-import CourseList from './CourseList'
+import CourseList from '../containers/CourseList'
 import CourseNavigation from './CourseNavigation'
 import CourseDetails from './CourseDetails';
-import UserList from './UserList'
-import UserProfile from './UserProfile';
-import Membership from './Membership';
+import UserList from '../containers/UserList'
+//import UserProfile from './UserProfile';
+import MyProfile from '../containers/MyProfile'
+//import Membership from './Membership';
+import MembershipForm from '../containers/MembershipForm'
 import Navigation from './Navigation'
 import { Loading } from './Utilities';
 import { Router, Route, Redirect, Switch } from "react-router-dom";
@@ -35,9 +37,9 @@ const App = ({ t }) => (
                             </Switch>
                         </React.Fragment>
                     </Route>
-                    <Route path="/users" component={UserList} />
-                    <Route path="/profile" component={UserProfile} />
-                    <Route path="/membership" component={Membership} />
+                    <Route path="/users/:page?" component={UserList} />
+                    <Route path="/profile" component={MyProfile} />
+                    <Route path="/membership" component={MembershipForm} />
                     <Route path="/callback" render={(props) => {
                         auth.handleAuthentication(props);
                         return <Loading />;

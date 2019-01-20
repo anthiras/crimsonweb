@@ -1,55 +1,33 @@
-import React, {Component} from 'react';
-import Auth from "./Auth";
+import React from 'react';
 import UserRoleCheckbox from './UserRoleCheckbox';
-import { post } from './Api';
 
-class UserRow extends Component
-{
-    constructor(props) {
-        super(props);
-        this.auth = new Auth();
-        this.user = this.props.user;
-        this.allRoles = this.props.allRoles;
-        this.state = {
-            roles: this.allRoles.map(role => ({
-                userId: this.user.id,
-                roleId: role.id,
-                name: role.name,
-                userHasRole: this.user.roles.find((r) => { return r.id === role.id; }) !== undefined
-            })),
-            membership: this.user.currentMembership
-        };
-
-        this.setMembershipPaid = this.setMembershipPaid.bind(this);
-    }
-
-    setMembershipPaid() {
-        post('/v1/membership/'+this.user.id+'/setPaid')
-            .then(membership => this.setState({ membership }));
-    }
-
-    render() {
-        const membership = this.state.membership;
-        const memberNotPaid = membership != null && membership.paidAt == null;
-        const memberPaid = membership != null && membership.paidAt != null;
-        return (
-            <tr>
-                <td><img src={this.user.picture} width="50" height="50" alt="" /></td>
-                <td>{this.user.name}</td>
-                <td>
-                    {this.state.roles.map(userRole => {
-                        return (
-                            <UserRoleCheckbox key={userRole.roleId} userRole={userRole} />
-                        );
-                    })}
-                </td>
-                <td>
-                    {memberNotPaid && <button type="button" className="btn btn-primary" onClick={this.setMembershipPaid}>Confirm payment</button> }
-                    {memberPaid && "Confirmed paid member"}
-                </td>
-            </tr>
-        );
-    }
+const UserRow = ({ user, allRoles, setMembershipPaid, toggleUserRole }) => {
+    const membership = user.currentMembership;
+    const memberNotPaid = membership != null && membership.paidAt == null;
+    const memberPaid = membership != null && membership.paidAt != null;
+    const roles = allRoles.map(role => ({
+            userId: user.id,
+            roleId: role.id,
+            name: role.name,
+            userHasRole: user.roles.find((r) => { return r.id === role.id; }) !== undefined
+        }))
+    return (
+        <tr>
+            <td><img src={user.picture} width="50" height="50" alt="" /></td>
+            <td>{user.name}</td>
+            <td>
+                {roles.map(userRole => {
+                    return (
+                        <UserRoleCheckbox key={userRole.roleId} userRole={userRole} toggleUserRole={toggleUserRole} />
+                    );
+                })}
+            </td>
+            <td>
+                {memberNotPaid && <button type="button" className="btn btn-primary" onClick={() => setMembershipPaid(user.id)}>Confirm payment</button> }
+                {memberPaid && "Confirmed paid member"}
+            </td>
+        </tr>
+    );
 }
 
 export default UserRow;

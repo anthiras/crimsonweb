@@ -1,5 +1,4 @@
 import React, {Component} from "react";
-import {get, post} from "./Api";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {faCheckCircle, faClock } from "@fortawesome/free-solid-svg-icons/index";
 import { Loading } from './Utilities';
@@ -12,10 +11,6 @@ class Membership extends Component
         super(props);
         this.paymentOptions = JSON.parse(process.env.REACT_APP_PAYMENT_OPTIONS);
         this.state = {
-            user: null,
-            membership: null,
-            userLoaded: false,
-            currentPeriod: null,
             displayProfile: false,
             signupComment: "",
             paymentMethod: this.paymentOptions[0]
@@ -23,31 +18,14 @@ class Membership extends Component
         this.register = this.register.bind(this);
         this.setSignupComment = this.setSignupComment.bind(this);
         this.displayProfile = this.displayProfile.bind(this);
-        this.onUserSaved = this.onUserSaved.bind(this);
-    }
-
-    componentDidMount() {
-        get('/v1/users/current').then(user => {
-            this.setState({ user: user, membership: user.currentMembership });
-            this.setState({ userLoaded: true });
-        });
-        get('/v1/membership/currentPeriod').then(currentPeriod => {
-            this.setState({
-                currentPeriod: currentPeriod, 
-                lastRenewal: new Date(currentPeriod.lastRenewal),
-                nextRenewal: new Date(currentPeriod.nextRenewal)
-            });
-        });
     }
 
     register() {
-        post('/v1/membership', 
-            { 
-                userId: this.state.user.id, 
+        this.props.submitMembership({ 
+                userId: this.props.profile.user.id, 
                 signupComment: this.state.signupComment,
                 paymentMethod: this.state.paymentMethod 
-            })
-            .then(membership => this.setState({ membership }));
+            });
     }
 
     setSignupComment(value) {
@@ -62,28 +40,28 @@ class Membership extends Component
         this.setState({displayProfile: true});
     }
 
-    onUserSaved(user) {
-        this.setState({displayProfile: false});
-        this.setState({user: user});
-    }
-
     render() {
-        const t = this.props.t;
+        const { t, profile, currentMembershipPeriod } = this.props;
+        const user = profile.user;
 
-        if (!this.state.userLoaded) {
+        if (user == null || currentMembershipPeriod == null) {
             return <Loading />;
         }
 
-        const infoCompleted = this.state.user != null &&
-            this.state.user.gender != null &&
-            this.state.user.birthDate != null;
+        const membership = user.currentMembership;
+        const lastRenewal = new Date(currentMembershipPeriod.lastRenewal);
+        const nextRenewal = new Date(currentMembershipPeriod.nextRenewal)
+
+        const infoCompleted = user != null &&
+            user.gender != null &&
+            user.birthDate != null;
 
         let step = 0;
         if (infoCompleted) {
             step = 1;
-            if (this.state.membership != null) {
+            if (membership != null) {
                 step = 2;
-                if (this.state.membership.paidAt != null) {
+                if (membership.paidAt != null) {
                     step = 3;
                 }
             }
@@ -93,7 +71,7 @@ class Membership extends Component
         return (
             <div>
                 <h1>{ t('titles:membership') }</h1>
-                {this.state.currentPeriod && <p>{ t('membership:period', { lastRenewal: this.state.lastRenewal, nextRenewal: this.state.nextRenewal }) }</p>}
+                {this.state.currentPeriod && <p>{ t('membership:period', { lastRenewal, nextRenewal }) }</p>}
                 <div className={step >= 1 ? successClass : defaultClass}>
                     <div className="card-body">
                         <h5 className="card-title">{t('membership:step1UserDetails')}</h5>
@@ -105,7 +83,7 @@ class Membership extends Component
                             <React.Fragment>
                                 <p>{t('membership:weeNeedAFewDetails')}</p>
                                 {!this.state.displayProfile && <button className="btn btn-primary" onClick={this.displayProfile}>{t('actions:fillOutYourInfo')}</button>}
-                                {this.state.displayProfile && <UserProfile user={this.state.user} onSave={this.onUserSaved} />}
+                                {this.state.displayProfile && !infoCompleted && <UserProfile user={user} uiState={profile.uiState} submitProfile={this.props.submitProfile} editProfileField={this.props.editProfileField} />}
                             </React.Fragment>}
                     </div>
                 </div>
@@ -118,7 +96,7 @@ class Membership extends Component
                         </p>}
                         {step === 1 &&
                             <React.Fragment>
-                                <p>{ t('membership:yourRegistrationWillBeValidUntilX', { nextRenewal: this.state.nextRenewal }) }</p>
+                                <p>{ t('membership:yourRegistrationWillBeValidUntilX', { nextRenewal }) }</p>
                                 <p>{t('membership:registrationInstructions')}</p>
                                 <div className="form-group">
                                     <label>{t('membership:payment')}</label>
