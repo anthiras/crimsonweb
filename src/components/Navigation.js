@@ -30,49 +30,42 @@ class Navigation extends Component
         const profile = isAuthenticated ? this.auth.getProfile() : {};
 
         return (
-            <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
-                <button className="navbar-toggler" type="button" data-toggle="collapse"
-                        data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span className="navbar-toggler-icon"/>
-                </button>
-                <div className="collapse navbar-collapse" id="navbarSupportedContent">
-                    <ul className="navbar-nav mr-auto">
-                        <NavLink to="/courses" className="nav-link" activeClassName="active" exact={true}>{t('titles:courses')}</NavLink>
-                        <NavLink to="/membership" className="nav-link" activeClassName="active">{t('titles:membership')}</NavLink>
-                        <NavLink to="/users" className="nav-link" activeClassName="active">{t('titles:users')}</NavLink>
-                    </ul>
-                    <ul className="navbar-nav">
+            <nav className="navbar navbar-expand navbar-dark bg-dark">
+                <ul className="navbar-nav mr-auto">
+                    <NavLink to="/courses" className="nav-link" activeClassName="active">{t('titles:courses')}</NavLink>
+                    <NavLink to="/membership" className="nav-link" activeClassName="active">{t('titles:membership')}</NavLink>
+                    <NavLink to="/users" className="nav-link" activeClassName="active">{t('titles:users')}</NavLink>
+                </ul>
+                <ul className="navbar-nav">
+                    <li className="nav-item dropdown">
+                        <button className="btn btn-link nav-link dropdown-toggle" id="languageDropdown"
+                           data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            {t('common:language:this')}
+                        </button>
+                        <div className="dropdown-menu dropdown-menu-right">
+                            <button className={"btn btn-link dropdown-item" + (i18n.language === "da" ? " active" : "")} onClick={() => i18n.changeLanguage('da')}>{t('common:language:da')}</button>
+                            <button className={"btn btn-link dropdown-item" + (i18n.language === "en" ? " active" : "")} onClick={() => i18n.changeLanguage('en')}>{t('common:language:en')}</button>
+                        </div>
+                    </li>
+                    {!isAuthenticated && (
+                        <li className="nav-item">
+                            <button className="btn btn-link nav-link" onClick={this.login}>{t('actions:signIn')}</button>
+                        </li>
+                    )}
+                    {isAuthenticated && (
                         <li className="nav-item dropdown">
-                            <button className="btn btn-link nav-link dropdown-toggle" id="languageDropdown"
+                            <button className="btn btn-link nav-link dropdown-toggle" id="navbarDropdownMenuLink"
                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                {t('common:language:this')}
+                                <img src={profile.picture} width="20" height="20" className="align-middle mr-1" alt={profile.name} />
+                                <span className="d-none d-md-inline">{profile.name}</span>
                             </button>
-                            <div className="dropdown-menu dropdown-menu-right">
-                                <button className={"btn btn-link dropdown-item" + (i18n.language === "da" ? " active" : "")} onClick={() => i18n.changeLanguage('da')}>{t('common:language:da')}</button>
-                                <button className={"btn btn-link dropdown-item" + (i18n.language === "en" ? " active" : "")} onClick={() => i18n.changeLanguage('en')}>{t('common:language:en')}</button>
+                            <div className="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
+                                <NavLink to="/profile" className="dropdown-item" activeClassName="active">{t('titles:myProfile')}</NavLink>
+                                <button className="btn btn-link dropdown-item" onClick={this.logout}>{t('actions:signOut')}</button>
                             </div>
                         </li>
-                        {!isAuthenticated && (
-                            <li className="nav-item">
-                                <button className="btn btn-link nav-link" onClick={this.login}>{t('actions:signIn')}</button>
-                            </li>
-                        )}
-                        {isAuthenticated && (
-                            <li className="nav-item dropdown">
-                                <button className="btn btn-link nav-link dropdown-toggle" id="navbarDropdownMenuLink"
-                                   data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    <img src={profile.picture} width="20" height="20" className="align-middle mr-1" alt={profile.name} />
-                                    {profile.name}
-                                </button>
-                                <div className="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
-                                    <NavLink to="/profile" className="dropdown-item" activeClassName="active">{t('titles:myProfile')}</NavLink>
-                                    <button className="btn btn-link dropdown-item" onClick={this.logout}>{t('actions:signOut')}</button>
-                                </div>
-                            </li>
-                        )}
-                    </ul>
-                </div>
+                    )}
+                </ul>
             </nav>
         );
     }

@@ -9,7 +9,13 @@ import { CourseCards } from '../components/CourseCards'
 class CourseList extends Component
 {
     componentDidMount() {
-        this.props.dispatch(fetchCourses())
+        this.props.fetchCourses(this.props.list)
+    }
+
+    componentDidUpdate(prevProps) {
+        if (prevProps.list !== this.props.list) {
+            this.props.fetchCourses(this.props.list)
+        }
     }
 
     render() {
@@ -20,10 +26,12 @@ class CourseList extends Component
     }
 }
 
-function mapStateToProps(state) {
+function mapStateToProps(state, ownProps) {
+  const list = ownProps.match.params.list || 'current';
   const { courses } = state
-  const { coursesById, currentCourses } = courses;
-  const { isFetching, items } = currentCourses || {
+  const { coursesById, currentCourses, archivedCourses } = courses;
+  const courseList = list === 'archive' ? archivedCourses : currentCourses;
+  const { isFetching, items } = courseList || {
     isFetching: true,
     items: null
   }
@@ -31,8 +39,13 @@ function mapStateToProps(state) {
 
   return {
     courses: courseObjects,
-    isFetching: isFetching
+    isFetching: isFetching,
+    list: list
   }
 }
 
-export default connect(mapStateToProps)(CourseList);
+const actionCreators = {
+    fetchCourses
+}
+
+export default connect(mapStateToProps, actionCreators)(CourseList);

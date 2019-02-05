@@ -7,7 +7,10 @@ const CourseNavigation = ({ t }) => (
         <div className="col-sm">
             <ul className="nav nav-pills my-3">
                 <li className="nav-item">
-                    <NavLink to="/courses" className="nav-link" activeClassName="active" exact={true}>{t('titles:courses')}</NavLink>
+                    <NavLink to="/courses" className="nav-link" activeClassName="active" exact={true}>{t('courses:current')}</NavLink>
+                </li>
+                <li className="nav-item">
+                    <NavLink to="/courses/archive" className="nav-link" activeClassName="active" exact={true}>{t('courses:archive')}</NavLink>
                 </li>
                 <li className="nav-item">
                     <NavLink  to="/courses/create" className="nav-link" activeClassName="active" exact={true}>

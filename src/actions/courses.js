@@ -39,10 +39,13 @@ function shouldFetchCourses(courses) {
   }
 }
 
-export const fetchCourses = () => ({
+export const fetchCourses = list => ({
 	types: [REQUEST_COURSES, RECEIVE_COURSES, REQUEST_COURSES_ERROR],
 	shouldCallApi: state => shouldFetchCourses(state.courses.currentCourses),
-	callApi: () => get('/v1/courses?include[]=instructors&endsAfter=now')
+	callApi: list === 'current' ? () => get('/v1/courses?include[]=instructors&endsAfter=now')
+		: list === 'archive' ? () => get('/v1/courses?include[]=instructors&endsBefore=now')
+		: () => {},
+	payload: { list }
 })
 
 const toggleSignupModalAction = (courseId, show) => ({

@@ -31,6 +31,7 @@ const App = ({ t }) => (
                             <CourseNavigation/>
                             <Switch>
                                 <Route exact path="/courses" component={CourseList} />
+                                <Route exact path="/courses/:list(current|archive)" component={CourseList} />
                                 <Route exact path="/courses/create" component={CourseEditorContainer} />
                                 <Route exact path="/courses/:courseId/edit" component={CourseEditorContainer} />
                                 <Route exact path="/courses/:courseId" component={CourseDetailsContainer} />

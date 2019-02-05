@@ -61,11 +61,11 @@ function courseEditor(state = {
     }
 }
 
-export function currentCourses(state = {
+const courseList = list => (state = {
     items: [],
     isFetching: false,
     didInvalidate: true
-}, action) {
+}, action) => {
     switch (action.type) {
         case INVALIDATE_COURSES:
             // fall through
@@ -74,11 +74,15 @@ export function currentCourses(state = {
                 didInvalidate: true
             })
         case REQUEST_COURSES:
+            if (list !== action.list)
+                return state;
             return Object.assign({}, state, {
                 isFetching: true,
                 didInvalidate: false
             })
         case RECEIVE_COURSES:
+            if (list !== action.list)
+                return state;
             return Object.assign({}, state, {
                 items: action.response.map(x => x.id),
                 isFetching: false,
@@ -93,7 +97,7 @@ export function currentCourses(state = {
     }
 }
 
-export function coursesById(state = {}, action) {
+function coursesById(state = {}, action) {
     switch (action.type) {
         case RECEIVE_COURSES:
             return action.response.reduce((state, obj) => {
@@ -127,4 +131,8 @@ export function coursesById(state = {}, action) {
     }
 }
 
-export const courses = combineReducers({ coursesById, currentCourses, courseEditor })
+export const courses = combineReducers({ 
+    coursesById, 
+    currentCourses: courseList('current'), 
+    archivedCourses: courseList('archive'),
+    courseEditor })

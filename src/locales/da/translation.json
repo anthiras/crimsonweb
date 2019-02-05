@@ -39,6 +39,8 @@
     "deleteCourse": "Slet hold..."
   },
   "courses": {
+    "current": "Aktuelle hold",
+    "archive": "Arkiv",
     "signupConfirmed": "Tilmelding bekræftet",
     "signupRequested": "Tilmelding sendt",
     "signupFor": "Tilmeld",
