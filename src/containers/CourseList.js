@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Loading } from '../components/Utilities';
 import {
-  fetchCoursesIfNeeded
+  fetchCourses
 } from '../actions/courses'
 import { connect } from 'react-redux'
 import { CourseCards } from '../components/CourseCards'
@@ -9,7 +9,7 @@ import { CourseCards } from '../components/CourseCards'
 class CourseList extends Component
 {
     componentDidMount() {
-        this.props.dispatch(fetchCoursesIfNeeded())
+        this.props.dispatch(fetchCourses())
     }
 
     render() {
@@ -22,15 +22,16 @@ class CourseList extends Component
 
 function mapStateToProps(state) {
   const { courses } = state
-  const { isFetching, lastUpdated, items } = courses || {
+  const { coursesById, currentCourses } = courses;
+  const { isFetching, items } = currentCourses || {
     isFetching: true,
     items: null
   }
+  const courseObjects = items ? items.map(courseId => coursesById[courseId]) : [];
 
   return {
-    courses: items,
-    isFetching,
-    lastUpdated
+    courses: courseObjects,
+    isFetching: isFetching
   }
 }
 

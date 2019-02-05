@@ -16,7 +16,7 @@ class UserList extends Component
 	}
 
 	componentDidUpdate(prevProps) {
-		if (this.props.page != prevProps.page) {
+		if (this.props.page !== prevProps.page) {
 			this.props.fetchUsersIfNeeded(this.props.page)
 		}
 	}

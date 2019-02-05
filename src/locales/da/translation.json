@@ -1,6 +1,8 @@
 {
   "common": {
+    "back": "Tilbage",
     "cancel": "Fortryd",
+    "delete": "Slet",
     "email": "E-mail",
     "manage": "Administrer",
     "name": "Navn",
@@ -11,8 +13,12 @@
     "weeks": "Antal uger",
     "language": {
       "da": "Dansk",
-      "en": "Engelsk"
-    }
+      "en": "Engelsk",
+      "this": "Dansk"
+    },
+    "errorSaving": "Der skete en fejl ved lagring af informationen.",
+    "confirmDelete": "Er du sikker på du vil slette dette?",
+    "pleaseConfirm": "Bekræft venligst"
   },
   "titles": {
     "courses": "Hold",
@@ -29,7 +35,8 @@
     "fillOutYourInfo": "Udfyld dine oplysninger nu",
     "registerNow": "Registrér medlemskab nu",
     "saveInfo": "Gem information",
-    "editCourse": "Rediger hold"
+    "editCourse": "Rediger hold",
+    "deleteCourse": "Slet hold..."
   },
   "courses": {
     "signupConfirmed": "Tilmelding bekræftet",

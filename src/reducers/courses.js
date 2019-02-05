@@ -1,7 +1,12 @@
+import { combineReducers } from 'redux'
 import {
   REQUEST_COURSES, RECEIVE_COURSES, INVALIDATE_COURSES, SET_PARTICIPATION_STATUS,
-  TOGGLE_SIGNUP_MODAL, SIGNUP_SUBMIT, SIGNUP_SUBMIT_ERROR, SIGNUP_CANCEL
+  TOGGLE_SIGNUP_MODAL, SIGNUP_SUBMIT, SIGNUP_SUBMIT_ERROR, 
+  FETCH_COURSE, FETCH_COURSE_SUCCESS, FETCH_COURSE_ERROR, 
+  SAVE_COURSE, SAVE_COURSE_SUCCESS, SAVE_COURSE_ERROR, EDIT_COURSE_FIELD,
+  DELETE_COURSE_SUCCESS
 } from '../actions/courses'
+import { resolveUiState } from '../shared/uiState'
 
 function course(state, action) {
     switch (action.type) {
@@ -24,19 +29,47 @@ function course(state, action) {
                 signupError: true,
                 showSignupModal: true
             })
+        case FETCH_COURSE_SUCCESS:
+            return Object.assign({}, state, action.response)
         default:
             return state;
     }
 }
 
-export function courses(
-    state = {
-        isFetching: false,
-        didInvalidate: true,
-        items: []
-    }, action) {
+function courseEditor(state = {
+    uiState: null
+}, action) {
+    switch (action.type) {
+        case EDIT_COURSE_FIELD:
+            // fall through
+        case SAVE_COURSE:
+            // fall through
+        case SAVE_COURSE_SUCCESS:
+            // fall through
+        case SAVE_COURSE_ERROR:
+            // fall through
+        case FETCH_COURSE:
+            // fall through
+        case FETCH_COURSE_SUCCESS:
+            // fall through
+        case FETCH_COURSE_ERROR:
+            return Object.assign({}, state, {
+                uiState: resolveUiState(action.type)
+            })
+        default:
+            return state;
+    }
+}
+
+export function currentCourses(state = {
+    items: [],
+    isFetching: false,
+    didInvalidate: true
+}, action) {
     switch (action.type) {
         case INVALIDATE_COURSES:
+            // fall through
+        case SAVE_COURSE_SUCCESS:
             return Object.assign({}, state, {
                 didInvalidate: true
             })
@@ -47,11 +80,26 @@ export function courses(
             })
         case RECEIVE_COURSES:
             return Object.assign({}, state, {
+                items: action.response.map(x => x.id),
                 isFetching: false,
-                didInvalidate: false,
-                items: action.courses,
-                lastUpdated: action.receivedAt
+                didInvalidate: false
             })
+        case DELETE_COURSE_SUCCESS:
+            return Object.assign({}, state, {
+                items: state.items.filter(id => id !== action.courseId)
+            })
+        default:
+            return state;
+    }
+}
+
+export function coursesById(state = {}, action) {
+    switch (action.type) {
+        case RECEIVE_COURSES:
+            return action.response.reduce((state, obj) => {
+                state[obj.id] = obj;
+                return state;
+            }, state);
         case SET_PARTICIPATION_STATUS:
             // fall through
         case TOGGLE_SIGNUP_MODAL:
@@ -59,16 +107,24 @@ export function courses(
         case SIGNUP_SUBMIT:
             // fall through
         case SIGNUP_SUBMIT_ERROR:
-            return Object.assign({}, state, {
-                items: state.items.map((data, index) => {
-                    if (data.id === action.courseId) {
-                        return course(data, action);
-                    }
-                    return data
-                })})
-        case SIGNUP_CANCEL:
             // fall through
-        default:
+        case FETCH_COURSE_SUCCESS:
+            const courseId = action.courseId || (action.response != null ? action.response.id : null);
+            return Object.assign({}, state, {
+                [courseId]: course(state[courseId], action)
+            })
+        case SAVE_COURSE_SUCCESS:
+            // fall through
+        case DELETE_COURSE_SUCCESS:
+            if (action.courseId) {
+                return Object.assign({}, state, {
+                    [action.courseId]: null
+                })
+            }
             return state;
+        default:
+            return state
     }
 }
+
+export const courses = combineReducers({ coursesById, currentCourses, courseEditor })

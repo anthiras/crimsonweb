@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Loading } from './Utilities';
 import { withNamespaces } from 'react-i18next';
+import { UISTATE_SAVED, UISTATE_SAVE_FAILED, UISTATE_SAVING } from '../shared/uiState'
 
 class UserProfile extends Component {
 	constructor(props) {
@@ -34,8 +35,8 @@ class UserProfile extends Component {
         }
         const { name, birthDate, gender, email } = this.state.user;
         const buttonText =
-            uiState === 'saving' ? t('common:saving') :
-            uiState === 'saved' ? t('common:saved') :
+            uiState === UISTATE_SAVING ? t('common:saving') :
+            uiState === UISTATE_SAVED ? t('common:saved') :
                 t('actions:saveInfo');
 
 		return (
@@ -68,8 +69,8 @@ class UserProfile extends Component {
                     </div>
                 </div>
                 <div className="form-group">
-                    {uiState === 'error' && <div className="alert alert-danger">An error occurred while saving your information.</div>}
-                    <button type="submit" className={uiState === 'saved' ? "btn btn-success" : "btn btn-primary"}>{buttonText}</button>
+                    {uiState === UISTATE_SAVE_FAILED && <div className="alert alert-danger">{t('common:errorSaving')}</div>}
+                    <button type="submit" className={uiState === UISTATE_SAVED ? "btn btn-success" : "btn btn-primary"}>{buttonText}</button>
                 </div>
             </form>
         );

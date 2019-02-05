@@ -2,6 +2,7 @@ import { get, put, post, del } from '../components/Api'
 
 export const REQUEST_PROFILE = 'REQUEST_PROFILE'
 export const RECEIVE_PROFILE = 'RECEIVE_PROFILE'
+export const REQUEST_PROFILE_ERROR = 'REQUEST_PROFILE_ERROR'
 export const EDIT_PROFILE_FIELD = 'EDIT_PROFILE_FIELD'
 export const SUBMIT_PROFILE = 'SUBMIT_PROFILE'
 export const SUBMIT_PROFILE_SUCCESS = 'SUBMIT_PROFILE_SUCCESS'
@@ -19,23 +20,6 @@ export const TOGGLE_USER_ROLE = 'TOGGLE_USER_ROLE'
 export const TOGGLE_USER_ROLE_SUCCESS = 'TOGGLE_USER_ROLE_SUCCESS'
 export const TOGGLE_USER_ROLE_ERROR = 'TOGGLE_USER_ROLE_ERROR'
 
-const requestProfile = () => ({
-	type: REQUEST_PROFILE
-})
-
-const receiveProfile = (user) => ({
-	type: RECEIVE_PROFILE,
-	user: user
-})
-
-const fetchProfile = () => (dispatch) => {
-	dispatch(requestProfile())
-	return get('/v1/users/current')
-		.then(user => {
-    		dispatch(receiveProfile(user))
-    	});
-}
-
 function shouldFetchProfile(state) {
   const profile = state.profile.user
   if (!profile) {
@@ -47,37 +31,21 @@ function shouldFetchProfile(state) {
   }
 }
 
-export function fetchProfileIfNeeded() {
-  return (dispatch, getState) => {
-    if (shouldFetchProfile(getState())) {
-      return dispatch(fetchProfile())
-    }
-  }
-}
+export const fetchProfileIfNeeded = () => ({
+	types: [REQUEST_PROFILE, RECEIVE_PROFILE, REQUEST_PROFILE_ERROR],
+	shouldCallApi: shouldFetchProfile,
+	callApi: () => get('/v1/users/current')
+})
 
 export const editProfileField = () => ({
 	type: EDIT_PROFILE_FIELD
 })
 
-const submitProfileAction = () => ({
-	type: SUBMIT_PROFILE
+export const submitProfile = user => ({
+	types: [SUBMIT_PROFILE, SUBMIT_PROFILE_SUCCESS, SUBMIT_PROFILE_ERROR],
+	callApi: () => put('/v1/users/'+user.id, user),
+	payload: { user }
 })
-
-const submitProfileSuccess = (user) => ({
-	type: SUBMIT_PROFILE_SUCCESS,
-	user: user
-})
-
-const submitProfileError = () => ({
-	type: SUBMIT_PROFILE_ERROR
-})
-
-export const submitProfile = (user) => dispatch => {
-	dispatch(submitProfileAction())
-    put('/v1/users/'+user.id, user)
-    	.then(() => dispatch(submitProfileSuccess(user)))
-        .catch(() => dispatch(submitProfileError()));
-}
 
 export const fetchUsersIfNeeded = page => ({
 	types: [REQUEST_USERS, RECEIVE_USERS, REQUEST_USERS_ERROR],
@@ -94,14 +62,12 @@ export const fetchRolesIfNeeded = () => ({
 
 export const setMembershipPaid = userId => ({
 	types: [SET_MEMBERSHIP_PAID, SET_MEMBERSHIP_PAID_SUCCESS, SET_MEMBERSHIP_PAID_ERROR],
-	shouldCallApi: state => true,
 	callApi: () => post('/v1/membership/'+userId+'/setPaid'),
 	payload: { userId }
 })
 
 export const toggleUserRole = (userId, roleId, userHasRole) => ({
 	types: [TOGGLE_USER_ROLE, TOGGLE_USER_ROLE_SUCCESS, TOGGLE_USER_ROLE_ERROR],
-	shouldCallApi: state => true,
 	callApi: userHasRole
 		? () => post('/v1/users/' + userId + '/roles/' + roleId)
 		: () => del('/v1/users/' + userId + '/roles/' + roleId),

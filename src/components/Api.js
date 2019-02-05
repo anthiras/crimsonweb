@@ -3,7 +3,9 @@ import Auth from "./Auth";
 function get(url) {
     return callApi(url, {
         method: 'GET',
-        headers: defaultHeaders()
+        headers: defaultHeaders(),
+        mode: "cors",
+        cache: "no-cache"
     });
 }
 
@@ -61,6 +63,7 @@ function parseJsonIfContentTypeJson(response) {
 }
 
 function handleErrors(response) {
+    console.log(response)
     if (response.status === 401) {
         let auth = new Auth();
         auth.login();

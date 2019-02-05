@@ -46,7 +46,7 @@ class Navigation extends Component
                         <li className="nav-item dropdown">
                             <button className="btn btn-link nav-link dropdown-toggle" id="languageDropdown"
                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                {t('common:language:'+i18n.language)}
+                                {t('common:language:this')}
                             </button>
                             <div className="dropdown-menu dropdown-menu-right">
                                 <button className={"btn btn-link dropdown-item" + (i18n.language === "da" ? " active" : "")} onClick={() => i18n.changeLanguage('da')}>{t('common:language:da')}</button>

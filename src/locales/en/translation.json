@@ -1,6 +1,8 @@
 {
   "common": {
+    "back": "Back",
     "cancel": "Cancel",
+    "delete": "Delete",
     "email": "Email",
     "manage": "Manage",
     "name": "Name",
@@ -11,8 +13,12 @@
     "weeks": "Weeks",
     "language": {
       "da": "Danish",
-      "en": "English"
-    }
+      "en": "English",
+      "this": "English"
+    },
+    "errorSaving": "An error occurred while saving the information.",
+    "confirmDelete": "Are you sure you want to delete this?",
+    "pleaseConfirm": "Please confirm"
   },
   "titles": {
     "courses": "Classes",
@@ -29,7 +35,8 @@
     "fillOutYourInfo": "Fill out your information now",
     "registerNow": "Register now",
     "saveInfo": "Save information",
-    "editCourse": "Edit class"
+    "editCourse": "Edit class",
+    "deleteCourse": "Delete class..."
   },
   "courses": {
     "signupConfirmed": "Signup confirmed",

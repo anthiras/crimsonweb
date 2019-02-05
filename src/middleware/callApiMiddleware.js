@@ -1,6 +1,6 @@
 export default function callApiMiddleware({ dispatch, getState }) {
     return next => action => {
-        const { types, callApi, shouldCallApi = () => true, payload = {} } = action
+        const { types, callApi, shouldCallApi = () => true, payload = {}, onSuccess = () => true } = action
 
         if (!types) {
             // Normal action: pass it on
@@ -32,13 +32,14 @@ export default function callApiMiddleware({ dispatch, getState }) {
         )
 
         return callApi().then(
-            response =>
+            response => {
                 dispatch(
                     Object.assign({}, payload, {
                         response,
                         type: successType
                     })
-                ),
+                );
+                onSuccess(response)},
             error =>
                 dispatch(
                     Object.assign({}, payload, {

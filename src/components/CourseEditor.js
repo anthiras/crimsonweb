@@ -1,38 +1,36 @@
 import React, { Component } from 'react';
-import { post, get, put } from './Api';
 import AsyncSelect from 'react-select/lib/Async';
 import { withNamespaces } from 'react-i18next';
 import moment from 'moment';
 import { Loading } from './Utilities';
+import { get } from './Api'
+import { UISTATE_SAVED, UISTATE_SAVE_FAILED, UISTATE_SAVING } from '../shared/uiState'
+import { NavLink } from 'react-router-dom'
+import { ConfirmModal } from './ConfirmModal';
 
 class CourseEditor extends Component {
 	constructor(props) {
 		super(props);
-        this.state = { course: null };
-        
-		this.handleSubmit = this.handleSubmit.bind(this);
-		this.handleInput = this.handleInput.bind(this);
-	}
-
-    componentDidMount() {
-        if (this.props.match.params.courseId) {
-            get('/v1/courses/'+this.props.match.params.courseId).then(course => {
-                this.setState({ course: this.mapToState(course) });
-            });
-        } else {
-            this.setState({
-                course: {
+        this.state = { 
+            course: props.course == null 
+                ? {
                     id: null,
                     name: 'New course',
                     startsAtDate: '2018-01-01',
                     startsAtTime: '08:00:00',
                     weeks: 8,
                     durationMinutes: 60,
-                    instructors: [] 
-                }
-            });
-        }
-    }
+                    instructors: [] } 
+                : this.mapToState(props.course),
+            deleteModalVisible: false
+        };
+        
+		this.handleSubmit = this.handleSubmit.bind(this);
+		this.handleInput = this.handleInput.bind(this);
+        this.openDeleteModal = this.openDeleteModal.bind(this);
+        this.closeDeleteModal = this.closeDeleteModal.bind(this);
+        this.confirmDelete = this.confirmDelete.bind(this);
+	}
 
     mapToState(course) {
         let startsAt = moment(course.startsAt);
@@ -49,6 +47,7 @@ class CourseEditor extends Component {
 
     mapStateToData() {
         return {
+            id: this.state.course.id,
             name: this.state.course.name,
             startsAt: this.state.course.startsAtDate + " " + this.state.course.startsAtTime,
             weeks: this.state.course.weeks,
@@ -62,6 +61,7 @@ class CourseEditor extends Component {
 		var state = Object.assign({}, this.state.course);
     	state[key] = value;
     	this.setState({course: state });
+        this.props.editCourseField();
 	}
 
 	handleSubmit(e) {
@@ -69,16 +69,21 @@ class CourseEditor extends Component {
 
 		let data = this.mapStateToData();
 
-        console.log(data);
-
-        if (this.courseId) {
-            put('/v1/courses/'+this.courseId, data)
-                .then(() => { window.location.href='/courses/'+this.courseId; });
-        } else {
-            post('/v1/courses', data)
-                .then(() => { window.location.href='/courses/'+data.id; });
-        }
+        this.props.saveCourse(data)
 	}
+
+    openDeleteModal() {
+        this.setState({deleteModalVisible: true})
+    }
+
+    closeDeleteModal() {
+        this.setState({deleteModalVisible: false})
+    }
+
+    confirmDelete() {
+        this.closeDeleteModal();
+        this.props.deleteCourse(this.state.course.id);
+    }
 
 	searchUsers(input) {
 	    return get('/v1/users?query='+input)
@@ -92,9 +97,17 @@ class CourseEditor extends Component {
     }
 
 	render() {
+        const { t, uiState } = this.props;
+        const course = this.state.course;
+
         if (this.state.course == null)
             return <Loading />;
-	    const t = this.props.t;
+
+        const buttonText =
+            uiState === UISTATE_SAVING ? t('common:saving') :
+            uiState === UISTATE_SAVED ? t('common:saved') :
+                t('actions:saveCourse');
+
 		return (
             <form onSubmit={this.handleSubmit}>
                 <div className="form-group">
@@ -123,7 +136,17 @@ class CourseEditor extends Component {
                         <input type="number" required id="duration" className="form-control" value={this.state.course.durationMinutes} onChange={(e)=>this.handleInput('durationMinutes', e)} />
                     </div>
                 </div>
-                <button type="submit" className="btn btn-primary">{t('actions:saveCourse')}</button>
+                <div className="form-group">
+                    {uiState === UISTATE_SAVE_FAILED && <div className="alert alert-danger">{t('common:errorSaving')}</div>}
+                    <button type="submit" className={uiState === UISTATE_SAVED ? "btn btn-success" : "btn btn-primary"}>{buttonText}</button>
+                    {" "}
+                    {course.id && <NavLink to={"/courses/"+course.id} className="btn btn-secondary">{ t('common:back') }</NavLink>}
+                    {" "}
+                    {course.id && <button type="button" className="btn btn-danger" onClick={this.openDeleteModal}>{t('actions:deleteCourse')}</button>}
+                </div>
+                <ConfirmModal visible={this.state.deleteModalVisible} onConfirm={this.confirmDelete} onCancel={this.closeDeleteModal} title={t('common:pleaseConfirm')} confirmText={t('common:delete')} cancelText={t('common:cancel')} confirmClassName="btn btn-danger">
+                    {t('common:confirmDelete')}
+                </ConfirmModal>
             </form>
         );
 	}
