@@ -22,6 +22,9 @@ export const EDIT_COURSE_FIELD = 'EDIT_COURSE_FIELD'
 export const DELETE_COURSE = 'DELETE_COURSE'
 export const DELETE_COURSE_SUCCESS = 'DELETE_COURSE_SUCCESS'
 export const DELETE_COURSE_ERROR = 'DELETE_COURSE_ERROR'
+export const FETCH_COURSE_PARTICIPANTS = 'FETCH_COURSE_PARTICIPANTS'
+export const FETCH_COURSE_PARTICIPANTS_SUCCESS = 'FETCH_COURSE_PARTICIPANTS_SUCCESS'
+export const FETCH_COURSE_PARTICIPANTS_ERROR = 'FETCH_COURSE_PARTICIPANTS_ERROR'
 
 export const setParticipationStatus = (courseId, status) => ({
 	type: SET_PARTICIPATION_STATUS,
@@ -119,4 +122,11 @@ export const deleteCourse = courseId => ({
 	callApi: () => del('/v1/courses/'+courseId),
 	payload: { courseId },
 	onSuccess: () => history.push('/courses')
+})
+
+export const fetchCourseParticipants = courseId => ({
+	types: [FETCH_COURSE_PARTICIPANTS, FETCH_COURSE_PARTICIPANTS_SUCCESS, FETCH_COURSE_PARTICIPANTS_ERROR],
+	shouldCallApi: state => !state.courses.participantsById[courseId],
+	callApi: () => get('/v1/courses/'+courseId+'/participants'),
+	payload: { courseId }
 })

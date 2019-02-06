@@ -51,7 +51,8 @@
     "createNew": "Create new class",
     "lessonDuration": "Duration of lessons (minutes)",
     "scheduleSummary": "{{ startDate, ll }} {{ startDate, HH:mm }}–{{ endDate, HH:mm }}",
-    "scheduleSummary_plural": "{{ startDate, dddd }}s {{ startDate, HH:mm }}–{{ endDate, HH:mm }} from {{ startDate, ll }}"
+    "scheduleSummary_plural": "{{ startDate, dddd }}s {{ startDate, HH:mm }}–{{ endDate, HH:mm }} from {{ startDate, ll }}",
+    "participants": "Participants"
   },
   "users": {
     "instructors": "Instructors",

@@ -51,7 +51,8 @@
     "createNew": "Opret nyt hold",
     "lessonDuration": "Lektionernes varighed (minutter)",
     "scheduleSummary": "{{ startDate, ll }} {{ startDate, HH:mm }}–{{ endDate, HH:mm }}",
-    "scheduleSummary_plural": "{{ startDate, dddd }}e {{ startDate, HH:mm }}–{{ endDate, HH:mm }} fra {{ startDate, ll }}"
+    "scheduleSummary_plural": "{{ startDate, dddd }}e {{ startDate, HH:mm }}–{{ endDate, HH:mm }} fra {{ startDate, ll }}",
+    "participants": "Deltagere"
   },
   "users": {
     "instructors": "Undervisere",

@@ -4,7 +4,8 @@ import {
   TOGGLE_SIGNUP_MODAL, SIGNUP_SUBMIT, SIGNUP_SUBMIT_ERROR, 
   FETCH_COURSE, FETCH_COURSE_SUCCESS, FETCH_COURSE_ERROR, 
   SAVE_COURSE, SAVE_COURSE_SUCCESS, SAVE_COURSE_ERROR, EDIT_COURSE_FIELD,
-  DELETE_COURSE_SUCCESS
+  DELETE_COURSE_SUCCESS,
+  FETCH_COURSE_PARTICIPANTS_SUCCESS
 } from '../actions/courses'
 import { resolveUiState } from '../shared/uiState'
 
@@ -131,8 +132,20 @@ function coursesById(state = {}, action) {
     }
 }
 
+function participantsById(state = {}, action) {
+    switch (action.type) {
+        case FETCH_COURSE_PARTICIPANTS_SUCCESS:
+            return Object.assign({}, state, {
+                [action.courseId]: action.response
+            })
+        default:
+            return state
+    }
+}
+
 export const courses = combineReducers({ 
     coursesById, 
     currentCourses: courseList('current'), 
     archivedCourses: courseList('archive'),
-    courseEditor })
+    courseEditor,
+    participantsById })
