@@ -144,7 +144,13 @@ class CourseEditor extends Component {
                     {" "}
                     {course.id && <button type="button" className="btn btn-danger" onClick={this.openDeleteModal}>{t('actions:deleteCourse')}</button>}
                 </div>
-                <ConfirmModal visible={this.state.deleteModalVisible} onConfirm={this.confirmDelete} onCancel={this.closeDeleteModal} title={t('common:pleaseConfirm')} confirmText={t('common:delete')} cancelText={t('common:cancel')} confirmClassName="btn btn-danger">
+                <ConfirmModal 
+                    visible={this.state.deleteModalVisible} 
+                    onConfirm={this.confirmDelete}
+                    onCancel={this.closeDeleteModal} 
+                    title={t('common:pleaseConfirm')} 
+                    confirmText={t('common:delete')} 
+                    cancelText={t('common:cancel')} >
                     {t('common:confirmDelete')}
                 </ConfirmModal>
             </form>

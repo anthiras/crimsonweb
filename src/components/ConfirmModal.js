@@ -13,7 +13,7 @@ export const ConfirmModal = ({ visible, title, confirmText, cancelText, confirmC
       <button type="button" className={cancelClassName || "btn btn-secondary"} onClick={onCancel}>
         {cancelText}
       </button>
-      <button type="button" className={confirmClassName || "btn btn-primary"} onClick={onConfirm}>
+      <button type="button" className={confirmClassName || "btn btn-danger"} onClick={onConfirm}>
         {confirmText}
       </button>
     </div>

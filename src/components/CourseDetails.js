@@ -4,7 +4,7 @@ import { Loading } from './Utilities';
 import { withNamespaces } from 'react-i18next';
 import { NavLink } from "react-router-dom";
 
-const CourseDetails = ({ t, course, participants }) => {
+const CourseDetails = ({ t, course, participants, confirmCourseParticipant, cancelCourseParticipant }) => {
     if (!course) {
         return <Loading />;
     }
@@ -24,11 +24,33 @@ const CourseDetails = ({ t, course, participants }) => {
             <p>{ instructors.map(instructor => instructor.name).join(" & ") }</p>
             <p>{ t('courses:scheduleSummary', { startDate: courseStartsAt, endDate: courseEndsAt, count: course.weeks }) }</p>
             
-            <NavLink to={"/courses/"+id+"/edit"} className="btn btn-secondary">{ t('actions:editCourse') }</NavLink>
+            <p><NavLink to={"/courses/"+id+"/edit"} className="btn btn-secondary">{ t('actions:editCourse') }</NavLink></p>
+
             <h2>{t('courses:participants')}</h2>
-            <ParticipantList participants={participants} />
+            <ParticipantSummary participants={participants} t={t} />
+            <ParticipantList courseId={id} participants={participants} confirmCourseParticipant={confirmCourseParticipant} cancelCourseParticipant={cancelCourseParticipant} />
         </React.Fragment>
     );
 }
+
+const ParticipantSummary = ({t, participants }) => {
+    const counts = participants.reduce((summary, participant) => {
+        const status = participant.participation.status;
+        const role = participant.participation.role;
+        if (!summary.hasOwnProperty(status)) {
+            summary[status] = { lead: 0, follow: 0 };
+        }
+        summary[status][role]++;
+        return summary;
+    }, {})
+
+    const statusSummaries = Object.keys(counts).map(status => 
+        <ParticipantStatusSummary key={status} t={t} status={status} lead={counts[status].lead} follow={counts[status].follow} />);
+
+    return (<ul>{statusSummaries}</ul>);
+}
+
+const ParticipantStatusSummary = ({t, status, lead, follow }) => 
+    (<li>{lead+follow} {t('courses:status:'+status)} ({lead} {t('courses:lead')} + {follow} {t('courses:follow')})</li>);
 
 export default withNamespaces()(CourseDetails);

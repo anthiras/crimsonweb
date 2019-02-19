@@ -1,7 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux'
 import {
-  setParticipationStatus,
   toggleSignupModal,
   signup,
   cancelSignup
@@ -12,14 +11,12 @@ const CourseListItem = ({ course, setParticipationStatus, toggleSignupModal, sig
 	return (<CourseCard 
 		course={course} 
 		key={course.id} 
-		setParticipationStatus={setParticipationStatus} 
 		toggleSignupModal={toggleSignupModal} 
 		signup={signup} 
 		cancelSignup={cancelSignup} />);
 }
 
 const actionCreators = {
-	setParticipationStatus,
 	toggleSignupModal,
 	signup,
 	cancelSignup

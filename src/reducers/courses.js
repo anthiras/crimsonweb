@@ -1,19 +1,22 @@
 import { combineReducers } from 'redux'
 import {
-  REQUEST_COURSES, RECEIVE_COURSES, INVALIDATE_COURSES, SET_PARTICIPATION_STATUS,
-  TOGGLE_SIGNUP_MODAL, SIGNUP_SUBMIT, SIGNUP_SUBMIT_ERROR, 
+  REQUEST_COURSES, RECEIVE_COURSES, INVALIDATE_COURSES, 
+  TOGGLE_SIGNUP_MODAL, 
   FETCH_COURSE, FETCH_COURSE_SUCCESS, FETCH_COURSE_ERROR, 
   SAVE_COURSE, SAVE_COURSE_SUCCESS, SAVE_COURSE_ERROR, EDIT_COURSE_FIELD,
   DELETE_COURSE_SUCCESS,
-  FETCH_COURSE_PARTICIPANTS_SUCCESS
+  FETCH_COURSE_PARTICIPANTS_SUCCESS,
+  SUBMIT_PARTICIPATION, SUBMIT_PARTICIPATION_SUCCESS, SUBMIT_PARTICIPATION_ERROR
 } from '../actions/courses'
 import { resolveUiState } from '../shared/uiState'
 
 function course(state, action) {
     switch (action.type) {
-        case SET_PARTICIPATION_STATUS:
+        case SUBMIT_PARTICIPATION_SUCCESS:
+            if (!action.isCurrentUser)
+                return state;
             return Object.assign({}, state, {
-                myParticipation: { participation: { status: action.status } },
+                myParticipation: action.response,
                 signupError: false,
                 showSignupModal: false
             })
@@ -21,11 +24,15 @@ function course(state, action) {
             return Object.assign({}, state, {
                 showSignupModal: action.show
             })
-        case SIGNUP_SUBMIT:
+        case SUBMIT_PARTICIPATION:
+            if (!action.isCurrentUser)
+                return state
             return Object.assign({}, state, {
                 signupError: false,
             })
-        case SIGNUP_SUBMIT_ERROR:
+        case SUBMIT_PARTICIPATION_ERROR:
+            if (!action.isCurrentUser)
+                return state
             return Object.assign({}, state, {
                 signupError: true,
                 showSignupModal: true
@@ -105,13 +112,13 @@ function coursesById(state = {}, action) {
                 state[obj.id] = obj;
                 return state;
             }, state);
-        case SET_PARTICIPATION_STATUS:
+        case SUBMIT_PARTICIPATION_SUCCESS:
             // fall through
         case TOGGLE_SIGNUP_MODAL:
             // fall through
-        case SIGNUP_SUBMIT:
+        case SUBMIT_PARTICIPATION:
             // fall through
-        case SIGNUP_SUBMIT_ERROR:
+        case SUBMIT_PARTICIPATION_ERROR:
             // fall through
         case FETCH_COURSE_SUCCESS:
             const courseId = action.courseId || (action.response != null ? action.response.id : null);
@@ -132,11 +139,35 @@ function coursesById(state = {}, action) {
     }
 }
 
+function courseParticipants(state = [], action) {
+    switch (action.type) {
+        case FETCH_COURSE_PARTICIPANTS_SUCCESS:
+            // fall through
+        case SUBMIT_PARTICIPATION_SUCCESS:
+            const updatedParticipant = action.response;
+            if (state.some(participant => participant.id === updatedParticipant.id))
+                return state.map(participant => {
+                    if (participant.id === updatedParticipant.id)
+                        return updatedParticipant
+                    return participant
+                })
+            else
+                state.push(updatedParticipant)
+                return state
+        default:
+            return state
+    }
+}
+
 function participantsById(state = {}, action) {
     switch (action.type) {
         case FETCH_COURSE_PARTICIPANTS_SUCCESS:
             return Object.assign({}, state, {
-                [action.courseId]: action.response
+               [action.courseId]: action.response
+            })
+        case SUBMIT_PARTICIPATION_SUCCESS:
+            return Object.assign({}, state, {
+                [action.courseId]: courseParticipants(state[action.courseId], action)
             })
         default:
             return state

@@ -3,6 +3,8 @@
     "back": "Back",
     "cancel": "Cancel",
     "delete": "Delete",
+    "approve": "Approve",
+    "reject": "Reject",
     "email": "Email",
     "manage": "Manage",
     "name": "Name",
@@ -18,7 +20,9 @@
     },
     "errorSaving": "An error occurred while saving the information.",
     "confirmDelete": "Are you sure you want to delete this?",
-    "pleaseConfirm": "Please confirm"
+    "pleaseConfirm": "Please confirm",
+    "status": "Status",
+    "actions": "Actions"
   },
   "titles": {
     "courses": "Classes",
@@ -36,7 +40,8 @@
     "registerNow": "Register now",
     "saveInfo": "Save information",
     "editCourse": "Edit class",
-    "deleteCourse": "Delete class..."
+    "deleteCourse": "Delete class...",
+    "reject": "Reject..."
   },
   "courses": {
     "current": "Current classes",
@@ -44,15 +49,23 @@
     "signupConfirmed": "Signup confirmed",
     "signupRequested": "Signup requested",
     "signupFor": "Sign up for",
-    "lead": "Lead (male)",
-    "follow": "Follow (female)",
+    "signupDate": "Signup date",
+    "role": "Role",
+    "lead": "Lead/male",
+    "follow": "Follow/female",
     "signupError": "An error occurred while attempting to signup for the class.",
     "xLessons": "{{count}} lessons",
     "createNew": "Create new class",
     "lessonDuration": "Duration of lessons (minutes)",
     "scheduleSummary": "{{ startDate, ll }} {{ startDate, HH:mm }}–{{ endDate, HH:mm }}",
     "scheduleSummary_plural": "{{ startDate, dddd }}s {{ startDate, HH:mm }}–{{ endDate, HH:mm }} from {{ startDate, ll }}",
-    "participants": "Participants"
+    "participants": "Participants",
+    "confirmReject": "Are you sure you want to reject the participant? This action cannot be undone.",
+    "status": {
+      "pending": "Requested",
+      "confirmed": "Approved",
+      "cancelled": "Cancelled"
+    }
   },
   "users": {
     "instructors": "Instructors",

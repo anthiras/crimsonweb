@@ -3,6 +3,8 @@
     "back": "Tilbage",
     "cancel": "Fortryd",
     "delete": "Slet",
+    "approve": "Godkend",
+    "reject": "Afvis",
     "email": "E-mail",
     "manage": "Administrer",
     "name": "Navn",
@@ -18,7 +20,9 @@
     },
     "errorSaving": "Der skete en fejl ved lagring af informationen.",
     "confirmDelete": "Er du sikker på du vil slette dette?",
-    "pleaseConfirm": "Bekræft venligst"
+    "pleaseConfirm": "Bekræft venligst",
+    "status": "Status",
+    "actions": "Handlinger"
   },
   "titles": {
     "courses": "Hold",
@@ -36,7 +40,8 @@
     "registerNow": "Registrér medlemskab nu",
     "saveInfo": "Gem information",
     "editCourse": "Rediger hold",
-    "deleteCourse": "Slet hold..."
+    "deleteCourse": "Slet hold...",
+    "reject": "Afvis..."
   },
   "courses": {
     "current": "Aktuelle hold",
@@ -44,15 +49,23 @@
     "signupConfirmed": "Tilmelding bekræftet",
     "signupRequested": "Tilmelding sendt",
     "signupFor": "Tilmeld",
-    "lead": "Fører (herre)",
-    "follow": "Følger (dame)",
+    "signupDate": "Tilmeldingsdato",
+    "role": "Rolle",
+    "lead": "Fører/herre",
+    "follow": "Følger/dame",
     "signupError": "Der opstod en fejl i tilmeldingsprocessen.",
     "xLessons": "{{count}} lektioner",
     "createNew": "Opret nyt hold",
     "lessonDuration": "Lektionernes varighed (minutter)",
     "scheduleSummary": "{{ startDate, ll }} {{ startDate, HH:mm }}–{{ endDate, HH:mm }}",
     "scheduleSummary_plural": "{{ startDate, dddd }}e {{ startDate, HH:mm }}–{{ endDate, HH:mm }} fra {{ startDate, ll }}",
-    "participants": "Deltagere"
+    "participants": "Deltagere",
+    "confirmReject": "Er du siker på at du vil afvise deltageren? Denne handling kan ikke fortrydes.",
+    "status": {
+      "pending": "Anmodet",
+      "confirmed": "Godkendt",
+      "cancelled": "Annulleret"
+    }
   },
   "users": {
     "instructors": "Undervisere",
