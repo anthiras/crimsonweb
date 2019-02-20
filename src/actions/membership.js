@@ -1,4 +1,4 @@
-import { get, post } from '../components/Api'
+import { get, post } from '../shared/Api'
 
 export const REQUEST_CURRENT_MEMBERSHIP_PERIOD = 'REQUEST_CURRENT_MEMBERSHIP_PERIOD'
 export const RECEIVE_CURRENT_MEMBERSHIP_PERIOD = 'RECEIVE_CURRENT_MEMBERSHIP_PERIOD'

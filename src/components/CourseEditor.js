@@ -3,7 +3,7 @@ import AsyncSelect from 'react-select/lib/Async';
 import { withNamespaces } from 'react-i18next';
 import moment from 'moment';
 import { Loading } from './Utilities';
-import { get } from './Api'
+import { get } from '../shared/Api'
 import { UISTATE_SAVED, UISTATE_SAVE_FAILED, UISTATE_SAVING } from '../shared/uiState'
 import { NavLink } from 'react-router-dom'
 import { ConfirmModal } from './ConfirmModal';
@@ -15,11 +15,11 @@ class CourseEditor extends Component {
             course: props.course == null 
                 ? {
                     id: null,
-                    name: 'New course',
-                    startsAtDate: '2018-01-01',
-                    startsAtTime: '08:00:00',
+                    name: '',
+                    startsAtDate: moment().format("YYYY-MM-DD"),
+                    startsAtTime: '20:00:00',
                     weeks: 8,
-                    durationMinutes: 60,
+                    durationMinutes: 75,
                     instructors: [] } 
                 : this.mapToState(props.course),
             deleteModalVisible: false

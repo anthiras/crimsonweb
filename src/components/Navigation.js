@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import Auth from './Auth'
+import Auth from '../shared/Auth'
 import { NavLink } from "react-router-dom";
 import { withNamespaces } from 'react-i18next';
-import i18n from './i18n';
+import i18n from '../shared/i18n';
 
 class Navigation extends Component
 {

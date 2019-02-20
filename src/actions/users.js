@@ -1,4 +1,4 @@
-import { get, put, post, del } from '../components/Api'
+import { get, put, post, del } from '../shared/Api'
 
 export const REQUEST_PROFILE = 'REQUEST_PROFILE'
 export const RECEIVE_PROFILE = 'RECEIVE_PROFILE'

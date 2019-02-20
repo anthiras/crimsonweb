@@ -28,7 +28,7 @@ class ParticipantRow extends Component {
     }
 
     render() {
-        const { t, courseId, participant, number, confirmCourseParticipant } = this.props;
+        const { t, courseId, participant, confirmCourseParticipant } = this.props;
         const {
             id,
             picture,
@@ -39,7 +39,7 @@ class ParticipantRow extends Component {
         const userId = id;
 
         return (
-            <tr className={participation.status=='cancelled' ? "text-muted" : ""}>
+            <tr className={participation.status==='cancelled' ? "text-muted" : ""}>
                 <td>{participation.createdAt}</td>
                 <td><img src={picture} width="50" height="50" alt={name} /></td>
                 <td>{name}</td>

@@ -1,6 +1,6 @@
-import { get, post, put, del } from '../components/Api'
-import Auth from '../components/Auth'
-import history from '../components/History'
+import { get, post, put, del } from '../shared/Api'
+import Auth from '../shared/Auth'
+import history from '../shared/History'
 
 export const REQUEST_COURSES = 'REQUEST_COURSES'
 export const REQUEST_COURSES_ERROR = 'REQUEST_COURSES_ERROR'

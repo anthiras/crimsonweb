@@ -11,8 +11,8 @@ import MembershipForm from '../containers/MembershipForm'
 import Navigation from './Navigation'
 import { Loading } from './Utilities';
 import { Router, Route, Redirect, Switch } from "react-router-dom";
-import Auth from './Auth'
-import history from './History';
+import Auth from '../shared/Auth'
+import history from '../shared/History';
 import { withNamespaces } from 'react-i18next';
 
 const auth = new Auth();
