@@ -152,8 +152,7 @@ function courseParticipants(state = [], action) {
                     return participant
                 })
             else
-                state.push(updatedParticipant)
-                return state
+                return [...state, updatedParticipant]
         default:
             return state
     }

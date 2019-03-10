@@ -3,6 +3,7 @@ import Auth from '../shared/Auth'
 import { NavLink } from "react-router-dom";
 import { withNamespaces } from 'react-i18next';
 import i18n from '../shared/i18n';
+import { withPermissions } from '../containers/PermissionContainer';
 
 class Navigation extends Component
 {
@@ -25,6 +26,7 @@ class Navigation extends Component
 
     render() {
         const t = this.props.t;
+        const permissions = this.props.permissions;
 
         const isAuthenticated = this.auth.isAuthenticated();
         const profile = isAuthenticated ? this.auth.getProfile() : {};
@@ -34,7 +36,7 @@ class Navigation extends Component
                 <ul className="navbar-nav mr-auto">
                     <NavLink to="/courses" className="nav-link" activeClassName="active">{t('titles:courses')}</NavLink>
                     <NavLink to="/membership" className="nav-link" activeClassName="active">{t('titles:membership')}</NavLink>
-                    <NavLink to="/users" className="nav-link" activeClassName="active">{t('titles:users')}</NavLink>
+                    {permissions['users:list'] && <NavLink to="/users" className="nav-link" activeClassName="active">{t('titles:users')}</NavLink>}
                 </ul>
                 <ul className="navbar-nav">
                     <li className="nav-item dropdown">
@@ -71,4 +73,4 @@ class Navigation extends Component
     }
 }
 
-export default withNamespaces()(Navigation);
+export default withNamespaces()(withPermissions(Navigation));

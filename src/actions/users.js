@@ -19,6 +19,10 @@ export const SET_MEMBERSHIP_PAID_ERROR = 'SET_MEMBERSHIP_PAID_ERROR'
 export const TOGGLE_USER_ROLE = 'TOGGLE_USER_ROLE'
 export const TOGGLE_USER_ROLE_SUCCESS = 'TOGGLE_USER_ROLE_SUCCESS'
 export const TOGGLE_USER_ROLE_ERROR = 'TOGGLE_USER_ROLE_ERROR'
+export const REQUEST_PERMISSIONS = 'REQUEST_PERMISSIONS'
+export const REQUEST_PERMISSIONS_SUCCESS = 'REQUEST_PERMISSIONS_SUCCESS'
+export const REQUEST_PERMISSIONS_ERROR = 'REQUEST_PERMISSIONS_ERROR'
+export const INVALIDATE_PERMISSIONS = 'INVALIDATE_PERMISSIONS'
 
 function shouldFetchProfile(state) {
   const profile = state.profile.user
@@ -72,4 +76,14 @@ export const toggleUserRole = (userId, roleId, userHasRole) => ({
 		? () => post('/v1/users/' + userId + '/roles/' + roleId)
 		: () => del('/v1/users/' + userId + '/roles/' + roleId),
 	payload: { userId, roleId, userHasRole }
+})
+
+export const fetchPermissions = (forceRefresh = false) => ({
+	types: [REQUEST_PERMISSIONS, REQUEST_PERMISSIONS_SUCCESS, REQUEST_PERMISSIONS_ERROR],
+	shouldCallApi: state => !state.permissions || forceRefresh,
+	callApi: () => get('/v1/users/current/permissions')
+})
+
+export const invalidatePermissions = () => ({
+	type: INVALIDATE_PERMISSIONS
 })

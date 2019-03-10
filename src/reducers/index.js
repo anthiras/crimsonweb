@@ -1,6 +1,6 @@
 import { combineReducers } from 'redux'
 import { courses } from './courses'
-import { profile, users, roles } from './users'
+import { profile, users, roles, permissions } from './users'
 import { membership } from './membership'
 
 const rootReducer = combineReducers({
@@ -8,7 +8,8 @@ const rootReducer = combineReducers({
     profile,
     membership,
     users,
-    roles
+    roles,
+    permissions
 })
 
 export default rootReducer

@@ -6,12 +6,7 @@ export const REQUEST_COURSES = 'REQUEST_COURSES'
 export const REQUEST_COURSES_ERROR = 'REQUEST_COURSES_ERROR'
 export const RECEIVE_COURSES = 'RECEIVE_COURSES'
 export const INVALIDATE_COURSES = 'INVALIDATE_COURSES'
-//export const SET_PARTICIPATION_STATUS = 'SET_PARTICIPATION_STATUS'
 export const TOGGLE_SIGNUP_MODAL = 'TOGGLE_SIGNUP_MODAL'
-//export const SIGNUP_SUBMIT = 'SIGNUP_SUBMIT'
-//export const SIGNUP_SUBMIT_SUCCESS = 'SIGNUP_SUBMIT_SUCCESS'
-//export const SIGNUP_SUBMIT_ERROR = 'SIGNUP_SUBMIT_ERROR'
-//export const SIGNUP_CANCEL = 'SIGNUP_CANCEL'
 export const FETCH_COURSE = 'FETCH_COURSE'
 export const FETCH_COURSE_SUCCESS = 'FETCH_COURSE_SUCCESS'
 export const FETCH_COURSE_ERROR = 'FETCH_COURSE_ERROR'
@@ -28,12 +23,6 @@ export const FETCH_COURSE_PARTICIPANTS_ERROR = 'FETCH_COURSE_PARTICIPANTS_ERROR'
 export const SUBMIT_PARTICIPATION = 'SUBMIT_PARTICIPATION'
 export const SUBMIT_PARTICIPATION_SUCCESS = 'SUBMIT_PARTICIPATION_SUCCESS'
 export const SUBMIT_PARTICIPATION_ERROR = 'SUBMIT_PARTICIPATION_ERROR'
-
-// export const setParticipationStatus = (courseId, status) => ({
-// 	type: SET_PARTICIPATION_STATUS,
-// 	courseId: courseId,
-// 	status: status
-// })
 
 function shouldFetchCourses(courses) {
   if (!courses) {
@@ -68,34 +57,6 @@ export const toggleSignupModal = (courseId, show) => {
 	}
 	return toggleSignupModalAction(courseId, show)
 }
-
-// const signupSubmit = (courseId, signUpDetails) => ({
-// 	type: SIGNUP_SUBMIT,
-// 	signUpDetails: signUpDetails
-// })
-
-// const signupSubmitError = courseId => ({
-// 	type: SIGNUP_SUBMIT_ERROR,
-// 	courseId: courseId
-// })
-
-// export const signup = (courseId, signUpDetails) => dispatch => {
-// 	dispatch(signupSubmit(courseId, signUpDetails))
-//     post('/v1/courses/' + courseId + '/signUp', signUpDetails)
-//     	.then(({status}) => dispatch(setParticipationStatus(courseId, status)))
-//         .catch(() => dispatch(signupSubmitError(courseId)));
-// }
-
-// const cancelSignupAction = courseId => ({
-// 	type: SIGNUP_CANCEL,
-// 	courseId: courseId
-// })
-
-// export const cancelSignup = courseId => dispatch => {
-// 	dispatch(cancelSignupAction(courseId))
-//     post('/v1/courses/' + courseId + '/cancelSignUp')
-//     	.then(({status}) => dispatch(setParticipationStatus(courseId, status)));
-// }
 
 export const fetchCourse = courseId => ({
 	types: [FETCH_COURSE, FETCH_COURSE_SUCCESS, FETCH_COURSE_ERROR],

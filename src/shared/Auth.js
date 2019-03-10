@@ -26,7 +26,7 @@ export default class Auth {
             if (authResult && authResult.accessToken && authResult.idToken) {
                 this.setSession(authResult);
                 this.storeAuth0Profile(authResult.idToken)
-                    .then(() => history.replace('/'));
+                    .then(() => window.location.href='/');
             } else if (err) {
                 console.log(err);
             }
@@ -61,7 +61,8 @@ export default class Auth {
         localStorage.removeItem('expires_at');
         localStorage.removeItem('profile');
         // navigate to the home route
-        history.replace('/');
+        window.location.href='/';
+        //history.replace('/');
     }
 
     isAuthenticated() {
