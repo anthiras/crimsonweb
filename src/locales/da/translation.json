@@ -65,7 +65,8 @@
       "pending": "Anmodet",
       "confirmed": "Godkendt",
       "cancelled": "Annulleret"
-    }
+    },
+    "noCoursesFound": "Ingen hold fundet"
   },
   "users": {
     "instructors": "Undervisere",

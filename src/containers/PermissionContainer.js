@@ -1,5 +1,6 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { connect } from 'react-redux'
+import { withRouter } from "react-router";
 import { 
 	fetchPermissions
 } from '../actions/users'
@@ -8,10 +9,10 @@ const actionCreators = {
 	fetchPermissions
 }
 
-const mapStateToProps = state => ({ permissions: state.permissions || {} });
+const mapStateToProps = (state, ownProps) => ({ permissions: state.permissions || {}, ...ownProps });
 
 export function withPermissions(WrappedComponent) {
-	return connect(mapStateToProps, actionCreators)(class extends React.Component {
+	return withRouter(connect(mapStateToProps, actionCreators)(class extends React.Component {
 		componentDidMount() {
 			this.props.fetchPermissions();
 		}
@@ -19,5 +20,5 @@ export function withPermissions(WrappedComponent) {
 		render() {
 			return (<WrappedComponent {...this.props} />)
 		}
-	})
+	}))
 }

@@ -36,7 +36,12 @@ function shouldFetchCourses(courses) {
 
 export const fetchCourses = list => ({
 	types: [REQUEST_COURSES, RECEIVE_COURSES, REQUEST_COURSES_ERROR],
-	shouldCallApi: state => shouldFetchCourses(state.courses.currentCourses),
+	shouldCallApi: state => {
+		let courses = list === 'current' ? state.courses.currentCourses
+			: list === 'archive' ? state.courses.archivedCourses
+			: null;
+		return shouldFetchCourses(courses);
+	},
 	callApi: list === 'current' ? () => get('/v1/courses?include[]=instructors&endsAfter=now')
 		: list === 'archive' ? () => get('/v1/courses?include[]=instructors&endsBefore=now')
 		: () => {},

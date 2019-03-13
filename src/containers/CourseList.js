@@ -4,7 +4,7 @@ import {
   fetchCourses
 } from '../actions/courses'
 import { connect } from 'react-redux'
-import { CourseCards } from '../components/CourseCards'
+import CourseCards from '../components/CourseCards'
 
 class CourseList extends Component
 {

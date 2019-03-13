@@ -65,7 +65,8 @@
       "pending": "Requested",
       "confirmed": "Approved",
       "cancelled": "Cancelled"
-    }
+    },
+    "noCoursesFound": "No courses found"
   },
   "users": {
     "instructors": "Instructors",

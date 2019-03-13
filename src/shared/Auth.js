@@ -1,5 +1,5 @@
 import auth0 from 'auth0-js';
-import history from './History'
+//import history from './History'
 
 export default class Auth {
     constructor() {
