@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Loading } from './Utilities';
-import { withNamespaces } from 'react-i18next';
+import { withTranslation } from 'react-i18next';
 import { UISTATE_SAVED, UISTATE_SAVE_FAILED, UISTATE_SAVING } from '../shared/uiState'
 
 class UserProfile extends Component {
@@ -77,4 +77,4 @@ class UserProfile extends Component {
 	}
 }
 
-export default withNamespaces()(UserProfile);
+export default withTranslation()(UserProfile);

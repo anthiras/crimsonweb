@@ -1,6 +1,6 @@
 import React, {Component} from "react";
 import Modal from 'react-bootstrap4-modal';
-import { withNamespaces } from 'react-i18next';
+import { withTranslation } from 'react-i18next';
 
 class SignUpModal extends Component
 {
@@ -62,4 +62,4 @@ class SignUpModal extends Component
     }
 }
 
-export default withNamespaces()(SignUpModal);
+export default withTranslation()(SignUpModal);

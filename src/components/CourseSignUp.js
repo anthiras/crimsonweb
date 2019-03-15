@@ -2,7 +2,7 @@ import React from "react";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {faCheckCircle} from "@fortawesome/free-solid-svg-icons/index";
 import SignUpModal from './SignUpModal';
-import { withNamespaces } from 'react-i18next';
+import { withTranslation } from 'react-i18next';
 
 const CourseSignUp = ({ t, course, toggleSignupModal, signup, cancelSignup }) => {
     const status = course.myParticipation == null ? null : course.myParticipation.participation.status
@@ -27,4 +27,4 @@ const CourseSignUp = ({ t, course, toggleSignupModal, signup, cancelSignup }) =>
     );
 }
 
-export default withNamespaces()(CourseSignUp);
+export default withTranslation()(CourseSignUp);

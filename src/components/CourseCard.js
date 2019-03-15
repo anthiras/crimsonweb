@@ -1,7 +1,7 @@
 import React from 'react';
 import CourseSignUp from './CourseSignUp';
 import { Link } from 'react-router-dom';
-import { withNamespaces } from 'react-i18next';
+import { withTranslation } from 'react-i18next';
 
 const CourseCard = ({ t, course, toggleSignupModal, signup, cancelSignup }) => {
     const courseStartsAt = new Date(course.startsAt);
@@ -26,4 +26,4 @@ const CourseCard = ({ t, course, toggleSignupModal, signup, cancelSignup }) => {
     );
 }
 
-export default withNamespaces()(CourseCard);
+export default withTranslation()(CourseCard);

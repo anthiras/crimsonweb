@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { ConfirmModal } from './ConfirmModal';
-import { withNamespaces } from 'react-i18next';
+import { withTranslation } from 'react-i18next';
 
 class ParticipantRow extends Component {
     constructor(props) {
@@ -73,4 +73,4 @@ class ParticipantRow extends Component {
     }
 }
 
-export default withNamespaces()(ParticipantRow);
+export default withTranslation()(ParticipantRow);

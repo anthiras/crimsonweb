@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { withNamespaces } from 'react-i18next';
+import { withTranslation } from 'react-i18next';
 import * as Sentry from '@sentry/browser';
 
 class ErrorBoundary extends Component {
@@ -30,4 +30,4 @@ class ErrorBoundary extends Component {
     }
 }
 
-export default withNamespaces()(ErrorBoundary);
+export default withTranslation()(ErrorBoundary);

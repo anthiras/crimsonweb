@@ -1,5 +1,4 @@
 import React from 'react';
-
 import UserRow from "./UserRow";
 import { Loading, Pagination } from './Utilities';
 

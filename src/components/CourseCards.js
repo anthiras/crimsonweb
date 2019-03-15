@@ -1,6 +1,6 @@
 import React from 'react';
 import CourseListItem from '../containers/CourseListItem'
-import { withNamespaces } from 'react-i18next';
+import { withTranslation } from 'react-i18next';
 
 const CourseCards = ({ t, courses }) => {
 	if (courses.length === 0)
@@ -14,4 +14,4 @@ const CourseCards = ({ t, courses }) => {
 	);
 }
 
-export default withNamespaces()(CourseCards);
+export default withTranslation()(CourseCards);

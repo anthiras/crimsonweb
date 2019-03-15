@@ -1,6 +1,6 @@
 import React from 'react';
 import { NavLink } from "react-router-dom";
-import { withNamespaces } from 'react-i18next';
+import { withTranslation } from 'react-i18next';
 import { withPermissions } from '../containers/PermissionContainer';
 
 const CourseNavigation = ({ t, permissions }) => (
@@ -25,4 +25,4 @@ const CourseNavigation = ({ t, permissions }) => (
     </div>
 );
 
-export default withNamespaces()(withPermissions(CourseNavigation));
+export default withTranslation()(withPermissions(CourseNavigation));

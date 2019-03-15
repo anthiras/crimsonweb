@@ -2,7 +2,7 @@ import React, {Component} from "react";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {faCheckCircle, faClock } from "@fortawesome/free-solid-svg-icons/index";
 import { Loading } from './Utilities';
-import { withNamespaces } from 'react-i18next';
+import { withTranslation } from 'react-i18next';
 import UserProfile from './UserProfile';
 
 class Membership extends Component
@@ -135,4 +135,4 @@ class Membership extends Component
     }
 }
 
-export default withNamespaces()(Membership);
+export default withTranslation()(Membership);

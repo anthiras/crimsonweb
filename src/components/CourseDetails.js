@@ -1,7 +1,7 @@
 import React from 'react';
 import ParticipantList from "./ParticipantList";
 import { Loading } from './Utilities';
-import { withNamespaces } from 'react-i18next';
+import { withTranslation } from 'react-i18next';
 import { NavLink } from "react-router-dom";
 
 const CourseDetails = ({ t, course, participants, confirmCourseParticipant, cancelCourseParticipant }) => {
@@ -53,4 +53,4 @@ const ParticipantSummary = ({t, participants }) => {
 const ParticipantStatusSummary = ({t, status, lead, follow }) => 
     (<li>{lead+follow} {t('courses:status:'+status)} ({lead} {t('courses:lead')} + {follow} {t('courses:follow')})</li>);
 
-export default withNamespaces()(CourseDetails);
+export default withTranslation()(CourseDetails);

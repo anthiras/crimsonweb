@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Auth from '../shared/Auth'
 import { NavLink } from "react-router-dom";
-import { withNamespaces } from 'react-i18next';
+import { withTranslation } from 'react-i18next';
 import i18n from '../shared/i18n';
 import { withPermissions } from '../containers/PermissionContainer';
 
@@ -73,4 +73,4 @@ class Navigation extends Component
     }
 }
 
-export default withNamespaces()(withPermissions(Navigation));
+export default withTranslation()(withPermissions(Navigation));

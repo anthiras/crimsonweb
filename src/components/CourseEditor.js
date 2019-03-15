@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import AsyncSelect from 'react-select/lib/Async';
-import { withNamespaces } from 'react-i18next';
+import { withTranslation } from 'react-i18next';
 import moment from 'moment';
 import { Loading } from './Utilities';
 import { get } from '../shared/Api'
@@ -158,4 +158,4 @@ class CourseEditor extends Component {
 	}
 }
 
-export default withNamespaces()(CourseEditor);
+export default withTranslation()(CourseEditor);

@@ -11,7 +11,7 @@ import AuthCallback from '../containers/AuthCallback'
 import ErrorBoundary from '../containers/ErrorBoundary'
 import { Router, Route, Redirect, Switch } from "react-router-dom";
 import history from '../shared/History';
-import { withNamespaces } from 'react-i18next';
+import { withTranslation } from 'react-i18next';
 
 const App = ({ t }) => (
     <Router history={history}>
@@ -46,4 +46,4 @@ const App = ({ t }) => (
     </Router>
 );
 
-export default withNamespaces()(App);
+export default withTranslation()(App);

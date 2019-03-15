@@ -1,6 +1,6 @@
 import React from 'react';
 import ParticipantRow from "./ParticipantRow";
-import { withNamespaces } from 'react-i18next';
+import { withTranslation } from 'react-i18next';
 
 const ParticipantList = ({ t, courseId, participants, confirmCourseParticipant, cancelCourseParticipant }) => {
     return <table className="table">
@@ -27,4 +27,4 @@ const ParticipantList = ({ t, courseId, participants, confirmCourseParticipant, 
     </table>
 }
 
-export default withNamespaces()(ParticipantList);
+export default withTranslation()(ParticipantList);
