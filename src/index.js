@@ -18,10 +18,12 @@ const store = createStore(
 		createLogger(),
 		callApiMiddleware))
 
-Sentry.init({
-  dsn: "https://848497d949684200bb9634be1cf847b2@sentry.io/1414883",
-  environment: process.env.REACT_APP_SENTRY_ENVIRONMENT
-});
+if (process.env.REACT_APP_SENTRY_DSN) {
+	Sentry.init({
+	  dsn: process.env.REACT_APP_SENTRY_DSN,
+	  environment: process.env.REACT_APP_SENTRY_ENVIRONMENT
+	});
+}
 
 ReactDOM.render(
 	<Provider store={store}>
