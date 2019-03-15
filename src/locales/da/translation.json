@@ -22,7 +22,8 @@
     "confirmDelete": "Er du sikker på du vil slette dette?",
     "pleaseConfirm": "Bekræft venligst",
     "status": "Status",
-    "actions": "Handlinger"
+    "actions": "Handlinger",
+    "anErrorOccurred": "Der opstod en fejl"
   },
   "titles": {
     "courses": "Hold",

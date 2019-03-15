@@ -63,7 +63,6 @@ function parseJsonIfContentTypeJson(response) {
 }
 
 function handleErrors(response) {
-    console.log(response)
     if (response.status === 401) {
         let auth = new Auth();
         auth.login();

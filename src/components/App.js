@@ -8,6 +8,7 @@ import MyProfile from '../containers/MyProfile'
 import MembershipForm from '../containers/MembershipForm'
 import Navigation from './Navigation'
 import AuthCallback from '../containers/AuthCallback'
+import ErrorBoundary from '../containers/ErrorBoundary'
 import { Router, Route, Redirect, Switch } from "react-router-dom";
 import history from '../shared/History';
 import { withNamespaces } from 'react-i18next';
@@ -17,6 +18,7 @@ const App = ({ t }) => (
         <React.Fragment>
             <Navigation />
             <div className="container">
+                <ErrorBoundary>
                 <Switch>
                     <Route exact path="/" >
                         <Redirect to="/courses" />
@@ -38,6 +40,7 @@ const App = ({ t }) => (
                     <Route path="/membership" component={MembershipForm} />
                     <Route path="/callback" component={AuthCallback} />
                 </Switch>
+                </ErrorBoundary>
             </div>
         </React.Fragment>
     </Router>

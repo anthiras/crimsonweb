@@ -9,6 +9,7 @@ import rootReducer from './reducers/index'
 import thunkMiddleware from 'redux-thunk'
 import { createLogger } from 'redux-logger'
 import callApiMiddleware from './middleware/callApiMiddleware'
+import * as Sentry from '@sentry/browser';
 
 const store = createStore(
 	rootReducer,
@@ -16,6 +17,11 @@ const store = createStore(
 		thunkMiddleware,
 		createLogger(),
 		callApiMiddleware))
+
+Sentry.init({
+  dsn: "https://848497d949684200bb9634be1cf847b2@sentry.io/1414883",
+  environment: process.env.REACT_APP_SENTRY_ENVIRONMENT
+});
 
 ReactDOM.render(
 	<Provider store={store}>
