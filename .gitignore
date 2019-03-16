@@ -21,3 +21,7 @@ yarn-error.log*
 
 # custom translations
 *.custom.json
+
+# assets to add yourself
+public/favicon.ico
+public/manifest.json
