@@ -13,6 +13,7 @@
     "i18next-browser-languagedetector": "^3.0.1",
     "moment": "^2.22.1",
     "react": "^16.8.4",
+    "react-app-polyfill": "^0.2.2",
     "react-bootstrap4-modal": "^1.4.0",
     "react-dom": "^16.8.4",
     "react-i18next": "^10.5.1",
