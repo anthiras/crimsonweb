@@ -1,8 +1,9 @@
 import React from 'react';
 import UserRow from "./UserRow";
 import { Loading, Pagination } from './Utilities';
+import { withTranslation } from 'react-i18next';
 
-const UserTable = ({ users, page, lastPage, roles, setMembershipPaid, toggleUserRole }) => {
+const UserTable = ({ t, users, page, lastPage, roles, setMembershipPaid, toggleUserRole }) => {
     if (!users || !roles) return <Loading />;
     return (
         <React.Fragment>
@@ -10,9 +11,9 @@ const UserTable = ({ users, page, lastPage, roles, setMembershipPaid, toggleUser
             <thead>
                 <tr>
                     <th width="50"></th>
-                    <th>Name</th>
-                    <th>Roles</th>
-                    <th>Membership</th>
+                    <th>{t('common:name')}</th>
+                    <th>{t('users:roles')}</th>
+                    <th>{t('titles:membership')}</th>
                 </tr>
             </thead>
             <tbody>
@@ -26,4 +27,4 @@ const UserTable = ({ users, page, lastPage, roles, setMembershipPaid, toggleUser
     );
 }
 
-export default UserTable;
+export default withTranslation()(UserTable);

@@ -1,7 +1,8 @@
 import React from 'react';
 import UserRoleCheckbox from './UserRoleCheckbox';
+import { withTranslation } from 'react-i18next';
 
-const UserRow = ({ user, allRoles, setMembershipPaid, toggleUserRole }) => {
+const UserRow = ({ t, user, allRoles, setMembershipPaid, toggleUserRole }) => {
     const membership = user.currentMembership;
     const memberNotPaid = membership != null && membership.paidAt == null;
     const memberPaid = membership != null && membership.paidAt != null;
@@ -23,11 +24,11 @@ const UserRow = ({ user, allRoles, setMembershipPaid, toggleUserRole }) => {
                 })}
             </td>
             <td>
-                {memberNotPaid && <button type="button" className="btn btn-primary" onClick={() => setMembershipPaid(user.id)}>Confirm payment</button> }
-                {memberPaid && "Confirmed paid member"}
+                {memberNotPaid && <button type="button" className="btn btn-primary" onClick={() => setMembershipPaid(user.id)}>{t('actions:confirmPayment')}</button> }
+                {memberPaid && t('users:membershipPaid')}
             </td>
         </tr>
     );
 }
 
-export default UserRow;
+export default withTranslation()(UserRow);

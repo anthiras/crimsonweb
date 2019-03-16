@@ -1,14 +1,15 @@
 import React from 'react';
+import { withTranslation } from 'react-i18next';
 
-const UserRoleCheckbox = ({ userRole, toggleUserRole }) => {
+const UserRoleCheckbox = ({ t, userRole, toggleUserRole }) => {
     const checkboxId = userRole.userId + '_' + userRole.roleId;
     return (
         <div className="form-check">
             <input className="form-check-input" type="checkbox" id={checkboxId}
                    checked={userRole.userHasRole} onChange={() => toggleUserRole(userRole.userId, userRole.roleId, !userRole.userHasRole)} />
-            <label className="form-check-label" htmlFor={checkboxId}>{userRole.name}</label>
+            <label className="form-check-label" htmlFor={checkboxId}>{t('roles:names:'+userRole.name)}</label>
         </div>
     )
 }
 
-export default UserRoleCheckbox;
+export default withTranslation()(UserRoleCheckbox);

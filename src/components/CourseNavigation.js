@@ -10,9 +10,11 @@ const CourseNavigation = ({ t, permissions }) => (
                 <li className="nav-item">
                     <NavLink to="/courses" className="nav-link" activeClassName="active" exact={true}>{t('courses:current')}</NavLink>
                 </li>
+                {permissions['courses:create'] &&
                 <li className="nav-item">
                     <NavLink to="/courses/archive" className="nav-link" activeClassName="active" exact={true}>{t('courses:archive')}</NavLink>
                 </li>
+                }
                 {permissions['courses:create'] &&
                 <li className="nav-item">
                     <NavLink  to="/courses/create" className="nav-link" activeClassName="active" exact={true}>

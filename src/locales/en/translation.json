@@ -23,7 +23,9 @@
     "pleaseConfirm": "Please confirm",
     "status": "Status",
     "actions": "Actions",
-    "anErrorOccurred": "An error occurred"
+    "anErrorOccurred": "An error occurred",
+    "previous": "Previous",
+    "next": "Next"
   },
   "titles": {
     "courses": "Classes",
@@ -42,7 +44,8 @@
     "saveInfo": "Save information",
     "editCourse": "Edit class",
     "deleteCourse": "Delete class...",
-    "reject": "Reject..."
+    "reject": "Reject...",
+    "confirmPayment": "Confirm payment"
   },
   "courses": {
     "current": "Current classes",
@@ -74,7 +77,9 @@
     "birthDate": "Birth date",
     "gender": "Gender",
     "male": "Male",
-    "female": "Female"
+    "female": "Female",
+    "roles": "Roles",
+    "membershipPaid": "Confirmed paid member"
   },
   "membership": {
     "period": "{{ lastRenewal, L}} – {{ nextRenewal, L}}",
@@ -91,5 +96,11 @@
     "paymentInstructions": "Please pay your membership now if you haven't done so already. As soon as our staff has confirmed your payment, your registration is completed.",
     "completed": "Payment confirmed and registration completed!",
     "payment": "Payment"
+  },
+  "roles": {
+    "names": {
+      "Administrator": "Administrator",
+      "Instructor": "Instructor"
+    }
   }
 }

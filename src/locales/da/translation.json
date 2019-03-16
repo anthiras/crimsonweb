@@ -23,7 +23,9 @@
     "pleaseConfirm": "Bekræft venligst",
     "status": "Status",
     "actions": "Handlinger",
-    "anErrorOccurred": "Der opstod en fejl"
+    "anErrorOccurred": "Der opstod en fejl",
+    "previous": "Forrige",
+    "next": "Næste"
   },
   "titles": {
     "courses": "Hold",
@@ -42,7 +44,8 @@
     "saveInfo": "Gem information",
     "editCourse": "Rediger hold",
     "deleteCourse": "Slet hold...",
-    "reject": "Afvis..."
+    "reject": "Afvis...",
+    "confirmPayment": "Bekræft betaling"
   },
   "courses": {
     "current": "Aktuelle hold",
@@ -74,7 +77,9 @@
     "birthDate": "Fødselsdato",
     "gender": "Køn",
     "male": "Mand",
-    "female": "Kvinde"
+    "female": "Kvinde",
+    "roles": "Roller",
+    "membershipPaid": "Bekræftet betalende medlem"
   },
   "membership": {
     "period": "{{ lastRenewal, L}} – {{ nextRenewal, L}}",
@@ -91,5 +96,11 @@
     "paymentInstructions": "Du kan nu betale medlemskontingentet, hvis du ikke allerede har gjort det. Så snart kassereren har bekræftet din betaling er du registreret som medlem.",
     "completed": "Betaling registreret, medlemskab godkendt!",
     "payment": "Betaling"
+  },
+  "roles": {
+    "names": {
+      "Administrator": "Administrator",
+      "Instructor": "Underviser"
+    }
   }
 }

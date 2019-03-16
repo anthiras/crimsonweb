@@ -6,6 +6,7 @@ This is a React web app for the [Crimson course API](https://github.com/anthiras
 
 * Configure app settings in the .env file
 * Default translations may be overriden by adding custom translation files in `src/locales/[lang]/translation.custom.json`
+* Add a favicon.ico and [manifest.json](https://developers.google.com/web/fundamentals/web-app-manifest/) in the public folder
 
 ## Dependencies / third party services
 

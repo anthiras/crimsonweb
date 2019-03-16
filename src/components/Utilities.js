@@ -2,6 +2,7 @@ import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {faSpinner} from "@fortawesome/free-solid-svg-icons/index";
 import { NavLink } from "react-router-dom";
+import { withTranslation } from 'react-i18next';
 
 const Loading = () => (
     <div className="d-flex justify-content-center text-secondary p-4">
@@ -9,7 +10,7 @@ const Loading = () => (
     </div>
 );
 
-const Pagination = ({page, lastPage, urlForPage }) => {
+const Pagination = withTranslation()(({page, lastPage, urlForPage, t }) => {
     const pageDiffs = [-2, -1, 0, 1, 2];
     const underflow = Math.min(0, page - 2 - 1);
     const overflow = Math.max(lastPage, page + 2) - lastPage;
@@ -21,7 +22,7 @@ const Pagination = ({page, lastPage, urlForPage }) => {
         <nav aria-label="Page navigation">
           <ul className="pagination">
             <li className={"page-item" + (page === 1 ? " disabled" : "")}>
-                <NavLink className="page-link" to={urlForPage(page-1)}>Previous</NavLink>
+                <NavLink className="page-link" to={urlForPage(page-1)}>{t('common:previous')}</NavLink>
             </li>
             
             {pageNumbers.map(pageNumber => 
@@ -31,11 +32,11 @@ const Pagination = ({page, lastPage, urlForPage }) => {
             )}
 
             <li className={"page-item" + (page === lastPage ? " disabled" : "")}>
-                <NavLink className="page-link" to={urlForPage(page+1)}>Next</NavLink>
+                <NavLink className="page-link" to={urlForPage(page+1)}>{t('common:next')}</NavLink>
             </li>
           </ul>
         </nav>
     );
-}
+})
 
 export { Loading, Pagination };
