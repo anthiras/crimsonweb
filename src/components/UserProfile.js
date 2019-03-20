@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Loading } from './Utilities';
+import { Loading, DatePicker } from './Utilities';
 import { withTranslation } from 'react-i18next';
 import { UISTATE_SAVED, UISTATE_SAVE_FAILED, UISTATE_SAVING } from '../shared/uiState'
 
@@ -12,15 +12,25 @@ class UserProfile extends Component {
 
 		this.handleSubmit = this.handleSubmit.bind(this);
 		this.handleInput = this.handleInput.bind(this);
+        this.handleBirthDate = this.handleBirthDate.bind(this);
+        this.setProfileField = this.setProfileField.bind(this);
 	}
 
 	handleInput(key, e) {
 	    var value = e.target === undefined ? e : e.target.value;
-		var state = Object.assign({}, this.state.user);
-    	state[key] = value;
-    	this.setState({ user: state });
-        this.props.editProfileField();
+        this.setProfileField(key, value);
 	}
+
+    handleBirthDate(value) {
+        this.setProfileField('birthDate', value);
+    }
+
+    setProfileField(key, value) {
+        var state = Object.assign({}, this.state.user);
+        state[key] = value;
+        this.setState({ user: state });
+        this.props.editProfileField();
+    }
 
 	handleSubmit(e) {
 		e.preventDefault();
@@ -34,6 +44,7 @@ class UserProfile extends Component {
             return <Loading />;
         }
         const { name, birthDate, gender, email } = this.state.user;
+        console.log("render birthDate", birthDate)
         const buttonText =
             uiState === UISTATE_SAVING ? t('common:saving') :
             uiState === UISTATE_SAVED ? t('common:saved') :
@@ -51,7 +62,7 @@ class UserProfile extends Component {
                 </div>
                 <div className="form-group">
                     <label htmlFor="birthDate">{t('users:birthDate')}</label>
-                    <input type="date" required id="birthDate" className="form-control" value={birthDate || ''} onChange={(e)=>this.handleInput('birthDate', e)} />
+                    <DatePicker date={birthDate} onChange={this.handleBirthDate} />
                 </div>
                 <div className="form-group">
                     <label>{t('users:gender')}</label>

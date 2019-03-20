@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import AsyncSelect from 'react-select/lib/Async';
 import { withTranslation } from 'react-i18next';
 import moment from 'moment';
-import { Loading } from './Utilities';
+import { Loading, DatePicker } from './Utilities';
 import { get } from '../shared/Api'
 import { UISTATE_SAVED, UISTATE_SAVE_FAILED, UISTATE_SAVING } from '../shared/uiState'
 import { NavLink } from 'react-router-dom'
@@ -121,7 +121,7 @@ class CourseEditor extends Component {
                 <div className="form-row">
                     <div className="form-group col-md-3 col-sm-6">
                         <label htmlFor="startsAt">{t('common:startDate')}</label>
-                        <input type="date" required id="startsAtDate" className="form-control" value={this.state.course.startsAtDate} onChange={(e)=>this.handleInput('startsAtDate', e)} />
+                        <DatePicker date={this.state.course.startsAtDate} onChange={(val)=>this.handleInput('startsAtDate', val)} />
                     </div>
                     <div className="form-group col-md-3 col-sm-6">
                         <label htmlFor="startsAt">{t('common:time')}</label>

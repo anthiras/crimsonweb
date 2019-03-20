@@ -1,8 +1,10 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {faSpinner} from "@fortawesome/free-solid-svg-icons/index";
 import { NavLink } from "react-router-dom";
 import { withTranslation } from 'react-i18next';
+import ReactDatePicker from 'react-datepicker'
+import moment from 'moment';
 
 const Loading = () => (
     <div className="d-flex justify-content-center text-secondary p-4">
@@ -39,4 +41,27 @@ const Pagination = withTranslation()(({page, lastPage, urlForPage, t }) => {
     );
 })
 
-export { Loading, Pagination };
+// Accepts date input in the format YYYY-MM-DD and returns date in the same format
+class DatePicker extends Component {
+    constructor(props) {
+        super(props);
+        this.handleInput = this.handleInput.bind(this);
+    }
+
+    handleInput(value) {
+        if (value == null) return;
+        let date = moment(value).format("YYYY-MM-DD");
+        this.props.onChange(date);
+    }
+
+    render() {
+        return (
+            <div>
+                <ReactDatePicker selected={new Date(this.props.date)} dateFormat="dd/MM/yyyy" showYearDropdown onChange={this.handleInput} className="form-control" />
+                <small className="form-text">DD/MM/YYYY</small>
+            </div>
+        )
+    }
+}
+
+export { Loading, Pagination, DatePicker };
