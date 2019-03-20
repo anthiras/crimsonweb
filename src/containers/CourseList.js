@@ -9,20 +9,20 @@ import CourseCards from '../components/CourseCards'
 class CourseList extends Component
 {
     componentDidMount() {
-        this.props.fetchCourses(this.props.list)
+        this.props.fetchCourses(this.props.list, this.props.page)
     }
 
     componentDidUpdate(prevProps) {
-        if (prevProps.list !== this.props.list) {
-            this.props.fetchCourses(this.props.list)
+        if (prevProps.list !== this.props.list || prevProps.page !== this.props.page) {
+            this.props.fetchCourses(this.props.list, this.props.page)
         }
     }
 
     render() {
-        const { courses, isFetching } = this.props
+        const { courses, isFetching, page, lastPage, list } = this.props
         
         if (isFetching) return <Loading />;
-        return <CourseCards courses={courses} />
+        return <CourseCards courses={courses} page={page} lastPage={lastPage} list={list} />
     }
 }
 
@@ -31,16 +31,17 @@ function mapStateToProps(state, ownProps) {
   const { courses } = state
   const { coursesById, currentCourses, archivedCourses } = courses;
   const courseList = list === 'archive' ? archivedCourses : currentCourses;
-  const { isFetching, items } = courseList || {
-    isFetching: true,
-    items: null
-  }
-  const courseObjects = items ? items.map(courseId => coursesById[courseId]) : [];
+
+  const page = parseInt(ownProps.match.params.page || 1);
+  const courseIds = courseList.pages[page];
+  const coursesOnCurrentPage = courseIds ? courseIds.map(courseId => coursesById[courseId]) : [];
 
   return {
-    courses: courseObjects,
-    isFetching: isFetching,
-    list: list
+    courses: coursesOnCurrentPage,
+    isFetching: courseList.isFetching,
+    list: list,
+    page: page,
+    lastPage: courseList.lastPage
   }
 }
 

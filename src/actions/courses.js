@@ -24,28 +24,17 @@ export const SUBMIT_PARTICIPATION = 'SUBMIT_PARTICIPATION'
 export const SUBMIT_PARTICIPATION_SUCCESS = 'SUBMIT_PARTICIPATION_SUCCESS'
 export const SUBMIT_PARTICIPATION_ERROR = 'SUBMIT_PARTICIPATION_ERROR'
 
-function shouldFetchCourses(courses) {
-  if (!courses) {
-    return true
-  } else if (courses.isFetching) {
-    return false
-  } else {
-    return courses.didInvalidate
-  }
-}
-
-export const fetchCourses = list => ({
+export const fetchCourses = (list, page) => ({
 	types: [REQUEST_COURSES, RECEIVE_COURSES, REQUEST_COURSES_ERROR],
 	shouldCallApi: state => {
-		let courses = list === 'current' ? state.courses.currentCourses
-			: list === 'archive' ? state.courses.archivedCourses
-			: null;
-		return shouldFetchCourses(courses);
+		return list === 'current' ? !state.courses.currentCourses.pages[page]
+			: list === 'archive' ? !state.courses.archivedCourses.pages[page]
+			: false;
 	},
-	callApi: list === 'current' ? () => get('/v1/courses?include[]=instructors&endsAfter=now')
-		: list === 'archive' ? () => get('/v1/courses?include[]=instructors&endsBefore=now')
+	callApi: list === 'current' ? () => get('/v1/courses?include[]=instructors&endsAfter=now&page='+page)
+		: list === 'archive' ? () => get('/v1/courses?include[]=instructors&endsBefore=now&page='+page)
 		: () => {},
-	payload: { list }
+	payload: { list, page }
 })
 
 const toggleSignupModalAction = (courseId, show) => ({

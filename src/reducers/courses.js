@@ -69,37 +69,43 @@ function courseEditor(state = {
     }
 }
 
-const courseList = list => (state = {
-    items: [],
-    isFetching: false,
-    didInvalidate: true
-}, action) => {
+const courseListByPage = list => (state = {}, action) => {
     switch (action.type) {
-        case INVALIDATE_COURSES:
-            // fall through
-        case SAVE_COURSE_SUCCESS:
+        case RECEIVE_COURSES:
+            if (list !== action.list)
+                return state;
             return Object.assign({}, state, {
-                didInvalidate: true
+                [action.page]: action.response.data.map(x => x.id)
             })
+        default:
+            return state;
+    }
+}
+
+const emptyCourseList = { pages: {}, isFetching: false };
+
+const courseList = list => (state = emptyCourseList, action) => {
+    switch (action.type) {
         case REQUEST_COURSES:
             if (list !== action.list)
                 return state;
             return Object.assign({}, state, {
-                isFetching: true,
-                didInvalidate: false
+                isFetching: true
             })
         case RECEIVE_COURSES:
             if (list !== action.list)
                 return state;
             return Object.assign({}, state, {
-                items: action.response.map(x => x.id),
-                isFetching: false,
-                didInvalidate: false
+                pages: courseListByPage(list)(state.pages, action),
+                lastPage: action.response.meta.last_page,
+                isFetching: false
             })
+        case INVALIDATE_COURSES:
+            // fall through
+        case SAVE_COURSE_SUCCESS:
+            // fall through
         case DELETE_COURSE_SUCCESS:
-            return Object.assign({}, state, {
-                items: state.items.filter(id => id !== action.courseId)
-            })
+            return emptyCourseList;
         default:
             return state;
     }
@@ -108,7 +114,7 @@ const courseList = list => (state = {
 function coursesById(state = {}, action) {
     switch (action.type) {
         case RECEIVE_COURSES:
-            return action.response.reduce((state, obj) => {
+            return action.response.data.reduce((state, obj) => {
                 state[obj.id] = obj;
                 return state;
             }, state);
