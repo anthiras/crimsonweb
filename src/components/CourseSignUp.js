@@ -20,7 +20,7 @@ const CourseSignUp = ({ t, course, toggleSignupModal, signup, cancelSignup }) =>
             {status === "confirmed" &&
                 <p><FontAwesomeIcon icon={faCheckCircle} size="lg"/> {t('courses:signupConfirmed')}</p>
             }
-            {(status === null || status === "cancelled") &&
+            {(status === null || status === "cancelled") && course.allowRegistration && 
                 <button className="btn btn-primary" onClick={() => toggleSignupModal(course.id, true)}>{t('actions:signUp')}</button>
             }
         </React.Fragment>

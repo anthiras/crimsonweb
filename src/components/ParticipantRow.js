@@ -40,7 +40,7 @@ class ParticipantRow extends Component {
 
         return (
             <tr className={participation.status==='cancelled' ? "text-muted" : ""}>
-                <td>{participation.createdAt}</td>
+                <td>{participation.signedUpAt}</td>
                 <td><img src={picture} width="50" height="50" alt={name} /></td>
                 <td>{name}</td>
                 <td>{t('courses:'+participation.role)}</td>

@@ -26,7 +26,9 @@
     "actions": "Actions",
     "anErrorOccurred": "An error occurred",
     "previous": "Previous",
-    "next": "Next"
+    "next": "Next",
+    "open": "Open",
+    "closed": "Closed"
   },
   "titles": {
     "courses": "Classes",
@@ -71,7 +73,16 @@
       "confirmed": "Approved",
       "cancelled": "Cancelled"
     },
-    "noCoursesFound": "No courses found"
+    "noCoursesFound": "No courses found",
+    "courseInformation": "Course information",
+    "registrationRules": "Registration rules",
+    "openForRegistration": "Open for registration",
+    "signupScheme": "How to handle signups",
+    "signupSchemeNone": "NO RULES: No limits needed, no waiting list, just let everyone in.",
+    "signupSchemeManual": "MANUAL: Put everyone on a waiting list and confirm each participant manually.",
+    "signupSchemeAuto": "AUTOMATIC: Confirm automatically within certain limits.",
+    "maxParticipants": "Maximum no. of participants",
+    "maxRoleDifference": "Maximum difference between leads and followers"
   },
   "users": {
     "instructors": "Instructors",

@@ -159,6 +159,8 @@ function courseParticipants(state = [], action) {
                 })
             else
                 return [...state, updatedParticipant]
+        case SAVE_COURSE_SUCCESS:
+            return null;
         default:
             return state
     }
@@ -170,6 +172,8 @@ function participantsById(state = {}, action) {
             return Object.assign({}, state, {
                [action.courseId]: action.response
             })
+        case SAVE_COURSE_SUCCESS:
+            // fall through
         case SUBMIT_PARTICIPATION_SUCCESS:
             return Object.assign({}, state, {
                 [action.courseId]: courseParticipants(state[action.courseId], action)

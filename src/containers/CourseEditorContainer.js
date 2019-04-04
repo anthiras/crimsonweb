@@ -4,6 +4,7 @@ import {
   fetchCourse, saveCourse, editCourseField, deleteCourse
 } from '../actions/courses'
 import CourseEditor from '../components/CourseEditor'
+import { Loading } from '../components/Utilities';
 
 class CourseEditorContainer extends Component
 {
@@ -20,7 +21,9 @@ class CourseEditorContainer extends Component
 	}
 
 	render() {
-		const { course, fetchCourse, saveCourse, editCourseField, deleteCourse, uiState } = this.props;
+		const { courseId, course, fetchCourse, saveCourse, editCourseField, deleteCourse, uiState } = this.props;
+		if (courseId != null && course == null)
+			return <Loading />;
 		return (<CourseEditor 
 			course={course} 
 			key={course == null ? null : course.id} 

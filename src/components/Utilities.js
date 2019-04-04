@@ -5,6 +5,8 @@ import { NavLink } from "react-router-dom";
 import { withTranslation } from 'react-i18next';
 import ReactDatePicker from 'react-datepicker'
 import moment from 'moment';
+import AsyncSelect from 'react-select/lib/Async';
+import { get } from '../shared/Api'
 
 const Loading = () => (
     <div className="d-flex justify-content-center text-secondary p-4">
@@ -64,4 +66,21 @@ class DatePicker extends Component {
     }
 }
 
-export { Loading, Pagination, DatePicker };
+class UserPicker extends Component {
+    searchUsers(input) {
+        return get('/v1/users?query='+input)
+            .then(result => result.data.map(user => {
+                    return {
+                        value: user.id,
+                        label: user.name
+                    }
+                })
+            );
+    }
+
+    render() {
+        return <AsyncSelect cacheOptions isMulti loadOptions={this.searchUsers} {...this.props} />
+    }
+}
+
+export { Loading, Pagination, DatePicker, UserPicker };
