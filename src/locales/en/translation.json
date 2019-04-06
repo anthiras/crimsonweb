@@ -114,5 +114,8 @@
       "Administrator": "Administrator",
       "Instructor": "Instructor"
     }
+  },
+  "content": {
+    "notice": ""
   }
 }

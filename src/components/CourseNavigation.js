@@ -6,7 +6,7 @@ import { withPermissions } from '../containers/PermissionContainer';
 const CourseNavigation = ({ t, permissions }) => (
     <div className="row">
         <div className="col-sm">
-            <ul className="nav nav-pills my-3">
+            <ul className="nav nav-pills mb-3">
                 <li className="nav-item">
                     <NavLink to="/courses/current" className="nav-link" activeClassName="active" exact={false}>{t('courses:current')}</NavLink>
                 </li>

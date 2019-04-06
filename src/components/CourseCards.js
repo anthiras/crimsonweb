@@ -28,19 +28,21 @@ const CourseCards = ({ t, courses, page, lastPage, list }) => {
 	const coursesByWeek = groupCoursesByWeek(courses);
 
 	return (
-		<React.Fragment>
-			{coursesByWeek.map(courseWeek => 
-				<React.Fragment key={courseWeek.key}>
-					<h4>{t('common:week')} {courseWeek.week}</h4>
-					    <div className="card-columns">
-					        {courseWeek.courses.map(course =>
-					            <CourseListItem course={course} key={course.id} />
-					        )}
-					    </div>
-		    	</React.Fragment>
-		    )}
-		    <Pagination page={page} lastPage={lastPage} urlForPage={(page) => '/courses/'+list+'/'+page} />
-	    </React.Fragment>
+		<div className="row">
+			<div className="col-sm">
+				{coursesByWeek.map(courseWeek => 
+					<React.Fragment key={courseWeek.key}>
+						<h4>{t('common:week')} {courseWeek.week}</h4>
+						    <div className="card-columns">
+						        {courseWeek.courses.map(course =>
+						            <CourseListItem course={course} key={course.id} />
+						        )}
+						    </div>
+			    	</React.Fragment>
+			    )}
+			    <Pagination page={page} lastPage={lastPage} urlForPage={(page) => '/courses/'+list+'/'+page} />
+		    </div>
+	    </div>
 	);
 }
 

@@ -9,6 +9,7 @@ import MembershipForm from '../containers/MembershipForm'
 import Navigation from './Navigation'
 import AuthCallback from '../containers/AuthCallback'
 import ErrorBoundary from '../containers/ErrorBoundary'
+import Alert from '../components/Alert'
 import { Router, Route, Redirect, Switch } from "react-router-dom";
 import history from '../shared/History';
 import { withTranslation } from 'react-i18next';
@@ -18,6 +19,7 @@ const App = ({ t }) => (
         <React.Fragment>
             <Navigation />
             <div className="container">
+                <Alert text={t('content:notice')} />
                 <ErrorBoundary>
                 <Switch>
                     <Route exact path="/" >
