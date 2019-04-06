@@ -9,7 +9,7 @@ const actionCreators = {
 	fetchPermissions
 }
 
-const mapStateToProps = (state, ownProps) => ({ permissions: state.permissions || {}, ...ownProps });
+const mapStateToProps = (state, ownProps) => ({ permissions: state.permissions.items || {}, ...ownProps });
 
 export function withPermissions(WrappedComponent) {
 	return withRouter(connect(mapStateToProps, actionCreators)(class extends React.Component {

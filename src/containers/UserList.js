@@ -45,7 +45,7 @@ function mapStateToProps(state, ownProps) {
 		page: page,
 		lastPage: users.lastPage,
 		roles: roles,
-		permissions: permissions }
+		permissions: permissions.items }
 }
 
 const actionCreators = {

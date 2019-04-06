@@ -1,7 +1,7 @@
 import {
     REQUEST_PROFILE, RECEIVE_PROFILE, SUBMIT_PROFILE, SUBMIT_PROFILE_SUCCESS, SUBMIT_PROFILE_ERROR,
     EDIT_PROFILE_FIELD, RECEIVE_USERS, RECEIVE_ROLES, SET_MEMBERSHIP_PAID_SUCCESS, TOGGLE_USER_ROLE_SUCCESS,
-    REQUEST_PERMISSIONS_SUCCESS, INVALIDATE_PERMISSIONS
+    REQUEST_PERMISSIONS, REQUEST_PERMISSIONS_SUCCESS, REQUEST_PERMISSIONS_ERROR, INVALIDATE_PERMISSIONS
 } from '../actions/users'
 import {
     SUBMIT_MEMBERSHIP_SUCCESS
@@ -108,12 +108,29 @@ export function roles(state = null, action) {
     }
 }
 
-export function permissions(state = null, action) {
+export function permissions(state = {
+    items: null,
+    isFetching: false
+}, action) {
     switch (action.type) {
+        case REQUEST_PERMISSIONS:
+            return Object.assign({}, state, {
+                isFetching: true
+            })
         case REQUEST_PERMISSIONS_SUCCESS:
-            return action.response
+            return Object.assign({}, state, {
+                    isFetching: false,
+                    items: action.response
+                })
+        case REQUEST_PERMISSIONS_ERROR:
+            return Object.assign({}, state, {
+                isFetching: false
+            })
         case INVALIDATE_PERMISSIONS:
-            return null;
+            return {
+                isFetching: false,
+                items: null
+            };
         default:
             return state;
     }

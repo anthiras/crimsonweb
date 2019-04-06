@@ -80,7 +80,7 @@ export const toggleUserRole = (userId, roleId, userHasRole) => ({
 
 export const fetchPermissions = (forceRefresh = false) => ({
 	types: [REQUEST_PERMISSIONS, REQUEST_PERMISSIONS_SUCCESS, REQUEST_PERMISSIONS_ERROR],
-	shouldCallApi: state => !state.permissions || forceRefresh,
+	shouldCallApi: state => (!state.permissions.items && !state.permissions.isFetching) || forceRefresh,
 	callApi: () => get('/v1/users/current/permissions')
 })
 
