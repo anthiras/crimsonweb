@@ -6,20 +6,23 @@ class SignUpModal extends Component
 {
     constructor(props) {
         super(props);
-        this.modalId = "signup" + props.course.id;
+        
         this.submitSignup = this.submitSignup.bind(this);
-        this.setSignUpDetails = this.setSignUpDetails.bind(this);
+        this.setRole = this.setRole.bind(this);
         this.state = {
-            signUpDetails: {
-                role: null
-            }
+            role: null
         }
     }
 
-    setSignUpDetails(key, e) {
-        var state = Object.assign({}, this.state.signUpDetails);
-        state[key] = e.target.value;
-        this.setState({signUpDetails: state});
+    componentDidUpdate(prevProps) {
+        if (this.props.course.showSignupModal && !prevProps.course.showSignupModal && this.state.role == null) {
+            this.setState({role: window.localStorage.getItem('participantRole')});
+        }
+    }
+
+    setRole(role) {
+        this.setState({role: role});
+        window.localStorage.setItem('participantRole', role);
     }
 
     submitSignup(e) {
@@ -29,6 +32,8 @@ class SignUpModal extends Component
 
     render() {
         const { t, course, close, error } = this.props;
+        const modalId = "signup" + course.id;
+        const role = this.state.role;
 
         return <Modal visible={course.showSignupModal || false} onClickBackdrop={close}>
             <form onSubmit={this.submitSignup}>
@@ -40,15 +45,15 @@ class SignUpModal extends Component
                 </div>
                 <div className="modal-body">
                     <div className="form-check">
-                        <input className="form-check-input" type="radio" name="role" id={this.modalId + "_lead"}
-                               value="lead" onChange={(e) => this.setSignUpDetails('role', e)} required />
-                        <label className="form-check-label" htmlFor={this.modalId + "_lead"}>{t('courses:lead')}</label>
+                        <input className="form-check-input" type="radio" name="role" id={modalId + "_lead"}
+                               value="lead" onChange={(e) => this.setRole('lead')} checked={role === "lead"} required />
+                        <label className="form-check-label" htmlFor={modalId + "_lead"}>{t('courses:lead')}</label>
                     </div>
                     <div className="form-check">
                         <input className="form-check-input" type="radio" name="role"
-                               id={this.modalId + "_follow"}
-                               value="follow" onChange={(e) => this.setSignUpDetails('role', e)} required />
-                        <label className="form-check-label" htmlFor={this.modalId + "_follow"}>{t('courses:follow')}</label>
+                               id={modalId + "_follow"}
+                               value="follow" onChange={(e) => this.setRole('follow')} checked={role === "follow"} required />
+                        <label className="form-check-label" htmlFor={modalId + "_follow"}>{t('courses:follow')}</label>
                     </div>
                     {error && <div className="alert alert-danger">{t('courses:signupError')}</div>}
                 </div>
