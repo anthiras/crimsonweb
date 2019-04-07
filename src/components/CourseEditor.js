@@ -137,9 +137,12 @@ class CourseEditor extends Component {
                 t('actions:saveCourse');
 
         // At least one rule limit should be set if choosing the auto scheme
-        const autoLimitsAreValid = course.signupScheme.value !== 'auto' ||
-            !isNaN(parseInt(course.maxParticipants)) ||
-            !isNaN(parseInt(course.maxRoleDifference));
+        const maxParticipantsValid = !isNaN(parseInt(course.maxParticipants));
+        const maxRoleDifferenceValid = !isNaN(parseInt(course.maxRoleDifference));
+        const autoLimitsAreValid = 
+            course.signupScheme.value !== 'auto' ||
+            maxParticipantsValid ||
+            maxRoleDifferenceValid;
 
         const formValid = autoLimitsAreValid;
 
@@ -184,11 +187,11 @@ class CourseEditor extends Component {
                         <div className="form-row">
                             <div className="form-group col-md-6 col-sm-6">
                                 <label htmlFor="weeks">{t('courses:maxParticipants')}</label>
-                                <input type="number" min="1" id="maxParticipants" className={"form-control" + (autoLimitsAreValid ? "" : " is-invalid")} value={course.maxParticipants || ''} onChange={(e)=>this.handleInput('maxParticipants', e)} />
+                                <input type="number" min="1" id="maxParticipants" className={"form-control" + (autoLimitsAreValid ? "" : " is-invalid")} value={maxParticipantsValid ? course.maxParticipants : ''} onChange={(e)=>this.handleInput('maxParticipants', e)} />
                             </div>
                             <div className="form-group col-md-6 col-sm-6">
                                 <label htmlFor="weeks">{t('courses:maxRoleDifference')}</label>
-                                <input type="number" min="0" id="maxRoleDifference" className={"form-control" + (autoLimitsAreValid ? "" : " is-invalid")} value={course.maxRoleDifference || ''} onChange={(e)=>this.handleInput('maxRoleDifference', e)} />
+                                <input type="number" min="0" id="maxRoleDifference" className={"form-control" + (autoLimitsAreValid ? "" : " is-invalid")} value={maxRoleDifferenceValid ? course.maxRoleDifference : ''} onChange={(e)=>this.handleInput('maxRoleDifference', e)} />
                             </div>
                         </div>
                     }
