@@ -48,7 +48,8 @@
     "editCourse": "Rediger hold",
     "deleteCourse": "Slet hold...",
     "reject": "Afvis...",
-    "confirmPayment": "Bekræft betaling"
+    "confirmPayment": "Bekræft betaling",
+    "deleteProfile": "Slet profil..."
   },
   "courses": {
     "current": "Aktuelle hold",
@@ -91,7 +92,8 @@
     "male": "Mand",
     "female": "Kvinde",
     "roles": "Roller",
-    "membershipPaid": "Bekræftet betalende medlem"
+    "membershipPaid": "Bekræftet betalende medlem",
+    "confirmDeleteProfile": "ADVARSEL: Du er ved at SLETTE din profil! Er du siker på at du vil fjerne din konto inkl. al personlig information permanent?"
   },
   "membership": {
     "period": "{{ lastRenewal, L}} – {{ nextRenewal, L}}",

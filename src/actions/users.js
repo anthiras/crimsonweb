@@ -1,4 +1,5 @@
 import { get, put, post, del } from '../shared/Api'
+import Auth from '../shared/Auth'
 
 export const REQUEST_PROFILE = 'REQUEST_PROFILE'
 export const RECEIVE_PROFILE = 'RECEIVE_PROFILE'
@@ -23,6 +24,9 @@ export const REQUEST_PERMISSIONS = 'REQUEST_PERMISSIONS'
 export const REQUEST_PERMISSIONS_SUCCESS = 'REQUEST_PERMISSIONS_SUCCESS'
 export const REQUEST_PERMISSIONS_ERROR = 'REQUEST_PERMISSIONS_ERROR'
 export const INVALIDATE_PERMISSIONS = 'INVALIDATE_PERMISSIONS'
+export const DELETE_USER = 'DELETE_USER'
+export const DELETE_USER_SUCCESS = 'DELETE_USER_SUCCESS'
+export const DELETE_USER_ERROR = 'DELETE_USER_ERROR'
 
 function shouldFetchProfile(state) {
   const profile = state.profile.user
@@ -86,4 +90,14 @@ export const fetchPermissions = (forceRefresh = false) => ({
 
 export const invalidatePermissions = () => ({
 	type: INVALIDATE_PERMISSIONS
+})
+
+export const deleteUser = userId => ({
+	types: [DELETE_USER, DELETE_USER_SUCCESS, DELETE_USER_ERROR],
+	callApi: () => del('/v1/users/'+userId),
+	payload: { userId },
+	onSuccess: () => {
+		let auth = new Auth();
+		auth.logout();
+	}
 })

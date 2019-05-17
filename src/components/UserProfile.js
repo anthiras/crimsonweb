@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Loading, DatePicker } from './Utilities';
+import { ConfirmModal } from './ConfirmModal';
 import { withTranslation } from 'react-i18next';
 import { UISTATE_SAVED, UISTATE_SAVE_FAILED, UISTATE_SAVING } from '../shared/uiState'
 
@@ -7,13 +8,17 @@ class UserProfile extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			user: this.props.user
+			user: this.props.user,
+            deleteModalVisible: false
 		};
 
 		this.handleSubmit = this.handleSubmit.bind(this);
 		this.handleInput = this.handleInput.bind(this);
         this.handleBirthDate = this.handleBirthDate.bind(this);
         this.setProfileField = this.setProfileField.bind(this);
+        this.openDeleteModal = this.openDeleteModal.bind(this);
+        this.closeDeleteModal = this.closeDeleteModal.bind(this);
+        this.confirmDelete = this.confirmDelete.bind(this);
 	}
 
 	handleInput(key, e) {
@@ -36,6 +41,19 @@ class UserProfile extends Component {
 		e.preventDefault();
         this.props.submitProfile(this.state.user);
 	}
+
+    openDeleteModal() {
+        this.setState({deleteModalVisible: true})
+    }
+
+    closeDeleteModal() {
+        this.setState({deleteModalVisible: false})
+    }
+
+    confirmDelete() {
+        this.closeDeleteModal();
+        this.props.deleteUser(this.state.user.id);
+    }
 
 	render() {
         const { t, uiState } = this.props;
@@ -82,7 +100,18 @@ class UserProfile extends Component {
                 <div className="form-group">
                     {uiState === UISTATE_SAVE_FAILED && <div className="alert alert-danger">{t('common:errorSaving')}</div>}
                     <button type="submit" className={uiState === UISTATE_SAVED ? "btn btn-success" : "btn btn-primary"}>{buttonText}</button>
+                    {" "}
+                    <button type="button" className="btn btn-danger" onClick={this.openDeleteModal}>{t('actions:deleteProfile')}</button>
                 </div>
+                <ConfirmModal 
+                    visible={this.state.deleteModalVisible} 
+                    onConfirm={this.confirmDelete}
+                    onCancel={this.closeDeleteModal} 
+                    title={t('common:pleaseConfirm')} 
+                    confirmText={t('common:delete')} 
+                    cancelText={t('common:cancel')} >
+                    {t('users:confirmDeleteProfile')}
+                </ConfirmModal>
             </form>
         );
 	}

@@ -48,7 +48,8 @@
     "editCourse": "Edit class",
     "deleteCourse": "Delete class...",
     "reject": "Reject...",
-    "confirmPayment": "Confirm payment"
+    "confirmPayment": "Confirm payment",
+    "deleteProfile": "Delete profile..."
   },
   "courses": {
     "current": "Current classes",
@@ -91,7 +92,8 @@
     "male": "Male",
     "female": "Female",
     "roles": "Roles",
-    "membershipPaid": "Confirmed paid member"
+    "membershipPaid": "Confirmed paid member",
+    "confirmDeleteProfile": "WARNING: You are about to DELETE your profile! Are you sure you want to remove your account including all your personal information permanently?"
   },
   "membership": {
     "period": "{{ lastRenewal, L}} – {{ nextRenewal, L}}",

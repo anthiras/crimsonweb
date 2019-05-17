@@ -3,7 +3,8 @@ import { connect } from 'react-redux'
 import { 
 	fetchProfileIfNeeded,
 	submitProfile,
-	editProfileField
+	editProfileField,
+	deleteUser
 } from '../actions/users'
 import UserProfile from '../components/UserProfile'
 
@@ -14,16 +15,17 @@ class MyProfile extends Component
 	}
 
 	render() {
-		const { user, uiState, submitProfile, editProfileField } = this.props;
+		const { user, uiState, submitProfile, editProfileField, deleteUser } = this.props;
 		const key = user == null ? null : user.id;
-		return (<UserProfile key={key} user={user} uiState={uiState} submitProfile={submitProfile} editProfileField={editProfileField} />)
+		return (<UserProfile key={key} user={user} uiState={uiState} submitProfile={submitProfile} editProfileField={editProfileField} deleteUser={deleteUser} />)
 	}
 }
 
 const actionCreators = {
 	submitProfile,
 	editProfileField,
-	fetchProfileIfNeeded
+	fetchProfileIfNeeded,
+	deleteUser
 }
 
 const mapStateToProps = state => state.profile;
