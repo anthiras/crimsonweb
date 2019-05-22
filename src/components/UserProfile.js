@@ -56,7 +56,7 @@ class UserProfile extends Component {
     }
 
 	render() {
-        const { t, uiState } = this.props;
+        const { t, uiState, allowDelete } = this.props;
 
         if (this.state.user == null) {
             return <Loading />;
@@ -101,7 +101,7 @@ class UserProfile extends Component {
                     {uiState === UISTATE_SAVE_FAILED && <div className="alert alert-danger">{t('common:errorSaving')}</div>}
                     <button type="submit" className={uiState === UISTATE_SAVED ? "btn btn-success" : "btn btn-primary"}>{buttonText}</button>
                     {" "}
-                    <button type="button" className="btn btn-danger" onClick={this.openDeleteModal}>{t('actions:deleteProfile')}</button>
+                    {allowDelete && <button type="button" className="btn btn-danger" onClick={this.openDeleteModal}>{t('actions:deleteProfile')}</button>}
                 </div>
                 <ConfirmModal 
                     visible={this.state.deleteModalVisible} 

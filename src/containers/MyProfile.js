@@ -17,7 +17,7 @@ class MyProfile extends Component
 	render() {
 		const { user, uiState, submitProfile, editProfileField, deleteUser } = this.props;
 		const key = user == null ? null : user.id;
-		return (<UserProfile key={key} user={user} uiState={uiState} submitProfile={submitProfile} editProfileField={editProfileField} deleteUser={deleteUser} />)
+		return (<UserProfile key={key} user={user} uiState={uiState} submitProfile={submitProfile} editProfileField={editProfileField} deleteUser={deleteUser} allowDelete={true} />)
 	}
 }
 

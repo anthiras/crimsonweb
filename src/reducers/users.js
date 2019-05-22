@@ -4,7 +4,7 @@ import {
     REQUEST_PERMISSIONS, REQUEST_PERMISSIONS_SUCCESS, REQUEST_PERMISSIONS_ERROR, INVALIDATE_PERMISSIONS
 } from '../actions/users'
 import {
-    SUBMIT_MEMBERSHIP_SUCCESS
+    SUBMIT_MEMBERSHIP, SUBMIT_MEMBERSHIP_SUCCESS, SUBMIT_MEMBERSHIP_ERROR
 } from '../actions/membership'
 import { resolveUiState } from '../shared/uiState'
 
@@ -36,9 +36,18 @@ export function profile(state = {
             return Object.assign({}, state, {
                 uiState: null
             })
+        case SUBMIT_MEMBERSHIP:
+            return Object.assign({}, state, {
+                membershipUiState: resolveUiState(action.type)
+            })
+        case SUBMIT_MEMBERSHIP_ERROR:
+            return Object.assign({}, state, {
+                membershipUiState: resolveUiState(action.type)
+            })
         case SUBMIT_MEMBERSHIP_SUCCESS:
             return Object.assign({}, state, {
-                user: Object.assign({}, state.user, { currentMembership: action.membership })
+                user: Object.assign({}, state.user, { currentMembership: action.membership }),
+                membershipUiState: resolveUiState(action.type)
             })
         default:
             return state;

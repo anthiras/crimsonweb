@@ -4,6 +4,7 @@ import {faCheckCircle, faClock } from "@fortawesome/free-solid-svg-icons/index";
 import { Loading } from './Utilities';
 import { withTranslation } from 'react-i18next';
 import UserProfile from './UserProfile';
+import { UISTATE_SAVED, UISTATE_SAVING } from '../shared/uiState'
 
 class Membership extends Component
 {
@@ -68,6 +69,12 @@ class Membership extends Component
         }
         const successClass = "card text-white bg-success mb-2";
         const defaultClass = "card mb-2";
+
+        const registerMembershipButtonText =
+            profile.membershipUiState === UISTATE_SAVING ? t('common:saving') :
+            profile.membershipUiState === UISTATE_SAVED ? t('common:saved') :
+                t('actions:registerNow');
+
         return (
             <div>
                 <h1>{ t('titles:membership') }</h1>
@@ -83,7 +90,7 @@ class Membership extends Component
                             <React.Fragment>
                                 <p>{t('membership:weeNeedAFewDetails')}</p>
                                 {!this.state.displayProfile && <button className="btn btn-primary" onClick={this.displayProfile}>{t('actions:fillOutYourInfo')}</button>}
-                                {this.state.displayProfile && !infoCompleted && <UserProfile user={user} uiState={profile.uiState} submitProfile={this.props.submitProfile} editProfileField={this.props.editProfileField} />}
+                                {this.state.displayProfile && !infoCompleted && <UserProfile user={user} uiState={profile.uiState} submitProfile={this.props.submitProfile} editProfileField={this.props.editProfileField} allowDelete={false} />}
                             </React.Fragment>}
                     </div>
                 </div>
@@ -112,7 +119,7 @@ class Membership extends Component
                                     <input type="text" required id="signupComment" className="form-control" value={this.state.signupComment} 
                                         onChange={(e)=>this.setSignupComment(e.target.value)} />
                                 </div>
-                                <button type="button" className="btn btn-primary" onClick={this.register}>{t('actions:registerNow')}</button>
+                                <button type="button" className="btn btn-primary" onClick={this.register} disabled={profile.membershipUiState===UISTATE_SAVING}>{registerMembershipButtonText}</button>
                             </React.Fragment>}
                     </div>
                 </div>
