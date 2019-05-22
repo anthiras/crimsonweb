@@ -27,11 +27,11 @@ class SignUpModal extends Component
 
     submitSignup(e) {
         e.preventDefault();
-        this.props.signup(this.props.course.id, this.state.signUpDetails);
+        this.props.signup(this.props.course.id, { role: this.state.role });
     }
 
     render() {
-        const { t, course, close, error } = this.props;
+        const { t, course, close } = this.props;
         const modalId = "signup" + course.id;
         const role = this.state.role;
 
@@ -55,12 +55,12 @@ class SignUpModal extends Component
                                value="follow" onChange={(e) => this.setRole('follow')} checked={role === "follow"} required />
                         <label className="form-check-label" htmlFor={modalId + "_follow"}>{t('courses:follow')}</label>
                     </div>
-                    {error && <div className="alert alert-danger">{t('courses:signupError')}</div>}
+                    {course.signupError && <div className="alert alert-danger">{t('courses:signupError')}</div>}
                 </div>
                 <div className="modal-footer">
                     <button type="button" onClick={close} className="btn btn-secondary">{t('common:cancel')}
                     </button>
-                    <button type="submit" className="btn btn-primary">{t('actions:confirmSignup')}</button>
+                    <button type="submit" className="btn btn-primary" disabled={course.signupProcessing}>{course.signupProcessing ? t('common:saving') : t('actions:confirmSignup')}</button>
                 </div>
             </form>
         </Modal>

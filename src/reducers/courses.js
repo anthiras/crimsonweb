@@ -18,6 +18,7 @@ function course(state, action) {
             return Object.assign({}, state, {
                 myParticipation: action.response,
                 signupError: false,
+                signupProcessing: false,
                 showSignupModal: false
             })
         case TOGGLE_SIGNUP_MODAL:
@@ -29,12 +30,14 @@ function course(state, action) {
                 return state
             return Object.assign({}, state, {
                 signupError: false,
+                signupProcessing: true,
             })
         case SUBMIT_PARTICIPATION_ERROR:
             if (!action.isCurrentUser)
                 return state
             return Object.assign({}, state, {
                 signupError: true,
+                signupProcessing: false,
                 showSignupModal: true
             })
         case FETCH_COURSE_SUCCESS:
