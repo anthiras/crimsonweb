@@ -28,7 +28,8 @@
     "previous": "Previous",
     "next": "Next",
     "open": "Open",
-    "closed": "Closed"
+    "closed": "Closed",
+    "send": "Send"
   },
   "titles": {
     "courses": "Classes",
@@ -50,7 +51,8 @@
     "reject": "Reject...",
     "confirmPayment": "Confirm payment",
     "deleteProfile": "Delete profile...",
-    "save": "Save"
+    "save": "Save",
+    "messageParticipants": "Message participants..."
   },
   "courses": {
     "current": "Current classes",
@@ -85,7 +87,13 @@
     "signupSchemeAuto": "AUTOMATIC: Confirm automatically within certain limits.",
     "maxParticipants": "Maximum no. of participants",
     "maxRoleDifference": "Maximum difference between leads and followers",
-    "amountPaid": "Amount paid"
+    "amountPaid": "Amount paid",
+    "terms": "Terms",
+    "iAcceptThe": "I accept the",
+    "registrationTerms": "registration terms",
+    "andThe": "and the",
+    "privacyPolicy": "privacy policy",
+    "messagePendingAndConfirmedParticipants": "Message all (pending and confirmed) participants"
   },
   "users": {
     "instructors": "Instructors",

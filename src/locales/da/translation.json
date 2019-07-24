@@ -28,7 +28,8 @@
     "previous": "Forrige",
     "next": "Næste",
     "open": "Åben",
-    "closed": "Lukket"
+    "closed": "Lukket",
+    "send": "Send"
   },
   "titles": {
     "courses": "Hold",
@@ -50,7 +51,8 @@
     "reject": "Afvis...",
     "confirmPayment": "Bekræft betaling",
     "deleteProfile": "Slet profil...",
-    "save": "Gem"
+    "save": "Gem",
+    "messageParticipants": "Send besked til deltagerne..."
   },
   "courses": {
     "current": "Aktuelle hold",
@@ -85,7 +87,13 @@
     "signupSchemeAuto": "AUTOMATISK: Bekræft automatisk medlemmer inden for visse begrænsninger.",
     "maxParticipants": "Maksimalt antal deltagere",
     "maxRoleDifference": "Maksimal forskel mellem antal førere og følgere",
-    "amountPaid": "Betalt"
+    "amountPaid": "Betalt",
+    "terms": "Betingelser",
+    "iAcceptThe": "Jeg accepterer",
+    "registrationTerms": "betingelserne",
+    "andThe": "og",
+    "privacyPolicy": "persondatapolitikken",
+    "messagePendingAndConfirmedParticipants": "Send besked til alle (anmodede og bekræftede) deltagere"
   },
   "users": {
     "instructors": "Undervisere",

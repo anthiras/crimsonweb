@@ -44,16 +44,26 @@ class SignUpModal extends Component
                     </button>
                 </div>
                 <div className="modal-body">
-                    <div className="form-check">
-                        <input className="form-check-input" type="radio" name="role" id={modalId + "_lead"}
-                               value="lead" onChange={(e) => this.setRole('lead')} checked={role === "lead"} required />
-                        <label className="form-check-label" htmlFor={modalId + "_lead"}>{t('courses:lead')}</label>
+                    <div className="form-group">
+                    <label>{t('courses:role')}</label>
+                        <div className="form-check">
+                            <input className="form-check-input" type="radio" name="role" id={modalId + "_lead"}
+                                   value="lead" onChange={(e) => this.setRole('lead')} checked={role === "lead"} required />
+                            <label className="form-check-label" htmlFor={modalId + "_lead"}>{t('courses:lead')}</label>
+                        </div>
+                        <div className="form-check">
+                            <input className="form-check-input" type="radio" name="role"
+                                   id={modalId + "_follow"}
+                                   value="follow" onChange={(e) => this.setRole('follow')} checked={role === "follow"} required />
+                            <label className="form-check-label" htmlFor={modalId + "_follow"}>{t('courses:follow')}</label>
+                        </div>
                     </div>
-                    <div className="form-check">
-                        <input className="form-check-input" type="radio" name="role"
-                               id={modalId + "_follow"}
-                               value="follow" onChange={(e) => this.setRole('follow')} checked={role === "follow"} required />
-                        <label className="form-check-label" htmlFor={modalId + "_follow"}>{t('courses:follow')}</label>
+                    <div className="form-group">
+                        <label>{t('courses:terms')}</label>
+                        <div className="form-check">
+                            <input className="form-check-input" type="checkbox" name="acceptTerms" value="true" id={modalId + "_acceptTerms"} required />
+                            <label className="form-check-label" htmlFor={modalId + "_acceptTerms"}>{t('courses:iAcceptThe')} <a href={process.env.REACT_APP_TERMS} target="_blank" rel="noopener noreferrer">{t('courses:registrationTerms')}</a> {t('courses:andThe')} <a href={process.env.REACT_APP_PRIVACY_POLICY} target="_blank" rel="noopener noreferrer">{t('courses:privacyPolicy')}</a>.</label>
+                        </div>
                     </div>
                     {course.signupError && <div className="alert alert-danger">{t('courses:signupError')}</div>}
                 </div>

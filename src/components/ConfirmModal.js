@@ -63,4 +63,23 @@ class NumberBoxModal extends Component
   }
 }
 
-export { ConfirmModal, NumberBoxModal };
+class TextAreaModal extends Component
+{
+  constructor(props) {
+    super(props);
+    this.state = { value: props.value };
+    this.onConfirm = this.onConfirm.bind(this);
+  }
+
+  onConfirm() {
+    this.props.onConfirm(this.state.value);
+  }
+
+  render() {
+    return (<ConfirmModal {...this.props} onConfirm={this.onConfirm}>
+      <textarea className="form-control" rows={this.props.rows} onChange={(e) => this.setState({value: e.target.value})}></textarea>
+    </ConfirmModal>);
+  }
+}
+
+export { ConfirmModal, NumberBoxModal, TextAreaModal };

@@ -1,41 +1,76 @@
-import React from 'react';
+import React, { Component } from 'react';
 import ParticipantList from "./ParticipantList";
 import { Loading } from './Utilities';
 import { withTranslation } from 'react-i18next';
 import { NavLink } from "react-router-dom";
+import { TextAreaModal } from "./ConfirmModal";
 
-const CourseDetails = ({ t, course, participants, confirmCourseParticipant, cancelCourseParticipant, setParticipantAmountPaid }) => {
-    if (!course) {
-        return <Loading />;
+class CourseDetails extends Component {
+    constructor(props) {
+        super(props);
+        this.state = { sendMessageVisible: false }
+        this.toggleModal = this.toggleModal.bind(this);
+        this.sendMessage = this.sendMessage.bind(this);
     }
-    
-    const {
-        id,
-        name,
-        instructors
-    } = course;
 
-    const courseStartsAt = new Date(course.startsAt);
-    const courseEndsAt = new Date(course.endsAt);
+    toggleModal(visible) {
+        this.setState({ sendMessageVisible: visible });
+    }
 
-    return (
-        <React.Fragment>
-            <h1>{name}</h1>
-            <p>{ instructors.map(instructor => instructor.name).join(" & ") }</p>
-            <p>{ t('courses:scheduleSummary', { startDate: courseStartsAt, endDate: courseEndsAt, count: course.weeks }) }</p>
-            
-            <p><NavLink to={"/courses/"+id+"/edit"} className="btn btn-secondary">{ t('actions:editCourse') }</NavLink></p>
+    sendMessage(message) {
+        console.log("send msg", message);
+        this.props.sendNotification(this.props.course.id, message);
+        this.toggleModal(false);
+    }
 
-            <h2>{t('courses:participants')}</h2>
-            <ParticipantSummary participants={participants} t={t} />
-            <ParticipantList 
-                courseId={id} 
-                participants={participants} 
-                confirmCourseParticipant={confirmCourseParticipant} 
-                cancelCourseParticipant={cancelCourseParticipant}
-                setParticipantAmountPaid={setParticipantAmountPaid} />
-        </React.Fragment>
-    );
+    render() {
+        const { t, course, participants, confirmCourseParticipant, cancelCourseParticipant, setParticipantAmountPaid } = this.props;
+
+        if (!course) {
+            return <Loading />;
+        }
+        
+        const {
+            id,
+            name,
+            instructors
+        } = course;
+
+        const courseStartsAt = new Date(course.startsAt);
+        const courseEndsAt = new Date(course.endsAt);
+
+        return (
+            <React.Fragment>
+                <h1>{name}</h1>
+                <p>{ instructors.map(instructor => instructor.name).join(" & ") }</p>
+                <p>{ t('courses:scheduleSummary', { startDate: courseStartsAt, endDate: courseEndsAt, count: course.weeks }) }</p>
+                
+                <p>
+                    <NavLink to={"/courses/"+id+"/edit"} className="btn btn-secondary">{ t('actions:editCourse') }</NavLink>
+                    {" "}<button type="button" className="btn btn-secondary" onClick={() => this.toggleModal(true)}>{t('actions:messageParticipants')}</button>
+                </p>
+
+                <TextAreaModal
+                    visible={this.state.sendMessageVisible}
+                    title={t('courses:messagePendingAndConfirmedParticipants')}
+                    onConfirm={this.sendMessage}
+                    onCancel={() => this.toggleModal(false)}
+                    confirmText={t('common:send')}
+                    cancelText={t('common:cancel')}
+                    rows="4"
+                 />
+
+                <h2>{t('courses:participants')}</h2>
+                <ParticipantSummary participants={participants} t={t} />
+                <ParticipantList 
+                    courseId={id} 
+                    participants={participants} 
+                    confirmCourseParticipant={confirmCourseParticipant} 
+                    cancelCourseParticipant={cancelCourseParticipant}
+                    setParticipantAmountPaid={setParticipantAmountPaid} />
+            </React.Fragment>
+        );
+    }
 }
 
 const ParticipantSummary = ({t, participants }) => {
