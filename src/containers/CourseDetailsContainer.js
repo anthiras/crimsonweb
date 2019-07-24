@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
 import {
-  fetchCourse, fetchCourseParticipants, confirmCourseParticipant, cancelCourseParticipant
+  fetchCourse, fetchCourseParticipants, confirmCourseParticipant, cancelCourseParticipant, setParticipantAmountPaid
 } from '../actions/courses'
 import CourseDetails from '../components/CourseDetails'
 
@@ -20,14 +20,15 @@ class CourseDetailsContainer extends Component
 	}
 
 	render() {
-		const { course, participants, fetchCourse, confirmCourseParticipant, cancelCourseParticipant } = this.props;
+		const { course, participants, fetchCourse, confirmCourseParticipant, cancelCourseParticipant, setParticipantAmountPaid } = this.props;
 		return (<CourseDetails 
 			course={course} 
 			participants={participants}
 			key={course == null ? null : course.id} 
 			fetchCourse={fetchCourse}
 			confirmCourseParticipant={confirmCourseParticipant}
-			cancelCourseParticipant={cancelCourseParticipant} />);
+			cancelCourseParticipant={cancelCourseParticipant}
+			setParticipantAmountPaid={setParticipantAmountPaid} />);
 	}
 }
 
@@ -40,7 +41,7 @@ function mapStateToProps(state, ownProps) {
 }
 
 const actionCreators = {
-	fetchCourse, fetchCourseParticipants, confirmCourseParticipant, cancelCourseParticipant
+	fetchCourse, fetchCourseParticipants, confirmCourseParticipant, cancelCourseParticipant, setParticipantAmountPaid
 }
 
 export default connect(mapStateToProps, actionCreators)(CourseDetailsContainer);

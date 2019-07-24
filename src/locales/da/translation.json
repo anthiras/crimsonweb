@@ -49,7 +49,8 @@
     "deleteCourse": "Slet hold...",
     "reject": "Afvis...",
     "confirmPayment": "Bekræft betaling",
-    "deleteProfile": "Slet profil..."
+    "deleteProfile": "Slet profil...",
+    "save": "Gem"
   },
   "courses": {
     "current": "Aktuelle hold",
@@ -83,7 +84,8 @@
     "signupSchemeManual": "MANUEL: Sæt alle på en venteliste og bekræft hver enkelt deltager manuelt.",
     "signupSchemeAuto": "AUTOMATISK: Bekræft automatisk medlemmer inden for visse begrænsninger.",
     "maxParticipants": "Maksimalt antal deltagere",
-    "maxRoleDifference": "Maksimal forskel mellem antal førere og følgere"
+    "maxRoleDifference": "Maksimal forskel mellem antal førere og følgere",
+    "amountPaid": "Betalt"
   },
   "users": {
     "instructors": "Undervisere",

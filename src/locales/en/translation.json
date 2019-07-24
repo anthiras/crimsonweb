@@ -49,7 +49,8 @@
     "deleteCourse": "Delete class...",
     "reject": "Reject...",
     "confirmPayment": "Confirm payment",
-    "deleteProfile": "Delete profile..."
+    "deleteProfile": "Delete profile...",
+    "save": "Save"
   },
   "courses": {
     "current": "Current classes",
@@ -74,8 +75,8 @@
       "confirmed": "Approved",
       "cancelled": "Cancelled"
     },
-    "noCoursesFound": "No courses found",
-    "courseInformation": "Course information",
+    "noCoursesFound": "No classes found",
+    "courseInformation": "Class information",
     "registrationRules": "Registration rules",
     "openForRegistration": "Open for registration",
     "signupScheme": "How to handle signups",
@@ -83,7 +84,8 @@
     "signupSchemeManual": "MANUAL: Put everyone on a waiting list and confirm each participant manually.",
     "signupSchemeAuto": "AUTOMATIC: Confirm automatically within certain limits.",
     "maxParticipants": "Maximum no. of participants",
-    "maxRoleDifference": "Maximum difference between leads and followers"
+    "maxRoleDifference": "Maximum difference between leads and followers",
+    "amountPaid": "Amount paid"
   },
   "users": {
     "instructors": "Instructors",

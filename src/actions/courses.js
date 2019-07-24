@@ -112,3 +112,9 @@ export const cancelCourseParticipant = (courseId, userId) => ({
 	callApi: () => post('/v1/courses/'+courseId+'/participants/'+userId+'/cancel'),
 	payload: { courseId, userId }
 })
+
+export const setParticipantAmountPaid = (courseId, userId, amountPaid) => ({
+	types: [SUBMIT_PARTICIPATION, SUBMIT_PARTICIPATION_SUCCESS, SUBMIT_PARTICIPATION_ERROR],
+	callApi: () => post('/v1/courses/'+courseId+'/participants/'+userId+'/setAmountPaid', { amountPaid: amountPaid }),
+	payload: { courseId, userId }
+})

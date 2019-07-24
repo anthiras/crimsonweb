@@ -4,7 +4,7 @@ import { Loading } from './Utilities';
 import { withTranslation } from 'react-i18next';
 import { NavLink } from "react-router-dom";
 
-const CourseDetails = ({ t, course, participants, confirmCourseParticipant, cancelCourseParticipant }) => {
+const CourseDetails = ({ t, course, participants, confirmCourseParticipant, cancelCourseParticipant, setParticipantAmountPaid }) => {
     if (!course) {
         return <Loading />;
     }
@@ -28,7 +28,12 @@ const CourseDetails = ({ t, course, participants, confirmCourseParticipant, canc
 
             <h2>{t('courses:participants')}</h2>
             <ParticipantSummary participants={participants} t={t} />
-            <ParticipantList courseId={id} participants={participants} confirmCourseParticipant={confirmCourseParticipant} cancelCourseParticipant={cancelCourseParticipant} />
+            <ParticipantList 
+                courseId={id} 
+                participants={participants} 
+                confirmCourseParticipant={confirmCourseParticipant} 
+                cancelCourseParticipant={cancelCourseParticipant}
+                setParticipantAmountPaid={setParticipantAmountPaid} />
         </React.Fragment>
     );
 }

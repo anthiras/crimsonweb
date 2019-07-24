@@ -1,30 +1,36 @@
 import React, { Component } from 'react';
-import { ConfirmModal } from './ConfirmModal';
+import { ConfirmModal, NumberBoxModal } from './ConfirmModal';
 import { withTranslation } from 'react-i18next';
 
 class ParticipantRow extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            cancelModalVisible: false
+            modals: {
+                cancel: false,
+                amount: false
+            }
         }
 
-        this.openCancelModal = this.openCancelModal.bind(this);
-        this.closeCancelModal = this.closeCancelModal.bind(this);
+        this.toggleModal = this.toggleModal.bind(this);
         this.confirmCancel = this.confirmCancel.bind(this);
+        this.editAmount = this.editAmount.bind(this);
     }
 
-    openCancelModal() {
-        this.setState({cancelModalVisible: true})
-    }
-
-    closeCancelModal() {
-        this.setState({cancelModalVisible: false})
+    toggleModal(name, visible) {
+        var state = Object.assign({}, this.state.modals);
+        state[name] = visible;
+        this.setState({ modals: state });
     }
 
     confirmCancel() {
-        this.closeCancelModal();
+        this.toggleModal('cancel', false);
         this.props.cancelCourseParticipant(this.props.courseId, this.props.participant.id);
+    }
+
+    editAmount(amountPaid) {
+        this.toggleModal('amount', false);
+        this.props.setParticipantAmountPaid(this.props.courseId, this.props.participant.id, amountPaid)
     }
 
     render() {
@@ -46,23 +52,37 @@ class ParticipantRow extends Component {
                 <td>{t('courses:'+participation.role)}</td>
                 <td>{t('courses:status:'+participation.status)}</td>
                 <td>
+                    {participation.amountPaid} <button className="btn btn-light btn-sm" onClick={() => this.toggleModal('amount', true)}>🖉</button>
+                    <NumberBoxModal 
+                        key={courseId+'_'+userId}
+                        visible={this.state.modals.amount}
+                        onConfirm={this.editAmount}
+                        onCancel={() => this.toggleModal('amount', false)}
+                        title={t('courses:amountPaid')}
+                        confirmText={t('actions:save')}
+                        cancelText={t('common:cancel')}
+                        value={participation.amountPaid}
+                        type="number"
+                        step="0.01" />
+                </td>
+                <td>
                     <div className="text-right">
                         <div className="btn-group">
                             {participation.status === 'pending' && (
                                 <React.Fragment>
                                 <button type="button" className="btn btn-success" onClick={() => confirmCourseParticipant(courseId, userId)}>{t('common:approve')}</button>{" "}
-                                <button type="button" className="btn btn-danger" onClick={this.openCancelModal}>{t('actions:reject')}</button>
+                                <button type="button" className="btn btn-danger" onClick={() => this.toggleModal('cancel', true)}>{t('actions:reject')}</button>
                                 </React.Fragment>
                             )}
                             {participation.status === 'confirmed' && (
-                                <button type="button" className="btn btn-danger" onClick={this.openCancelModal}>{t('actions:reject')}</button>
+                                <button type="button" className="btn btn-danger" onClick={() => this.toggleModal('cancel', true)}>{t('actions:reject')}</button>
                             )}
                         </div>
                     </div>
                     <ConfirmModal
-                        visible={this.state.cancelModalVisible}
+                        visible={this.state.modals.cancel}
                         onConfirm={this.confirmCancel}
-                        onCancel={this.closeCancelModal}
+                        onCancel={() => this.toggleModal('cancel', false)}
                         title={t('common:reject')}
                         confirmText={t('common:reject')}
                         cancelText={t('common:cancel')} >
