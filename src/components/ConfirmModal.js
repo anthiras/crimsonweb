@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Modal from 'react-bootstrap4-modal';
 
-const ConfirmModal = ({ visible, title, confirmText, cancelText, confirmClassName, cancelClassName, onConfirm, onCancel, children }) => (
+const ConfirmModal = ({ visible, title, confirmText, cancelText, confirmClassName, cancelClassName, onConfirm, onCancel, confirmDisabled, children }) => (
   <Modal visible={visible}>
     <div className="modal-header">
       <h5 className="modal-title">{title}</h5>
@@ -13,7 +13,7 @@ const ConfirmModal = ({ visible, title, confirmText, cancelText, confirmClassNam
       <button type="button" className={cancelClassName || "btn btn-secondary"} onClick={onCancel}>
         {cancelText}
       </button>
-      <button type="button" className={confirmClassName || "btn btn-danger"} onClick={onConfirm}>
+      <button type="button" className={confirmClassName || "btn btn-danger"} onClick={onConfirm} disabled={confirmDisabled}>
         {confirmText}
       </button>
     </div>
@@ -67,17 +67,21 @@ class TextAreaModal extends Component
 {
   constructor(props) {
     super(props);
-    this.state = { value: props.value };
     this.onConfirm = this.onConfirm.bind(this);
+    this.onChange = this.onChange.bind(this);
   }
 
   onConfirm() {
-    this.props.onConfirm(this.state.value);
+    this.props.onConfirm(this.props.value);
+  }
+
+  onChange(e) {
+    this.props.onChange(e.target.value);
   }
 
   render() {
     return (<ConfirmModal {...this.props} onConfirm={this.onConfirm}>
-      <textarea className="form-control" rows={this.props.rows} onChange={(e) => this.setState({value: e.target.value})}></textarea>
+      <textarea className="form-control" rows={this.props.rows} onChange={this.onChange} value={this.props.value} />
     </ConfirmModal>);
   }
 }

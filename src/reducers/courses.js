@@ -6,7 +6,8 @@ import {
   SAVE_COURSE, SAVE_COURSE_SUCCESS, SAVE_COURSE_ERROR, EDIT_COURSE_FIELD,
   DELETE_COURSE_SUCCESS,
   FETCH_COURSE_PARTICIPANTS_SUCCESS,
-  SUBMIT_PARTICIPATION, SUBMIT_PARTICIPATION_SUCCESS, SUBMIT_PARTICIPATION_ERROR
+  SUBMIT_PARTICIPATION, SUBMIT_PARTICIPATION_SUCCESS, SUBMIT_PARTICIPATION_ERROR,
+  SEND_NOTIFICATION, SEND_NOTIFICATION_SUCCESS, SEND_NOTIFICATION_ERROR, EDIT_NOTIFICATION
 } from '../actions/courses'
 import { resolveUiState } from '../shared/uiState'
 
@@ -42,6 +43,19 @@ function course(state, action) {
             })
         case FETCH_COURSE_SUCCESS:
             return Object.assign({}, state, action.response)
+        case SEND_NOTIFICATION:
+            // fall through
+        case SEND_NOTIFICATION_SUCCESS:
+            // fall through
+        case SEND_NOTIFICATION_ERROR:
+            return Object.assign({}, state, {
+                notificationUiState: resolveUiState(action.type)
+            })
+        case EDIT_NOTIFICATION:
+            return Object.assign({}, state, {
+                notificationUiState: null,
+                notificationMessage: action.message
+            })
         default:
             return state;
     }
@@ -128,6 +142,14 @@ function coursesById(state = {}, action) {
         case SUBMIT_PARTICIPATION:
             // fall through
         case SUBMIT_PARTICIPATION_ERROR:
+            // fall through
+        case SEND_NOTIFICATION:
+            // fall through
+        case SEND_NOTIFICATION_SUCCESS:
+            // fall through
+        case SEND_NOTIFICATION_ERROR:
+            // fall through
+        case EDIT_NOTIFICATION:
             // fall through
         case FETCH_COURSE_SUCCESS:
             const courseId = action.courseId || (action.response != null ? action.response.id : null);

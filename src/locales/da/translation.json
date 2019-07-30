@@ -28,8 +28,11 @@
     "previous": "Forrige",
     "next": "Næste",
     "open": "Åben",
+    "close": "Luk",
     "closed": "Lukket",
-    "send": "Send"
+    "send": "Send",
+    "sending": "Sender...",
+    "sent": "Sendt!"
   },
   "titles": {
     "courses": "Hold",

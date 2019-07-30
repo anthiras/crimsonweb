@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import {
   fetchCourse, fetchCourseParticipants, confirmCourseParticipant, 
   cancelCourseParticipant, setParticipantAmountPaid,
-  sendNotification
+  sendNotification, editNotification
 } from '../actions/courses'
 import CourseDetails from '../components/CourseDetails'
 
@@ -22,7 +22,10 @@ class CourseDetailsContainer extends Component
 	}
 
 	render() {
-		const { course, participants, fetchCourse, confirmCourseParticipant, cancelCourseParticipant, setParticipantAmountPaid, sendNotification } = this.props;
+		const { course, participants, fetchCourse, confirmCourseParticipant, 
+			cancelCourseParticipant, setParticipantAmountPaid, 
+			sendNotification, editNotification } = this.props;
+
 		return (<CourseDetails 
 			course={course} 
 			participants={participants}
@@ -31,7 +34,8 @@ class CourseDetailsContainer extends Component
 			confirmCourseParticipant={confirmCourseParticipant}
 			cancelCourseParticipant={cancelCourseParticipant}
 			setParticipantAmountPaid={setParticipantAmountPaid}
-			sendNotification={sendNotification} />);
+			sendNotification={sendNotification}
+			editNotification={editNotification} />);
 	}
 }
 
@@ -44,7 +48,9 @@ function mapStateToProps(state, ownProps) {
 }
 
 const actionCreators = {
-	fetchCourse, fetchCourseParticipants, confirmCourseParticipant, cancelCourseParticipant, setParticipantAmountPaid, sendNotification
+	fetchCourse, fetchCourseParticipants, confirmCourseParticipant, 
+	cancelCourseParticipant, setParticipantAmountPaid, sendNotification, 
+	editNotification
 }
 
 export default connect(mapStateToProps, actionCreators)(CourseDetailsContainer);

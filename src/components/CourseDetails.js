@@ -4,6 +4,7 @@ import { Loading } from './Utilities';
 import { withTranslation } from 'react-i18next';
 import { NavLink } from "react-router-dom";
 import { TextAreaModal } from "./ConfirmModal";
+import { UISTATE_SAVED, UISTATE_SAVING } from '../shared/uiState'
 
 class CourseDetails extends Component {
     constructor(props) {
@@ -11,16 +12,25 @@ class CourseDetails extends Component {
         this.state = { sendMessageVisible: false }
         this.toggleModal = this.toggleModal.bind(this);
         this.sendMessage = this.sendMessage.bind(this);
+        this.editMessage = this.editMessage.bind(this);
+        this.launchMessage = this.launchMessage.bind(this);
     }
 
     toggleModal(visible) {
         this.setState({ sendMessageVisible: visible });
     }
 
+    launchMessage() {
+        this.props.editNotification(this.props.course.id, "");
+        this.toggleModal(true);
+    }
+
+    editMessage(message) {
+        this.props.editNotification(this.props.course.id, message);
+    }
+
     sendMessage(message) {
-        console.log("send msg", message);
         this.props.sendNotification(this.props.course.id, message);
-        this.toggleModal(false);
     }
 
     render() {
@@ -33,11 +43,24 @@ class CourseDetails extends Component {
         const {
             id,
             name,
-            instructors
+            instructors,
+            notificationUiState,
+            notificationMessage
         } = course;
 
         const courseStartsAt = new Date(course.startsAt);
         const courseEndsAt = new Date(course.endsAt);
+
+        const sendMessageButtonText = 
+            notificationUiState === UISTATE_SAVING ? t('common:sending') :
+            notificationUiState === UISTATE_SAVED ? t('common:sent') :
+                t('common:send');
+        const sendMessageButtonClass =
+            notificationUiState === UISTATE_SAVING ? 'btn btn-primary' :
+            notificationUiState === UISTATE_SAVED ? 'btn btn-success' :
+                'btn btn-primary';
+        const sendMessageButtonDisabled = 
+            notificationUiState === UISTATE_SAVING || notificationUiState === UISTATE_SAVED;
 
         return (
             <React.Fragment>
@@ -47,7 +70,7 @@ class CourseDetails extends Component {
                 
                 <p>
                     <NavLink to={"/courses/"+id+"/edit"} className="btn btn-secondary">{ t('actions:editCourse') }</NavLink>
-                    {" "}<button type="button" className="btn btn-secondary" onClick={() => this.toggleModal(true)}>{t('actions:messageParticipants')}</button>
+                    {" "}<button type="button" className="btn btn-secondary" onClick={this.launchMessage}>{t('actions:messageParticipants')}</button>
                 </p>
 
                 <TextAreaModal
@@ -55,9 +78,13 @@ class CourseDetails extends Component {
                     title={t('courses:messagePendingAndConfirmedParticipants')}
                     onConfirm={this.sendMessage}
                     onCancel={() => this.toggleModal(false)}
-                    confirmText={t('common:send')}
-                    cancelText={t('common:cancel')}
+                    onChange={this.editMessage}
+                    confirmText={sendMessageButtonText}
+                    cancelText={t('common:close')}
                     rows="4"
+                    confirmClassName={sendMessageButtonClass}
+                    confirmDisabled={sendMessageButtonDisabled}
+                    value={notificationMessage}
                  />
 
                 <h2>{t('courses:participants')}</h2>

@@ -26,7 +26,7 @@ const uiStatePost = actionType => {
 }
 
 export function resolveUiState(actionType) {
-	const isPost = actionType.startsWith('SAVE_') || actionType.startsWith('SUBMIT_');
+	const isPost = actionType.startsWith('SAVE_') || actionType.startsWith('SUBMIT_') || actionType.startsWith('SEND_');
 
 	return isPost ? uiStatePost(actionType) : uiStateGet(actionType);
 }

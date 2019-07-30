@@ -28,8 +28,11 @@
     "previous": "Previous",
     "next": "Next",
     "open": "Open",
+    "close": "Close",
     "closed": "Closed",
-    "send": "Send"
+    "send": "Send",
+    "sending": "Sending...",
+    "sent": "Sent!"
   },
   "titles": {
     "courses": "Classes",

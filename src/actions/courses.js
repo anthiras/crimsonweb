@@ -26,6 +26,7 @@ export const SUBMIT_PARTICIPATION_ERROR = 'SUBMIT_PARTICIPATION_ERROR'
 export const SEND_NOTIFICATION = 'SEND_NOTIFICATION'
 export const SEND_NOTIFICATION_SUCCESS = 'SEND_NOTIFICATION_SUCCESS'
 export const SEND_NOTIFICATION_ERROR = 'SEND_NOTIFICATION_ERROR'
+export const EDIT_NOTIFICATION = 'EDIT_NOTIFICATION'
 
 export const fetchCourses = (list, page) => ({
 	types: [REQUEST_COURSES, RECEIVE_COURSES, REQUEST_COURSES_ERROR],
@@ -124,6 +125,12 @@ export const setParticipantAmountPaid = (courseId, userId, amountPaid) => ({
 
 export const sendNotification = (courseId, message) => ({
 	types: [SEND_NOTIFICATION, SEND_NOTIFICATION_SUCCESS, SEND_NOTIFICATION_ERROR],
-	callApi: () => { console.log('postnotif'); return post('/v1/courses/'+courseId+'/notify', { message: message }); },
+	callApi: () => post('/v1/courses/'+courseId+'/notify', { message: message }),
 	payload: { courseId, message }
+})
+
+export const editNotification = (courseId, message) => ({
+	type: EDIT_NOTIFICATION,
+	courseId: courseId,
+	message: message 
 })
