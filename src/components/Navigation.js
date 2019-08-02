@@ -35,7 +35,7 @@ class Navigation extends Component
             <nav className="navbar navbar-expand navbar-dark bg-dark mb-3">
                 <ul className="navbar-nav mr-auto">
                     <NavLink to="/courses" className="nav-link" activeClassName="active">{t('titles:courses')}</NavLink>
-                    <NavLink to="/membership" className="nav-link" activeClassName="active">{t('titles:membership')}</NavLink>
+                    {/*<NavLink to="/membership" className="nav-link" activeClassName="active">{t('titles:membership')}</NavLink>*/}
                     {permissions['users:list'] && permissions['roles:assignRole:instructor'] && <NavLink to="/users" className="nav-link" activeClassName="active">{t('titles:users')}</NavLink>}
                 </ul>
                 <ul className="navbar-nav">
