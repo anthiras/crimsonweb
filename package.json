@@ -12,6 +12,8 @@
     "history": "^4.7.2",
     "i18next": "^15.0.7",
     "i18next-browser-languagedetector": "^3.0.1",
+    "ie-array-find-polyfill": "^1.1.0",
+    "ie-string-startswith-polyfill": "^1.0.1",
     "moment": "^2.22.1",
     "react": "^16.8.4",
     "react-app-polyfill": "^0.2.2",
@@ -25,7 +27,8 @@
     "react-select": "^2.1.2",
     "redux": "^4.0.1",
     "redux-logger": "^3.0.6",
-    "redux-thunk": "^2.3.0"
+    "redux-thunk": "^2.3.0",
+    "string.prototype.endswith": "^0.2.0"
   },
   "scripts": {
     "start": "react-scripts start",

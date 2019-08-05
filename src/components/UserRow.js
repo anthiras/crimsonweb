@@ -1,6 +1,7 @@
 import React from 'react';
 import UserRoleCheckbox from './UserRoleCheckbox';
 import { withTranslation } from 'react-i18next';
+import "ie-array-find-polyfill";
 
 const UserRow = ({ t, user, allRoles, setMembershipPaid, toggleUserRole }) => {
     const membership = user.currentMembership;

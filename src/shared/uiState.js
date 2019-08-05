@@ -1,3 +1,6 @@
+import "ie-string-startswith-polyfill";
+import "string.prototype.endswith"
+
 export const UISTATE_FETCHED = 'fetched'
 export const UISTATE_FETCH_FAILED = 'fetch_failed'
 export const UISTATE_FETCHING = 'fetching'
