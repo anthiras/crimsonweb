@@ -2,14 +2,14 @@ import React from 'react';
 import CourseListItem from '../containers/CourseListItem'
 import { withTranslation } from 'react-i18next';
 import { Pagination } from './Utilities';
-import moment from 'moment';
+import { parseMomentDate } from '../shared/DateUtils';
 
 const groupCoursesByWeek = courses => {
 	let coursesByWeek = [];
 	let currentKey = null;
 	for (let i = 0; i < courses.length; i++) {
 		let course = courses[i];
-		let startsAt = moment(new Date(course.startsAt));
+		let startsAt = parseMomentDate(course.startsAt);
 		let week = startsAt.week();
 		let key = startsAt.year() + '-' + startsAt.week();
 		if (key !== currentKey) {

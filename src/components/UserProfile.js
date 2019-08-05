@@ -62,7 +62,7 @@ class UserProfile extends Component {
             return <Loading />;
         }
         const { name, birthDate, gender, email } = this.state.user;
-        console.log("render birthDate", birthDate)
+        
         const buttonText =
             uiState === UISTATE_SAVING ? t('common:saving') :
             uiState === UISTATE_SAVED ? t('common:saved') :
