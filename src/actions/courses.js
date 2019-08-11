@@ -51,7 +51,7 @@ export const toggleSignupModal = (courseId, show) => {
 	let auth = new Auth();
 	if (show && !auth.isAuthenticated()) {
 		auth.login();
-		return;
+		return toggleSignupModalAction(courseId, false);
 	}
 	return toggleSignupModalAction(courseId, show)
 }
