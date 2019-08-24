@@ -105,6 +105,7 @@
     "male": "Mand",
     "female": "Kvinde",
     "roles": "Roller",
+    "membershipRegistered": "Registreret medlem",
     "membershipPaid": "Bekræftet betalende medlem",
     "confirmDeleteProfile": "ADVARSEL: Du er ved at SLETTE din profil! Er du siker på at du vil fjerne din konto inkl. al personlig information permanent?"
   },

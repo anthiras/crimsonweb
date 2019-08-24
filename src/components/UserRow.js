@@ -1,9 +1,10 @@
 import React from 'react';
 import UserRoleCheckbox from './UserRoleCheckbox';
 import { withTranslation } from 'react-i18next';
+import { withPermissions } from '../containers/PermissionContainer';
 import "ie-array-find-polyfill";
 
-const UserRow = ({ t, user, allRoles, setMembershipPaid, toggleUserRole }) => {
+const UserRow = ({ t, user, allRoles, setMembershipPaid, toggleUserRole, permissions }) => {
     const membership = user.currentMembership;
     const memberNotPaid = membership != null && membership.paidAt == null;
     const memberPaid = membership != null && membership.paidAt != null;
@@ -25,11 +26,12 @@ const UserRow = ({ t, user, allRoles, setMembershipPaid, toggleUserRole }) => {
                 })}
             </td>
             <td>
-                {memberNotPaid && <button type="button" className="btn btn-primary" onClick={() => setMembershipPaid(user.id)}>{t('actions:confirmPayment')}</button> }
+                {memberNotPaid && permissions['membership:setPaid'] && <button type="button" className="btn btn-primary" onClick={() => setMembershipPaid(user.id)}>{t('actions:confirmPayment')}</button> }
+                {memberNotPaid && !permissions['membership:setPaid'] && t('users:membershipRegistered')}
                 {memberPaid && t('users:membershipPaid')}
             </td>
         </tr>
     );
 }
 
-export default withTranslation()(UserRow);
+export default withTranslation()(withPermissions(UserRow));

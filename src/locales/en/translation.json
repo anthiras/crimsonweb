@@ -105,6 +105,7 @@
     "male": "Male",
     "female": "Female",
     "roles": "Roles",
+    "membershipRegistered": "Registered member",
     "membershipPaid": "Confirmed paid member",
     "confirmDeleteProfile": "WARNING: You are about to DELETE your profile! Are you sure you want to remove your account including all your personal information permanently?"
   },
