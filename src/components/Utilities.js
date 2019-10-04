@@ -4,7 +4,7 @@ import {faSpinner} from "@fortawesome/free-solid-svg-icons/index";
 import { NavLink } from "react-router-dom";
 import { withTranslation } from 'react-i18next';
 import ReactDatePicker from 'react-datepicker'
-import moment from 'moment';
+import { format } from 'date-fns-tz'
 import AsyncSelect from 'react-select/lib/Async';
 import { get } from '../shared/Api'
 
@@ -52,7 +52,7 @@ class DatePicker extends Component {
 
     handleInput(value) {
         if (value == null) return;
-        let date = moment(value).format("YYYY-MM-DD");
+        let date = format(value, "yyyy-MM-dd");
         this.props.onChange(date);
     }
 

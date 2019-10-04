@@ -5,7 +5,7 @@ import { Loading } from './Utilities';
 import { withTranslation } from 'react-i18next';
 import UserProfile from './UserProfile';
 import { UISTATE_SAVED, UISTATE_SAVING } from '../shared/uiState'
-import { parseDate } from '../shared/DateUtils';
+import { parseUtcDate } from '../shared/DateUtils';
 
 class Membership extends Component
 {
@@ -51,8 +51,8 @@ class Membership extends Component
         }
 
         const membership = user.currentMembership;
-        const lastRenewal = parseDate(currentMembershipPeriod.lastRenewal);
-        const nextRenewal = parseDate(currentMembershipPeriod.nextRenewal)
+        const lastRenewal = parseUtcDate(currentMembershipPeriod.lastRenewal);
+        const nextRenewal = parseUtcDate(currentMembershipPeriod.nextRenewal)
 
         const infoCompleted = user != null &&
             user.gender != null &&

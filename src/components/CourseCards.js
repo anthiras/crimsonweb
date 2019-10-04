@@ -2,16 +2,16 @@ import React from 'react';
 import CourseListItem from '../containers/CourseListItem'
 import { withTranslation } from 'react-i18next';
 import { Pagination } from './Utilities';
-import { parseMomentDate } from '../shared/DateUtils';
+import { parseLocalDate, weekNumber } from '../shared/DateUtils';
 
 const groupCoursesByWeek = courses => {
 	let coursesByWeek = [];
 	let currentKey = null;
 	for (let i = 0; i < courses.length; i++) {
 		let course = courses[i];
-		let startsAt = parseMomentDate(course.startsAt);
-		let week = startsAt.week();
-		let key = startsAt.year() + '-' + startsAt.week();
+		let startsAt = parseLocalDate(course.startsAt);
+		let week = weekNumber(startsAt)
+		let key = startsAt.getFullYear() + '-' + week;
 		if (key !== currentKey) {
 			coursesByWeek.push({ key: key, week: week, courses: []});
 			currentKey = key;

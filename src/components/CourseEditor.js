@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
 import Select from 'react-select';
 import { withTranslation } from 'react-i18next';
-import moment from 'moment';
 import { Loading, DatePicker, UserPicker } from './Utilities';
 import { UISTATE_SAVED, UISTATE_SAVE_FAILED, UISTATE_SAVING } from '../shared/uiState'
 import { NavLink } from 'react-router-dom'
 import { ConfirmModal } from './ConfirmModal';
 import "ie-array-find-polyfill";
+import { format } from 'date-fns-tz'
+import { parseLocalDate } from '../shared/DateUtils';
 
 class CourseEditor extends Component {
 	constructor(props) {
@@ -28,7 +29,7 @@ class CourseEditor extends Component {
                 ? {
                     id: null,
                     name: '',
-                    startsAtDate: moment().format("YYYY-MM-DD"),
+                    startsAtDate: format(new Date(), "yyyy-MM-dd"),
                     startsAtTime: '20:00:00',
                     weeks: 8,
                     durationMinutes: 75,
@@ -54,7 +55,7 @@ class CourseEditor extends Component {
     }
 
     mapToState(course) {
-        let startsAt = moment(course.startsAt);
+        let startsAt = parseLocalDate(course.startsAt);
 
         let hasLimits = course.maxParticipants != null || course.maxRoleDifference != null;
 
@@ -66,8 +67,8 @@ class CourseEditor extends Component {
         return {
             id: course.id,
             name: course.name,
-            startsAtDate: startsAt.format("YYYY-MM-DD"),
-            startsAtTime: startsAt.format("HH:mm:ss"),
+            startsAtDate: format(startsAt, "yyyy-MM-dd"),
+            startsAtTime: format(startsAt, "HH:mm:ss"),
             weeks: course.weeks,
             durationMinutes: course.durationMinutes,
             instructors: course.instructors.map(user => { return { value: user.id, label: user.name }}),

@@ -1,12 +1,14 @@
 import i18n from "i18next";
 import { initReactI18next } from "react-i18next";
 import detector from "i18next-browser-languagedetector";
-import moment from 'moment';
-import 'moment/locale/da';
 import translationEN from '../locales/en/translation.json';
 import translationENCustom from '../locales/en/translation.custom.json';
 import translationDA from '../locales/da/translation.json';
 import translationDACustom from '../locales/da/translation.custom.json';
+import { enUS, da } from 'date-fns/locale'
+import { format as formatDate } from 'date-fns-tz'
+
+const dateLocale = lng => lng === 'da' ? da : enUS;
 
 // the translations
 // (tip move them in a JSON file and import them)
@@ -31,7 +33,7 @@ i18n
         interpolation: {
             escapeValue: false, // react already safes from xss
             format: function(value, format, lng) {
-                if (value instanceof Date) return moment(value).format(format);
+                if (value instanceof Date) return formatDate(value, format, { locale: dateLocale(lng) })
             }
         },
 
@@ -47,12 +49,6 @@ i18n
         },
         saveMissing: true
     });
-
-i18n.on('languageChanged', function(lng) {
-    moment.locale(lng);
-});
-
-moment.locale(i18n.language);
 
 i18n.addResourceBundle(
     'da', // lng

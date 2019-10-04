@@ -71,8 +71,8 @@
     "xLessons": "{{count}} lektioner",
     "createNew": "Opret nyt hold",
     "lessonDuration": "Lektionernes varighed (minutter)",
-    "scheduleSummary": "{{ startDate, ll }} {{ startDate, HH:mm }}–{{ endDate, HH:mm }}",
-    "scheduleSummary_plural": "{{ startDate, dddd }}e {{ startDate, HH:mm }}–{{ endDate, HH:mm }} fra {{ startDate, ll }}",
+    "scheduleSummary": "{{ startDate, PP }} {{ startDate, HH:mm }}–{{ endDate, HH:mm }}",
+    "scheduleSummary_plural": "{{ startDate, eeee }}e {{ startDate, HH:mm }}–{{ endDate, HH:mm }} fra {{ startDate, PP }}",
     "participants": "Deltagere",
     "confirmReject": "Er du siker på at du vil afvise deltageren? Denne handling kan ikke fortrydes.",
     "status": {
@@ -110,8 +110,8 @@
     "confirmDeleteProfile": "ADVARSEL: Du er ved at SLETTE din profil! Er du siker på at du vil fjerne din konto inkl. al personlig information permanent?"
   },
   "membership": {
-    "period": "{{ lastRenewal, L}} – {{ nextRenewal, L}}",
-    "yourRegistrationWillBeValidUntilX": "Dit medlemskab vil være gyldigt indtil {{ nextRenewal, L }}",
+    "period": "{{ lastRenewal, P}} – {{ nextRenewal, P}}",
+    "yourRegistrationWillBeValidUntilX": "Dit medlemskab vil være gyldigt indtil {{ nextRenewal, P }}",
     "step1UserDetails": "1. Udfyld medlemsoplysninger",
     "step2Register": "2. Registrér/forny dit medlemskab",
     "step3Payment": "3. Betal dit medlemskontingent",

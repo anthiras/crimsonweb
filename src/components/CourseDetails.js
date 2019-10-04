@@ -5,7 +5,7 @@ import { withTranslation } from 'react-i18next';
 import { NavLink } from "react-router-dom";
 import { TextAreaModal } from "./ConfirmModal";
 import { UISTATE_SAVED, UISTATE_SAVING } from '../shared/uiState'
-import { parseDate } from '../shared/DateUtils';
+import { parseLocalDate } from '../shared/DateUtils';
 
 class CourseDetails extends Component {
     constructor(props) {
@@ -49,8 +49,8 @@ class CourseDetails extends Component {
             notificationMessage
         } = course;
 
-        const courseStartsAt = parseDate(course.startsAt);
-        const courseEndsAt = parseDate(course.endsAt);
+        const courseStartsAt = parseLocalDate(course.startsAt);
+        const courseEndsAt = parseLocalDate(course.endsAt);
 
         const sendMessageButtonText = 
             notificationUiState === UISTATE_SAVING ? t('common:sending') :

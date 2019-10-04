@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { ConfirmModal, NumberBoxModal } from './ConfirmModal';
 import { withTranslation } from 'react-i18next';
+import { formatDate, parseUtcDate } from '../shared/DateUtils';
 
 class ParticipantRow extends Component {
     constructor(props) {
@@ -46,7 +47,7 @@ class ParticipantRow extends Component {
 
         return (
             <tr className={participation.status==='cancelled' ? "text-muted" : ""}>
-                <td>{participation.signedUpAt}</td>
+                <td>{formatDate(parseUtcDate(participation.signedUpAt))}</td>
                 <td><img src={picture} width="50" height="50" alt={name} /></td>
                 <td>{name}</td>
                 <td>{t('courses:'+participation.role)}</td>

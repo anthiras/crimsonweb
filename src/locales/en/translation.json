@@ -71,8 +71,8 @@
     "xLessons": "{{count}} lessons",
     "createNew": "Create new class",
     "lessonDuration": "Duration of lessons (minutes)",
-    "scheduleSummary": "{{ startDate, ll }} {{ startDate, HH:mm }}–{{ endDate, HH:mm }}",
-    "scheduleSummary_plural": "{{ startDate, dddd }}s {{ startDate, HH:mm }}–{{ endDate, HH:mm }} from {{ startDate, ll }}",
+    "scheduleSummary": "{{ startDate, PP }} {{ startDate, HH:mm }}–{{ endDate, HH:mm }}",
+    "scheduleSummary_plural": "{{ startDate, eeee }}s {{ startDate, HH:mm }}–{{ endDate, HH:mm }} from {{ startDate, PP }}",
     "participants": "Participants",
     "confirmReject": "Are you sure you want to reject the participant? This action cannot be undone.",
     "status": {
@@ -110,8 +110,8 @@
     "confirmDeleteProfile": "WARNING: You are about to DELETE your profile! Are you sure you want to remove your account including all your personal information permanently?"
   },
   "membership": {
-    "period": "{{ lastRenewal, L}} – {{ nextRenewal, L}}",
-    "yourRegistrationWillBeValidUntilX": "Your registration will be valid until {{ nextRenewal, L }}",
+    "period": "{{ lastRenewal, P}} – {{ nextRenewal, P}}",
+    "yourRegistrationWillBeValidUntilX": "Your registration will be valid until {{ nextRenewal, P }}",
     "step1UserDetails": "1. Fill out your information",
     "step2Register": "2. Register/renew your membership",
     "step3Payment": "3. Pay your membership fee",

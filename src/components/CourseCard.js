@@ -4,11 +4,11 @@ import { Link } from 'react-router-dom';
 import { withTranslation } from 'react-i18next';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {faCheckCircle} from "@fortawesome/free-solid-svg-icons/index";
-import { parseDate } from '../shared/DateUtils';
+import { parseLocalDate } from '../shared/DateUtils';
 
 const CourseCard = ({ t, course, toggleSignupModal, signup, cancelSignup }) => {
-    const courseStartsAt = parseDate(course.startsAt);
-    const courseEndsAt = parseDate(course.endsAt);
+    const courseStartsAt = parseLocalDate(course.startsAt);
+    const courseEndsAt = parseLocalDate(course.endsAt);
     const status = course.myParticipation == null ? null : course.myParticipation.participation.status
     const bgClass = status === "pending" || status === "confirmed" ? "bg-success text-white" : "bg-light";
     const mutedClass = status === "pending" || status === "confirmed" ? "" : "text-muted";
