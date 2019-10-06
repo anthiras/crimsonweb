@@ -60,6 +60,7 @@
   "courses": {
     "current": "Current classes",
     "archive": "Archive",
+    "mine": "My classes",
     "signupConfirmed": "Signup confirmed",
     "signupRequested": "Signup requested",
     "signupFor": "Sign up for",

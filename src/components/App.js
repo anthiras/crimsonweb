@@ -32,7 +32,7 @@ const App = ({ t }) => (
                                 <Route exact path="/courses">
                                     <Redirect to="/courses/current" />
                                 </Route>
-                                <Route exact path="/courses/:list(current|archive)/:page?" component={CourseList} />
+                                <Route exact path="/courses/:list(current|archive|mine)/:page?" component={CourseList} />
                                 <Route exact path="/courses/create" component={CourseEditorContainer} />
                                 <Route exact path="/courses/:courseId/edit" component={CourseEditorContainer} />
                                 <Route exact path="/courses/:courseId" component={CourseDetailsContainer} />

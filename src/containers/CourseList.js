@@ -29,8 +29,12 @@ class CourseList extends Component
 function mapStateToProps(state, ownProps) {
   const list = ownProps.match.params.list || 'current';
   const { courses } = state
-  const { coursesById, currentCourses, archivedCourses } = courses;
-  const courseList = list === 'archive' ? archivedCourses : currentCourses;
+  const { coursesById, currentCourses, archivedCourses, myCourses } = courses;
+  const courseList = 
+    list === 'current' ? currentCourses
+    : list === 'archive' ? archivedCourses
+    : list === 'mine' ? myCourses
+    : [];
 
   const page = parseInt(ownProps.match.params.page || 1);
   const courseIds = courseList.pages[page];

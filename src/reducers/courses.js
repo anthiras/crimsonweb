@@ -212,5 +212,6 @@ export const courses = combineReducers({
     coursesById, 
     currentCourses: courseList('current'), 
     archivedCourses: courseList('archive'),
+    myCourses: courseList('mine'),
     courseEditor,
     participantsById })

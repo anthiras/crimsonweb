@@ -2,6 +2,9 @@ import React from 'react';
 import { NavLink } from "react-router-dom";
 import { withTranslation } from 'react-i18next';
 import { withPermissions } from '../containers/PermissionContainer';
+import Auth from '../shared/Auth'
+
+const auth = new Auth();
 
 const CourseNavigation = ({ t, permissions }) => (
     <div className="row">
@@ -10,6 +13,11 @@ const CourseNavigation = ({ t, permissions }) => (
                 <li className="nav-item">
                     <NavLink to="/courses/current" className="nav-link" activeClassName="active" exact={false}>{t('courses:current')}</NavLink>
                 </li>
+                {auth.isAuthenticated() &&
+                <li className="nav-item">
+                    <NavLink to="/courses/mine" className="nav-link" activeClassName="active" exact={false}>{t('courses:mine')}</NavLink>
+                </li>
+                }
                 {permissions['courses:create'] &&
                 <li className="nav-item">
                     <NavLink to="/courses/archive" className="nav-link" activeClassName="active" exact={false}>{t('courses:archive')}</NavLink>

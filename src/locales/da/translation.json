@@ -60,6 +60,7 @@
   "courses": {
     "current": "Aktuelle hold",
     "archive": "Arkiv",
+    "mine": "Mine hold",
     "signupConfirmed": "Tilmelding bekræftet",
     "signupRequested": "Tilmelding sendt",
     "signupFor": "Tilmeld",
