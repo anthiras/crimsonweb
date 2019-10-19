@@ -99,7 +99,7 @@ const courseListByPage = list => (state = {}, action) => {
     }
 }
 
-const emptyCourseList = { pages: {}, isFetching: false };
+const emptyCourseList = { pages: {}, isFetching: false, links: {} };
 
 const courseList = list => (state = emptyCourseList, action) => {
     switch (action.type) {
@@ -115,7 +115,8 @@ const courseList = list => (state = emptyCourseList, action) => {
             return Object.assign({}, state, {
                 pages: courseListByPage(list)(state.pages, action),
                 lastPage: action.response.meta.last_page,
-                isFetching: false
+                isFetching: false,
+                links: action.response.links
             })
         case INVALIDATE_COURSES:
             // fall through

@@ -6,9 +6,9 @@ import Auth from '../shared/Auth'
 
 const auth = new Auth();
 
-const CourseNavigation = ({ t, permissions }) => (
+const CourseNavigation = ({ t, permissions, list, links }) => (
     <div className="row">
-        <div className="col-sm">
+        <div className="col-10">
             <ul className="nav nav-pills mb-3">
                 <li className="nav-item">
                     <NavLink to="/courses/current" className="nav-link" activeClassName="active" exact={false}>{t('courses:current')}</NavLink>
@@ -32,6 +32,18 @@ const CourseNavigation = ({ t, permissions }) => (
                 }
             </ul>
         </div>
+        {list === 'mine' && links != null &&
+            <div className="col-2 text-right">
+                <div className="dropdown">
+                  <button className="btn btn-outline-secondary" type="button" id="courseListActions" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    …
+                  </button>
+                  <div className="dropdown-menu dropdown-menu-right" aria-labelledby="courseListActions">
+                    <a className="dropdown-item" href={links['ics']}>{t('courses:iCalFeed')}</a>
+                  </div>
+                </div>
+            </div>
+        }
     </div>
 );
 

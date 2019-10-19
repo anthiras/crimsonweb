@@ -1,7 +1,7 @@
 import React from 'react';
 import CourseEditorContainer from '../containers/CourseEditorContainer'
 import CourseList from '../containers/CourseList'
-import CourseNavigation from './CourseNavigation'
+import CourseNavigationContainer from '../containers/CourseNavigationContainer';
 import CourseDetailsContainer from '../containers/CourseDetailsContainer';
 import UserList from '../containers/UserList'
 import MyProfile from '../containers/MyProfile'
@@ -27,7 +27,10 @@ const App = ({ t }) => (
                     </Route>
                     <Route path="/courses">
                         <React.Fragment>
-                            <CourseNavigation/>
+                            <Switch>
+                                <Route exact path="/courses/:list(current|archive|mine)/:page?" component={CourseNavigationContainer} />
+                                <Route path="/courses" component={CourseNavigationContainer} />
+                            </Switch>
                             <Switch>
                                 <Route exact path="/courses">
                                     <Redirect to="/courses/current" />

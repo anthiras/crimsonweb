@@ -97,7 +97,8 @@
     "registrationTerms": "betingelserne",
     "andThe": "og",
     "privacyPolicy": "persondatapolitikken",
-    "messagePendingAndConfirmedParticipants": "Send besked til alle (anmodede og bekræftede) deltagere"
+    "messagePendingAndConfirmedParticipants": "Send besked til alle (anmodede og bekræftede) deltagere",
+    "iCalFeed": "iCal feed"
   },
   "users": {
     "instructors": "Undervisere",

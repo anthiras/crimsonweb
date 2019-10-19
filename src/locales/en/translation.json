@@ -97,7 +97,8 @@
     "registrationTerms": "registration terms",
     "andThe": "and the",
     "privacyPolicy": "privacy policy",
-    "messagePendingAndConfirmedParticipants": "Message all (pending and confirmed) participants"
+    "messagePendingAndConfirmedParticipants": "Message all (pending and confirmed) participants",
+    "iCalFeed": "iCal feed"
   },
   "users": {
     "instructors": "Instructors",
