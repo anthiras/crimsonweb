@@ -52,7 +52,6 @@
     "editCourse": "Rediger hold",
     "deleteCourse": "Slet hold...",
     "reject": "Afvis...",
-    "confirmPayment": "Bekræft betaling",
     "deleteProfile": "Slet profil...",
     "save": "Gem",
     "messageParticipants": "Send besked til deltagerne..."
@@ -107,8 +106,7 @@
     "male": "Mand",
     "female": "Kvinde",
     "roles": "Roller",
-    "membershipRegistered": "Registreret medlem",
-    "membershipPaid": "Bekræftet betalende medlem",
+    "membershipRegistered": "Registrerering modtaget - afventer bekræftelse",
     "confirmDeleteProfile": "ADVARSEL: Du er ved at SLETTE din profil! Er du siker på at du vil fjerne din konto inkl. al personlig information permanent?"
   },
   "membership": {
@@ -120,12 +118,13 @@
     "infoOk": "Information udfyldt",
     "registrationInstructions": "",
     "signupComment": "Tilmeldingskommentar",
-    "weeNeedAFewDetails": "Vi har brug for et par oplysninger om dig for at registrere dig som medlem.",
+    "weNeedAFewDetails": "Vi har brug for et par oplysninger om dig for at registrere dig som medlem.",
     "registrationReceived": "Registrering modtaget",
-    "paymentPending": "Afventer bekræftelse på betaling",
-    "paymentInstructions": "Du kan nu betale medlemskontingentet, hvis du ikke allerede har gjort det. Så snart kassereren har bekræftet din betaling er du registreret som medlem.",
+    "paymentPending": "Afventer din indbetaling",
+    "paymentAdditionalInstructions": "Så snart kassereren har bekræftet din betaling er du registreret som medlem.",
     "completed": "Betaling registreret, medlemskab godkendt!",
-    "payment": "Betaling"
+    "payment": "Betaling",
+    "closedForRegistration": "Der er i øjeblikket lukket for registrering af medlemskab."
   },
   "roles": {
     "names": {

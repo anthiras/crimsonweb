@@ -65,6 +65,23 @@ function usersByPage(state = {}, action) {
     }
 }
 
+function user(state = {}, action) {
+    switch (action.type) {
+        case SET_MEMBERSHIP_PAID_SUCCESS:
+            return Object.assign({}, state, {
+                currentMembership: action.response
+            });
+        case TOGGLE_USER_ROLE_SUCCESS:
+            return Object.assign({}, state, {
+                roles: action.userHasRole
+                    ? [...state.roles, { id: action.roleId }]
+                    : state.roles.filter(role => role.id !== action.roleId)
+            });
+        default:
+            return state; 
+    }
+}
+
 function usersById(state = {}, action) {
     switch (action.type) {
         case RECEIVE_USERS:
@@ -73,14 +90,12 @@ function usersById(state = {}, action) {
                 return state;
             }, state);
         case SET_MEMBERSHIP_PAID_SUCCESS:
-            state[action.userId].currentMembership = action.response;
-            return state;
+            // fall through
         case TOGGLE_USER_ROLE_SUCCESS:
-            if (action.userHasRole)
-                state[action.userId].roles.push({ id: action.roleId })
-            else
-                state[action.userId].roles = state[action.userId].roles.filter(role => role.id !== action.roleId)
-            return state;
+            const userId = action.userId;
+            return Object.assign({}, state, {
+                [userId]: user(state[userId], action)
+            });
         default:
             return state;
     }

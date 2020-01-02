@@ -45,6 +45,7 @@ class Membership extends Component
     render() {
         const { t, profile, currentMembershipPeriod } = this.props;
         const user = profile.user;
+        const paymentMethod = this.state.paymentMethod;
 
         if (user == null || currentMembershipPeriod == null) {
             return <Loading />;
@@ -52,7 +53,8 @@ class Membership extends Component
 
         const membership = user.currentMembership;
         const lastRenewal = parseUtcDate(currentMembershipPeriod.lastRenewal);
-        const nextRenewal = parseUtcDate(currentMembershipPeriod.nextRenewal)
+        const nextRenewal = parseUtcDate(currentMembershipPeriod.nextRenewal);
+        const open = currentMembershipPeriod.openForRegistration;
 
         const infoCompleted = user != null &&
             user.gender != null &&
@@ -79,7 +81,8 @@ class Membership extends Component
         return (
             <div>
                 <h1>{ t('titles:membership') }</h1>
-                {this.state.currentPeriod && <p>{ t('membership:period', { lastRenewal, nextRenewal }) }</p>}
+                <p>{ t('membership:period', { lastRenewal, nextRenewal }) }</p>
+                {!open && <div className="alert alert-warning">{t('membership:closedForRegistration')}</div>}
                 <div className={step >= 1 ? successClass : defaultClass}>
                     <div className="card-body">
                         <h5 className="card-title">{t('membership:step1UserDetails')}</h5>
@@ -87,9 +90,9 @@ class Membership extends Component
                             <FontAwesomeIcon icon={faCheckCircle} size="lg"/>
                             <span> {t('membership:infoOk')}</span>
                         </p>}
-                        {step === 0 &&
+                        {step === 0 && open &&
                             <React.Fragment>
-                                <p>{t('membership:weeNeedAFewDetails')}</p>
+                                <p>{t('membership:weNeedAFewDetails')}</p>
                                 {!this.state.displayProfile && <button className="btn btn-primary" onClick={this.displayProfile}>{t('actions:fillOutYourInfo')}</button>}
                                 {this.state.displayProfile && !infoCompleted && <UserProfile user={user} uiState={profile.uiState} submitProfile={this.props.submitProfile} editProfileField={this.props.editProfileField} allowDelete={false} />}
                             </React.Fragment>}
@@ -102,7 +105,7 @@ class Membership extends Component
                             <FontAwesomeIcon icon={faCheckCircle} size="lg"/>
                             <span> {t('membership:registrationReceived')}</span>
                         </p>}
-                        {step === 1 &&
+                        {step === 1 && open &&
                             <React.Fragment>
                                 <p>{ t('membership:yourRegistrationWillBeValidUntilX', { nextRenewal }) }</p>
                                 <p>{t('membership:registrationInstructions')}</p>
@@ -110,16 +113,23 @@ class Membership extends Component
                                     <label>{t('membership:payment')}</label>
                                     {this.paymentOptions.map(payment => 
                                         <div className="form-check" key={payment}>
-                                            <input className="form-check-input" type="radio" name="payment" value={payment} id={"payment_"+payment} onChange={(e) => this.setPaymentMethod(e.target.value)} required />
-                                            <label className="form-check-label" htmlFor={"payment_"+payment}>{t('membership:paymentNames:'+payment)}</label>
+                                            <input className="form-check-input" 
+                                                   type="radio"
+                                                   name="payment"
+                                                   value={payment}
+                                                   id={"payment_"+payment}
+                                                   checked={paymentMethod === payment}
+                                                   onChange={(e) => this.setPaymentMethod(e.target.value)}
+                                                   required />
+                                            <label className="form-check-label"htmlFor={"payment_"+payment}>{t('membership:paymentNames:'+payment)}</label>
                                         </div>
                                         )}
                                 </div>
-                                <div className="form-group">
+                                {/*<div className="form-group">
                                     <label htmlFor="signupComment">{t('membership:signupComment')}</label>
                                     <input type="text" required id="signupComment" className="form-control" value={this.state.signupComment} 
                                         onChange={(e)=>this.setSignupComment(e.target.value)} />
-                                </div>
+                                </div>*/}
                                 <button type="button" className="btn btn-primary" onClick={this.register} disabled={profile.membershipUiState===UISTATE_SAVING}>{registerMembershipButtonText}</button>
                             </React.Fragment>}
                     </div>
@@ -131,10 +141,11 @@ class Membership extends Component
                             <FontAwesomeIcon icon={faCheckCircle} size="lg"/>
                             <span> {t('membership:completed')}</span>
                         </p>}
-                        {step === 2 && 
+                        {step === 2 && open &&
                             <React.Fragment>
                                 <p><FontAwesomeIcon icon={faClock} size="lg"/><span> {t('membership:paymentPending')}</span></p>
-                                <p>{t('membership:paymentInstructions')}</p>
+                                <div className="alert alert-info">{t('membership:paymentInstructions:'+membership.paymentMethod)}</div>
+                                <p>{t('membership:paymentAdditionalInstructions')}</p>
                             </React.Fragment>}
                     </div>
                 </div>

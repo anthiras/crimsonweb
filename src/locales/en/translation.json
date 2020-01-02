@@ -52,7 +52,6 @@
     "editCourse": "Edit class",
     "deleteCourse": "Delete class...",
     "reject": "Reject...",
-    "confirmPayment": "Confirm payment",
     "deleteProfile": "Delete profile...",
     "save": "Save",
     "messageParticipants": "Message participants..."
@@ -107,8 +106,7 @@
     "male": "Male",
     "female": "Female",
     "roles": "Roles",
-    "membershipRegistered": "Registered member",
-    "membershipPaid": "Confirmed paid member",
+    "membershipRegistered": "Registration received - awaiting confirmation",
     "confirmDeleteProfile": "WARNING: You are about to DELETE your profile! Are you sure you want to remove your account including all your personal information permanently?"
   },
   "membership": {
@@ -120,12 +118,13 @@
     "infoOk": "Information supplied",
     "registrationInstructions": "",
     "signupComment": "Signup comment",
-    "weeNeedAFewDetails": "We need a few details about you to register you as a member.",
+    "weNeedAFewDetails": "We need a few details about you to register you as a member.",
     "registrationReceived": "Registration received",
-    "paymentPending": "Waiting for payment confirmation",
-    "paymentInstructions": "Please pay your membership now if you haven't done so already. As soon as our staff has confirmed your payment, your registration is completed.",
+    "paymentPending": "Waiting for your payment",
+    "paymentAdditionalInstructions": "As soon as our staff has confirmed your payment, your registration is completed.",
     "completed": "Payment confirmed and registration completed!",
-    "payment": "Payment"
+    "payment": "Payment",
+    "closedForRegistration": "Membership registration is currently closed."
   },
   "roles": {
     "names": {
