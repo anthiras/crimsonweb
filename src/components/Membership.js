@@ -82,6 +82,7 @@ class Membership extends Component
             <div>
                 <h1>{ t('titles:membership') }</h1>
                 <p>{ t('membership:period', { lastRenewal, nextRenewal }) }</p>
+                <p><a href={process.env.REACT_APP_MEMBERSHIP} rel="noopener noreferrer">{t('membership:informationHere')}</a></p>
                 {!open && <div className="alert alert-warning">{t('membership:closedForRegistration')}</div>}
                 <div className={step >= 1 ? successClass : defaultClass}>
                     <div className="card-body">

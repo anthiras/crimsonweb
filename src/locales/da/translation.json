@@ -124,7 +124,8 @@
     "paymentAdditionalInstructions": "Så snart kassereren har bekræftet din betaling er du registreret som medlem.",
     "completed": "Betaling registreret, medlemskab godkendt!",
     "payment": "Betaling",
-    "closedForRegistration": "Der er i øjeblikket lukket for registrering af medlemskab."
+    "closedForRegistration": "Der er i øjeblikket lukket for registrering af medlemskab.",
+    "informationHere": "Læs om medlemskab her"
   },
   "roles": {
     "names": {

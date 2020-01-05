@@ -124,7 +124,8 @@
     "paymentAdditionalInstructions": "As soon as our staff has confirmed your payment, your registration is completed.",
     "completed": "Payment confirmed and registration completed!",
     "payment": "Payment",
-    "closedForRegistration": "Membership registration is currently closed."
+    "closedForRegistration": "Membership registration is currently closed.",
+    "informationHere": "Read about membership here"
   },
   "roles": {
     "names": {
