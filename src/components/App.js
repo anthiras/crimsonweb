@@ -10,6 +10,7 @@ import Navigation from './Navigation'
 import AuthCallback from '../containers/AuthCallback'
 import ErrorBoundary from '../containers/ErrorBoundary'
 import Alert from '../components/Alert'
+import Footer from '../components/Footer'
 import { Router, Route, Redirect, Switch } from "react-router-dom";
 import history from '../shared/History';
 import { withTranslation } from 'react-i18next';
@@ -48,6 +49,7 @@ const App = ({ t }) => (
                     <Route path="/callback" component={AuthCallback} />
                 </Switch>
                 </ErrorBoundary>
+                <Footer />
             </div>
         </React.Fragment>
     </Router>
