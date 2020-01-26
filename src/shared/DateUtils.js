@@ -3,7 +3,6 @@ import { enUS, da } from 'date-fns/locale'
 import i18n from '../shared/i18n';
 import getWeek from 'date-fns/getWeek'
 import { format, utcToZonedTime, zonedTimeToUtc } from 'date-fns-tz'
-require('date-time-format-timezone');
 
 const currentLocale = () => i18n.language === 'da' ? da : enUS;
 
