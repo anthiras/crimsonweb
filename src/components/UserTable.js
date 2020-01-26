@@ -1,12 +1,14 @@
 import React from 'react';
 import UserRow from "./UserRow";
+import UserNavigation from './UserNavigation';
 import { Loading, Pagination } from './Utilities';
 import { withTranslation } from 'react-i18next';
 
-const UserTable = ({ t, users, page, lastPage, roles, setMembershipPaid, toggleUserRole }) => {
+const UserTable = ({ t, users, list, page, lastPage, roles, setMembershipPaid, toggleUserRole }) => {
     if (!users || !roles) return <Loading />;
     return (
         <React.Fragment>
+        <UserNavigation />
         <table className="table">
             <thead>
                 <tr>
@@ -22,7 +24,7 @@ const UserTable = ({ t, users, page, lastPage, roles, setMembershipPaid, toggleU
                 )}
             </tbody>
         </table>
-        <Pagination page={page} lastPage={lastPage} urlForPage={(page) => '/users/'+page} />
+        <Pagination page={page} lastPage={lastPage} urlForPage={(page) => '/users/'+list+'/'+page} />
         </React.Fragment>
     );
 }

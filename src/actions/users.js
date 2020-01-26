@@ -55,11 +55,23 @@ export const submitProfile = user => ({
 	payload: { user }
 })
 
-export const fetchUsersIfNeeded = page => ({
+const userListUrl = (list, page) => {
+	let url = '/v1/users?include[]=roles&include[]=memberships'
+	if (list === 'members')
+		url += '&isMember=true';
+	if (list === 'paid')
+		url += '&isPaidMember=true';
+	if (list === 'unpaid')
+		url += '&isMember=true&isPaidMember=false';
+	url += '&page=' + page;
+	return url;
+}
+
+export const fetchUsersIfNeeded = (list, page) => ({
 	types: [REQUEST_USERS, RECEIVE_USERS, REQUEST_USERS_ERROR],
-	shouldCallApi: state => !state.users.usersByPage[page],
-	callApi: () => get('/v1/users?include[]=roles&include[]=memberships&page='+page),
-	payload: { page }
+	shouldCallApi: state => !state.users.userLists[list].pages[page],
+	callApi: () => get(userListUrl(list, page)),
+	payload: { list, page }
 })
 
 export const fetchRolesIfNeeded = () => ({

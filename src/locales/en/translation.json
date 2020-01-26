@@ -107,7 +107,11 @@
     "female": "Female",
     "roles": "Roles",
     "membershipRegistered": "Registration received - awaiting confirmation",
-    "confirmDeleteProfile": "WARNING: You are about to DELETE your profile! Are you sure you want to remove your account including all your personal information permanently?"
+    "confirmDeleteProfile": "WARNING: You are about to DELETE your profile! Are you sure you want to remove your account including all your personal information permanently?",
+    "all": "All",
+    "members": "Members",
+    "paidMembers": "Paid members",
+    "unpaidMembers": "Unpaid members"
   },
   "membership": {
     "period": "{{ lastRenewal, P}} – {{ nextRenewal, P}}",

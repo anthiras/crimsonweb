@@ -54,11 +54,53 @@ export function profile(state = {
     }
 }
 
-function usersByPage(state = {}, action) {
+const usersListByPage = list => (state = {}, action) => {
+    switch (action.type) {
+        case RECEIVE_USERS:
+            if (list !== action.list)
+                return state;
+            return Object.assign({}, state, {
+                [action.page]: action.response.data.map(x => x.id)
+            })
+        default:
+            return state;
+    }
+}
+
+const emptyUserList = { pages: {}, isFetching: false, links: {} };
+
+const userList = list => (state = emptyUserList, action) => {
+    switch (action.type) {
+        case RECEIVE_USERS:
+            if (list !== action.list)
+                return state;
+            return Object.assign({}, state, {
+                pages: usersListByPage(list)(state.pages, action),
+                lastPage: action.response.meta.last_page,
+                isFetching: false
+            })
+        default:
+            return state;
+    }
+}
+
+const emptyUserLists = {
+    'all': emptyUserList,
+    'members': emptyUserList,
+    'paid': emptyUserList,
+    'unpaid': emptyUserList
+}
+
+const userLists = (state = emptyUserLists, action) => {
     switch (action.type) {
         case RECEIVE_USERS:
             return Object.assign({}, state, {
-                [action.page]: action.response.data.map(x => x.id)
+                [action.list]: userList(action.list)(state[action.list], action)
+            })
+        case SET_MEMBERSHIP_PAID_SUCCESS:
+            return Object.assign({}, state, {
+                'paid': emptyUserList,
+                'unpaid': emptyUserList
             })
         default:
             return state;
@@ -103,20 +145,20 @@ function usersById(state = {}, action) {
 
 export function users(state = {
     usersById: {},
-    usersByPage: {}
+    userLists: emptyUserLists
 }, action) {
     switch (action.type) {
         case RECEIVE_USERS:
             return Object.assign({}, state, {
-                usersByPage: usersByPage(state.usersByPage, action),
-                lastPage: action.response.meta.last_page,
-                usersById: usersById(state.usersById, action)
+                usersById: usersById(state.usersById, action),
+                userLists: userLists(state.userLists, action)
             })
         case SET_MEMBERSHIP_PAID_SUCCESS:
             // fall through
         case TOGGLE_USER_ROLE_SUCCESS:
             return Object.assign({}, state, {
-                usersById: usersById(state.usersById, action)
+                usersById: usersById(state.usersById, action),
+                userLists: userLists(state.userLists, action)
             })
         default:
             return state;

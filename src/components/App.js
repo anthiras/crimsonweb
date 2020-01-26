@@ -43,7 +43,10 @@ const App = ({ t }) => (
                             </Switch>
                         </React.Fragment>
                     </Route>
-                    <Route path="/users/:page?" component={UserList} />
+                    <Route exact path="/users">
+                        <Redirect to="/users/all" />
+                    </Route>
+                    <Route path="/users/:list(all|members|unpaid|paid)/:page?" component={UserList} />
                     <Route path="/profile" component={MyProfile} />
                     <Route path="/membership" component={MembershipForm} />
                     <Route path="/callback" component={AuthCallback} />
