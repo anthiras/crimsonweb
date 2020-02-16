@@ -69,7 +69,10 @@ const userListUrl = (list, page) => {
 
 export const fetchUsersIfNeeded = (list, page) => ({
 	types: [REQUEST_USERS, RECEIVE_USERS, REQUEST_USERS_ERROR],
-	shouldCallApi: state => !state.users.userLists[list].pages[page],
+	shouldCallApi: state => { 
+		let userList = state.users.userLists[list];
+		return !userList.pages[page] || userList.invalidated;
+	},
 	callApi: () => get(userListUrl(list, page)),
 	payload: { list, page }
 })

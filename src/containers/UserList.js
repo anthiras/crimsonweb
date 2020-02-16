@@ -19,7 +19,7 @@ class UserList extends Component
 	}
 
 	componentDidUpdate(prevProps) {
-		if (this.props.page !== prevProps.page || this.props.list !== prevProps.list) {
+		if (this.props.page !== prevProps.page || this.props.list !== prevProps.list || this.props.invalidated !== prevProps.invalidated) {
 			this.props.fetchUsersIfNeeded(this.props.list, this.props.page)
 		}
 	}
@@ -39,13 +39,15 @@ function mapStateToProps(state, ownProps) {
 	const page = parseInt(ownProps.match.params.page || 1);
 	const list = ownProps.match.params.list || 'all';
 	const userList = users.userLists[list];
-	const userIds = userList.pages[page];
-	const usersOnCurrentPage = userIds ? userIds.map(userId => users.usersById[userId]) : [];
+	const pageLoaded = page in userList.pages;
+	const invalidated = userList.invalidated;
+	const usersOnCurrentPage = pageLoaded ? userList.pages[page].map(userId => users.usersById[userId]) : [];
 
 	return { 
 		users: usersOnCurrentPage, 
 		list: list,
 		page: page,
+		invalidated: invalidated,
 		lastPage: userList.lastPage,
 		roles: roles,
 		permissions: permissions.items }

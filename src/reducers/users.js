@@ -1,6 +1,7 @@
 import {
     REQUEST_PROFILE, RECEIVE_PROFILE, SUBMIT_PROFILE, SUBMIT_PROFILE_SUCCESS, SUBMIT_PROFILE_ERROR,
-    EDIT_PROFILE_FIELD, RECEIVE_USERS, RECEIVE_ROLES, SET_MEMBERSHIP_PAID_SUCCESS, TOGGLE_USER_ROLE_SUCCESS,
+    EDIT_PROFILE_FIELD, REQUEST_USERS, RECEIVE_USERS, RECEIVE_ROLES, 
+    SET_MEMBERSHIP_PAID_SUCCESS, TOGGLE_USER_ROLE_SUCCESS,
     REQUEST_PERMISSIONS, REQUEST_PERMISSIONS_SUCCESS, REQUEST_PERMISSIONS_ERROR, INVALIDATE_PERMISSIONS
 } from '../actions/users'
 import {
@@ -67,17 +68,27 @@ const usersListByPage = list => (state = {}, action) => {
     }
 }
 
-const emptyUserList = { pages: {}, isFetching: false, links: {} };
+const emptyUserList = { pages: {}, isFetching: false, links: {}, invalidated: false };
 
 const userList = list => (state = emptyUserList, action) => {
     switch (action.type) {
+        case REQUEST_USERS:
+            if (list !== action.list)
+                return state;
+            return Object.assign({}, state, {
+                invalidated: false
+            })
         case RECEIVE_USERS:
             if (list !== action.list)
                 return state;
             return Object.assign({}, state, {
                 pages: usersListByPage(list)(state.pages, action),
                 lastPage: action.response.meta.last_page,
-                isFetching: false
+                invalidated: false
+            })
+        case SET_MEMBERSHIP_PAID_SUCCESS:
+            return Object.assign({}, state, {
+                invalidated: true
             })
         default:
             return state;
@@ -99,8 +110,8 @@ const userLists = (state = emptyUserLists, action) => {
             })
         case SET_MEMBERSHIP_PAID_SUCCESS:
             return Object.assign({}, state, {
-                'paid': emptyUserList,
-                'unpaid': emptyUserList
+                'paid': userList('paid')(state['paid'], action),
+                'unpaid': userList('unpaid')(state['unpaid'], action)
             })
         default:
             return state;
@@ -148,6 +159,8 @@ export function users(state = {
     userLists: emptyUserLists
 }, action) {
     switch (action.type) {
+        case REQUEST_USERS:
+            // fall through
         case RECEIVE_USERS:
             return Object.assign({}, state, {
                 usersById: usersById(state.usersById, action),
