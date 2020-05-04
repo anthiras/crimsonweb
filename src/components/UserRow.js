@@ -21,6 +21,7 @@ const UserRow = ({ t, user, allRoles, setMembershipPaid, toggleUserRole, permiss
         <tr>
             <td><img src={user.picture} width="50" height="50" alt="" /></td>
             <td>{user.name}</td>
+            <td>{user.email}</td>
             <td>
                 {roles.map(userRole => {
                     return (

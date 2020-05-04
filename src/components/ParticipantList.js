@@ -10,7 +10,8 @@ const ParticipantList = ({ t, courseId, participants, confirmCourseParticipant, 
             <tr>
                 <th style={{width: "10%"}}>{t('courses:signupDate')}</th>
                 <th style={{width: "5%"}}></th>
-                <th style={{width: "35%"}}>{t('common:name')}</th>
+                <th style={{width: "25%"}}>{t('common:name')}</th>
+                <th style={{width: "10%"}}>{t('common:email')}</th>
                 <th style={{width: "10%"}}>{t('courses:role')}</th>
                 <th style={{width: "10%"}}>{t('common:status')}</th>
                 <th style={{width: "15%"}}>{t('courses:amountPaid')}</th>

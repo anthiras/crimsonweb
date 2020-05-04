@@ -14,6 +14,7 @@ const UserTable = ({ t, users, list, page, lastPage, roles, setMembershipPaid, t
                 <tr>
                     <th width="50"></th>
                     <th>{t('common:name')}</th>
+                    <th>{t('common:email')}</th>
                     <th>{t('users:roles')}</th>
                     <th>{t('titles:membership')}</th>
                 </tr>

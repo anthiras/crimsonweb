@@ -40,6 +40,7 @@ class ParticipantRow extends Component {
             id,
             picture,
             name,
+            email,
             participation
         } = participant;
 
@@ -50,6 +51,7 @@ class ParticipantRow extends Component {
                 <td>{formatDate(parseUtcDate(participation.signedUpAt))}</td>
                 <td><img src={picture} width="50" height="50" alt={name} /></td>
                 <td>{name}</td>
+                <td>{email}</td>
                 <td>{t('courses:'+participation.role)}</td>
                 <td>{t('courses:status:'+participation.status)}</td>
                 <td>
