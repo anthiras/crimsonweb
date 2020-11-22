@@ -10,7 +10,7 @@ const CourseCard = ({ t, course, toggleSignupModal, signup, cancelSignup }) => {
     const courseStartsAt = parseLocalDate(course.startsAt);
     const courseEndsAt = parseLocalDate(course.endsAt);
     const status = course.myParticipation == null ? null : course.myParticipation.participation.status
-    const bgClass = status === "pending" || status === "confirmed" ? "bg-success text-white" : "bg-light";
+    const bgClass = status === "pending" ? "bg-info text-white" : status === "confirmed" ? "bg-success text-white" : "bg-light";
     const mutedClass = status === "pending" || status === "confirmed" ? "" : "text-muted";
     return (
         <React.Fragment>
