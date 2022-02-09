@@ -37,7 +37,7 @@ export const fetchCourses = (list, page) => ({
 			: false;
 	},
 	callApi: list === 'current' ? () => get('/v1/courses?include[]=instructors&endsAfter=now&page='+page)
-		: list === 'archive' ? () => get('/v1/courses?include[]=instructors&endsBefore=now&page='+page)
+		: list === 'archive' ? () => get('/v1/courses?include[]=instructors&endsBefore=now&direction=desc&page='+page)
 		: list === 'mine' ? () => get('/v1/courses?include[]=instructors&endsAfter=now&mine=1&page='+page)
 		: () => {},
 	payload: { list, page }
