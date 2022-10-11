@@ -60,7 +60,6 @@ class SignUpModal extends Component
                     </div>
                     <div className="form-group">
                         <label>{t('courses:terms')}</label>
-                        <div className="alert alert-warning"><a href={process.env.REACT_APP_TERMS} target="_blank" rel="noopener noreferrer" className="text-dark">{t('courses:termsWarning')}</a></div>
                         <div className="form-check">
                             <input className="form-check-input" type="checkbox" name="acceptTerms" value="true" id={modalId + "_acceptTerms"} required />
                             <label className="form-check-label" htmlFor={modalId + "_acceptTerms"}>{t('courses:iAcceptThe')} <a href={process.env.REACT_APP_TERMS} target="_blank" rel="noopener noreferrer">{t('courses:registrationTerms')}</a> {t('courses:andThe')} <a href={process.env.REACT_APP_PRIVACY_POLICY} target="_blank" rel="noopener noreferrer">{t('courses:privacyPolicy')}</a>.</label>
