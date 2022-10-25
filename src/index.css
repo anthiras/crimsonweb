@@ -5,3 +5,69 @@
 .react-datepicker__input-container {
 	display: block;;
 }
+
+table.coursetable {
+	table-layout: fixed;
+}
+
+table.coursetable thead {
+	position: sticky;
+	top: 0;
+}
+
+table.coursetable th, table.coursetable td {
+	border: none;
+	padding: 5px;
+}
+
+table.coursetable th {
+	width: 10%;
+	text-align: center;
+	font-weight: normal;
+}
+
+table.coursetable td {
+	width: 10%;
+}
+
+table.coursetable th.left-col {
+	width: 20%;
+}
+
+.coursetable .time {
+	padding-top: 15px;
+}
+
+.course {
+	padding: 10px;
+	background-color: rgb(46, 130, 179);
+	border-radius: 10px;
+	color: white;
+}
+
+.course.confirmed {
+	background-color: rgb(14, 131, 30);
+}
+
+.course-name {
+	font-weight: bold;
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+}
+
+.course-instructors {
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+}
+
+.course .status {
+	float: right;
+	display: block;
+	margin-top: -10px;
+}
+
+.coursetable .weekday {
+	font-weight: bold;
+}

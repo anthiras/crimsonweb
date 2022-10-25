@@ -5,6 +5,7 @@ import { useSelector } from 'react-redux'
 import { createSelector } from '@reduxjs/toolkit';
 import { selectCourseList, selectCoursesById } from '../reducers/courses';
 import CourseCards from '../components/CourseCards'
+import CourseCalendar from '../components/CourseCalendar';
 
 const selectCourseListPage = createSelector(
   [selectCoursesById, selectCourseList, (_s, _l, page) => page],
