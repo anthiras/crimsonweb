@@ -44,7 +44,11 @@ const CourseStatus = ({ t, course, toggleSignupModal, cancelSignup }) => {
                 </p>
             }
             {status === "confirmed" &&
-                <p><FontAwesomeIcon icon={faCheckCircle} size="lg"/> {t('courses:signupConfirmed')}</p>
+                <p>
+                    <FontAwesomeIcon icon={faCheckCircle} size="lg"/> 
+                    <span> {t('courses:signupConfirmed')} </span>
+                    <button className="btn btn-link text-white" onClick={() => cancelSignup(course.id)}>({t('common:cancel').toLowerCase()})</button>
+                </p>
             }
             {(status === null || status === "cancelled") && course.allowRegistration && 
                 <button className="btn btn-primary" onClick={() => toggleSignupModal(course.id, true)}>{t('actions:signUp')}</button>
