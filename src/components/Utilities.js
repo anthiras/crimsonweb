@@ -68,7 +68,10 @@ class DatePicker extends Component {
 
 class UserPicker extends Component {
     searchUsers(input) {
-        return get('/v1/users?query='+input)
+        const url = input
+            ? '/v1/users?query='+(input || '')
+            : '/v1/users?isRecentInstructor=true'
+        return get(url)
             .then(result => result.data.map(user => {
                     return {
                         value: user.id,
@@ -79,7 +82,7 @@ class UserPicker extends Component {
     }
 
     render() {
-        return <AsyncSelect cacheOptions isMulti loadOptions={this.searchUsers} {...this.props} />
+        return <AsyncSelect cacheOptions isMulti defaultOptions loadOptions={this.searchUsers} {...this.props} />
     }
 }
 
