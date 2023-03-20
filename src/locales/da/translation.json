@@ -59,6 +59,7 @@
   },
   "courses": {
     "current": "Aktuelle hold",
+    "events": "Aktuelle events",
     "archive": "Arkiv",
     "mine": "Mine hold",
     "signupConfirmed": "Tilmelding bekræftet",

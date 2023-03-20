@@ -59,6 +59,7 @@
   },
   "courses": {
     "current": "Current classes",
+    "events": "Current events",
     "archive": "Archive",
     "mine": "My classes",
     "signupConfirmed": "Signup confirmed",

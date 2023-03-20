@@ -1,0 +1,106 @@
+
+.table {
+	table-layout: fixed;
+	width: 100%;
+}
+
+.table thead th:is(:first-child),
+.table tbody th:is(:first-child) {
+	border-left: 0;
+}
+
+.table thead {
+	z-index: 2;
+}
+
+.table thead th:not(:first-child) {
+	text-align: center;
+	background-color: white;
+	background-clip: padding-box;
+}
+
+.table tbody td {
+	padding: 5px;
+    width: 11%;
+}
+
+.table tbody th {
+	width: 12%;
+	text-align: right;
+    padding: 15px 12px;
+}
+
+.table tbody tr {
+	position: relative;
+	height: calc(3rem + 20px + 4px + 5px);
+	transition: height 0.3s;
+}
+
+.table tbody tr.active {
+	height: calc(1.3 * 3rem + 20px + 4px + 5px);
+	transition: height 0.3s;
+}
+
+.table tbody tr.dates {
+    position: static;
+    height: auto;
+}
+
+.table tbody .dates td, .dates th { 
+    color: #666;
+    padding: 15px 12px;
+    text-transform: uppercase;
+    text-align: center;
+    font-weight: bold;
+    font-size: 85%;
+}
+
+.course {
+	position: absolute;
+	z-index: 1;
+	padding: 10px;
+	border-radius: 10px;
+	background-color: #ccc;
+	cursor: pointer;
+}
+
+.course.weeks-1 {
+	width: calc(11% - 10px);
+}
+.course.weeks-4 {
+	width: calc(44% - 10px);
+}
+
+.course.weeks-8 {
+	width: calc(88%);
+}
+
+tr .course {
+	transition: font-size 0.3s, background-color 0.3s;
+}
+
+tr.active .course {
+	font-size: 130%;
+	background-color: #ddd;
+	transition: font-size 0.3s, background-color 0.3s;
+}
+
+.course .title {
+	font-weight: bold;
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+}
+
+.course .subtitle {
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+}
+
+.course .status {
+	float: right;
+	display: block;
+	margin-top: -10px;
+	margin-bottom: 0;
+}
