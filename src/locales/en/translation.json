@@ -32,7 +32,8 @@
     "closed": "Closed",
     "send": "Send",
     "sending": "Sending...",
-    "sent": "Sent!"
+    "sent": "Sent!",
+    "description": "Description"
   },
   "titles": {
     "courses": "Classes",

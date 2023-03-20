@@ -29,6 +29,7 @@ class CourseEditor extends Component {
                 ? {
                     id: null,
                     name: '',
+                    description: '',
                     startsAtDate: format(new Date(), "yyyy-MM-dd"),
                     startsAtTime: '20:00:00',
                     weeks: 8,
@@ -67,6 +68,7 @@ class CourseEditor extends Component {
         return {
             id: course.id,
             name: course.name,
+            description: course.description,
             startsAtDate: format(startsAt, "yyyy-MM-dd"),
             startsAtTime: format(startsAt, "HH:mm:ss"),
             weeks: course.weeks,
@@ -85,6 +87,7 @@ class CourseEditor extends Component {
         return {
             id: course.id,
             name: course.name,
+            description: course.description,
             startsAt: course.startsAtDate + " " + course.startsAtTime,
             weeks: parseInt(course.weeks),
             durationMinutes: parseInt(course.durationMinutes),
@@ -155,6 +158,10 @@ class CourseEditor extends Component {
                     <div className="form-group">
                         <label htmlFor="name">{t('common:name')}</label>
                         <input type="text" required id="name" className="form-control" value={course.name} onChange={(e)=>this.handleInput('name', e)} />
+                    </div>
+                    <div className="form-group">
+                        <label htmlFor="name">{t('common:description')}</label>
+                        <textarea id="description" className="form-control" value={course.description} onChange={(e)=>this.handleInput('description', e)} rows="3"></textarea>
                     </div>
                     <div className="form-group">
                         <label htmlFor="instructors">{t('users:instructors')}</label>

@@ -32,7 +32,8 @@
     "closed": "Lukket",
     "send": "Send",
     "sending": "Sender...",
-    "sent": "Sendt!"
+    "sent": "Sendt!",
+    "description": "Beskrivelse"
   },
   "titles": {
     "courses": "Hold",

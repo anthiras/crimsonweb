@@ -6,6 +6,23 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {faCheckCircle} from "@fortawesome/free-solid-svg-icons/index";
 import { parseLocalDate } from '../shared/DateUtils';
 
+const Description = ({text}) => {
+    if (!text) return null;
+    return text
+        .split('\n\n')
+        .map((paragraph, i) => 
+            <p key={i}>
+                {paragraph
+                    .split('\n')
+                    .map((line, j) => 
+                        <React.Fragment key={j}>
+                            {line}<br/>
+                        </React.Fragment>
+                    )
+                }
+            </p>);
+}
+
 const CourseCard = ({ t, course, toggleSignupModal, signup, cancelSignup }) => {
     const courseStartsAt = parseLocalDate(course.startsAt);
     const courseEndsAt = parseLocalDate(course.endsAt);
@@ -19,6 +36,7 @@ const CourseCard = ({ t, course, toggleSignupModal, signup, cancelSignup }) => {
                     <h5 className="card-title">{ course.name } {process.env.PUBLIC_URL}</h5>
                     <h6 className="card-subtitle mb-1">{ course.instructors.map(instructor => instructor.name).join(" & ") }</h6>
                     <p className={"card-text "+mutedClass}>{ t('courses:xLessons', {count: course.weeks}) }</p>
+                    <Description text={course.description} />
                     <CourseStatus t={t} course={course} toggleSignupModal={toggleSignupModal} cancelSignup={cancelSignup} />
                     {" "}{course.canShow && (<Link to={'/courses/'+course.id} className="btn btn-secondary">{t('common:manage')}</Link>)}
                 </div>
