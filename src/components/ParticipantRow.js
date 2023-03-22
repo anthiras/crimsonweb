@@ -41,16 +41,26 @@ class ParticipantRow extends Component {
             picture,
             name,
             email,
-            participation
+            participation,
+            currentMembership
         } = participant;
 
         const userId = id;
 
+        const memberNotPaid = currentMembership != null && currentMembership.paidAt == null;
+        const memberPaid = currentMembership != null && currentMembership.paidAt != null;
+
         return (
             <tr className={participation.status==='cancelled' ? "text-muted" : ""}>
                 <td>{formatDate(parseUtcDate(participation.signedUpAt))}</td>
-                <td><img src={picture} width="50" height="50" alt={name} /></td>
-                <td>{name}</td>
+                <td className="position-relative">
+                    <img src={picture} width="50" height="50" alt={name} className="rounded" />
+                </td>
+                <td>
+                    {name}
+                    {memberPaid && <span className="badge badge-pill badge-info" title={t('users:member') + ' - ' + t('membership:membershipPaid')}>{t('users:member')}</span>}
+                    {memberNotPaid && <span className="badge badge-pill badge-warning" title={t('users:member') + ' - ' + t('membership:membershipUnpaid')}>{t('users:member')}</span>}
+                </td>
                 <td>{email}</td>
                 <td>{t('courses:'+participation.role)}</td>
                 <td>{t('courses:status:'+participation.status)}</td>

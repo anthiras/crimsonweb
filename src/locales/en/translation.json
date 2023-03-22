@@ -110,6 +110,7 @@
     "membershipRegistered": "Registration received - awaiting confirmation",
     "confirmDeleteProfile": "WARNING: You are about to DELETE your profile! Are you sure you want to remove your account including all your personal information permanently?",
     "all": "All",
+    "member": "Member",
     "members": "Members",
     "paidMembers": "Paid members",
     "unpaidMembers": "Unpaid members"
@@ -130,7 +131,9 @@
     "completed": "Payment confirmed and registration completed!",
     "payment": "Payment",
     "closedForRegistration": "Membership registration is currently closed.",
-    "informationHere": "Read about membership here"
+    "informationHere": "Read about membership here",
+    "membershipPaid": "Membership paid",
+    "membershipUnpaid": "Membership unpaid"
   },
   "roles": {
     "names": {

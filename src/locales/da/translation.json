@@ -110,6 +110,7 @@
     "membershipRegistered": "Registrerering modtaget - afventer bekræftelse",
     "confirmDeleteProfile": "ADVARSEL: Du er ved at SLETTE din profil! Er du siker på at du vil fjerne din konto inkl. al personlig information permanent?",
     "all": "Alle",
+    "member": "Medlem",
     "members": "Medlemmer",
     "paidMembers": "Betalende medlemmer",
     "unpaidMembers": "Afventer betaling"
@@ -130,7 +131,9 @@
     "completed": "Betaling registreret, medlemskab godkendt!",
     "payment": "Betaling",
     "closedForRegistration": "Der er i øjeblikket lukket for registrering af medlemskab.",
-    "informationHere": "Læs om medlemskab her"
+    "informationHere": "Læs om medlemskab her",
+    "membershipPaid": "Kontingent betalt",
+    "membershipUnpaid": "Kontingent mangler"
   },
   "roles": {
     "names": {
