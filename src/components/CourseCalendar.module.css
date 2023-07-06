@@ -1,16 +1,28 @@
 
+.container {
+	display: flex;
+	width: 100%;
+	overflow-x: scroll;
+}
+
 .table {
 	table-layout: fixed;
-	width: 100%;
+	width: 88%;
+	flex: none;
 }
 
 .table thead th:is(:first-child),
 .table tbody th:is(:first-child) {
 	border-left: 0;
+	background-color: #ebebeb;
 }
 
 .table thead {
 	z-index: 2;
+}
+
+.table thead th {
+	padding: 0.5rem;
 }
 
 .table thead th:not(:first-child) {
@@ -26,8 +38,8 @@
 
 .table tbody th {
 	width: 12%;
-	text-align: right;
-    padding: 15px 12px;
+	text-align: left;
+    padding: 0.75rem 0.5rem;
 }
 
 .table tbody tr {
@@ -48,7 +60,7 @@
 
 .table tbody .dates td, .dates th { 
     color: #666;
-    padding: 15px 12px;
+    padding: 0.75rem 0.5rem;
     text-transform: uppercase;
     text-align: center;
     font-weight: bold;
@@ -72,7 +84,7 @@
 }
 
 .course.weeks-8 {
-	width: calc(88%);
+	width: calc(88% - 10px);
 }
 
 tr .course {

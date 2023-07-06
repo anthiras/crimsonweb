@@ -11,6 +11,22 @@ import {
   SEND_NOTIFICATION, SEND_NOTIFICATION_SUCCESS, SEND_NOTIFICATION_ERROR, EDIT_NOTIFICATION
 } from '../actions/courses'
 import { resolveUiState } from '../shared/uiState'
+import { parseLocalDate, addWeeks, yearAndWeek } from '../shared/DateUtils';
+
+const mapCourse = (course) => {
+    const startsAtDate = parseLocalDate(course.startsAt);
+    const endsAtDate = parseLocalDate(course.endsAt);
+
+    const yearWeeks = Array(course.weeks).keys().map(i => yearAndWeek(addWeeks(startsAtDate, i)));
+
+    return { 
+        ...course,
+        startsAtDate,
+        endsAtDate,
+        yearWeeks,
+        weekday: ((startsAtDate.getDay()-1)+7)%7,
+    }
+}
 
 function course(state, action) {
     switch (action.type) {
@@ -43,7 +59,7 @@ function course(state, action) {
                 showSignupModal: true
             })
         case FETCH_COURSE_SUCCESS:
-            return Object.assign({}, state, action.response)
+            return Object.assign({}, mapCourse(state), action.response)
         case SEND_NOTIFICATION:
             // fall through
         case SEND_NOTIFICATION_SUCCESS:
