@@ -1,39 +1,24 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux'
-import { fetchCurrentMembershipPeriodIfNeeded, submitMembership } from '../actions/membership'
-import { fetchProfileIfNeeded, submitProfile, editProfileField } from '../actions/users'
+import React, { useEffect } from 'react';
+import { useSelector } from 'react-redux'
+import useMembershipActions from '../actions/membership'
 import Membership from '../components/Membership'
+import useUserActions from '../actions/users';
 
-class MembershipForm extends Component
-{
-	componentDidMount() {
-		this.props.fetchCurrentMembershipPeriodIfNeeded();
-		this.props.fetchProfileIfNeeded();
-	}
+const MembershipForm = () => {
+	const { fetchCurrentMembershipPeriodIfNeeded } = useMembershipActions();
+	const { fetchProfileIfNeeded } = useUserActions();
 
-	render() {
-		const { profile, currentMembershipPeriod, submitMembership, submitProfile, editProfileField } = this.props;
-		return (
-			<Membership 
-				profile={profile} 
-				currentMembershipPeriod={currentMembershipPeriod} 
-				submitMembership={submitMembership}
-				submitProfile={submitProfile}
-				editProfileField={editProfileField} />)
-	}
+	const { profile, currentMembershipPeriod } = useSelector((state) => ({
+		profile: state.profile,
+		currentMembershipPeriod: state.membership.currentMembershipPeriod
+	}))
+
+	useEffect(() => {
+		fetchCurrentMembershipPeriodIfNeeded();
+		fetchProfileIfNeeded();
+	}, []);
+	
+	return <Membership profile={profile} currentMembershipPeriod={currentMembershipPeriod} />;
 }
 
-const actionCreators = {
-	fetchCurrentMembershipPeriodIfNeeded,
-	fetchProfileIfNeeded,
-	submitMembership,
-	submitProfile,
-	editProfileField
-}
-
-const mapStateToProps = state => ({
-	profile: state.profile,
-	currentMembershipPeriod: state.membership.currentMembershipPeriod
-});
-
-export default connect(mapStateToProps, actionCreators)(MembershipForm);
+export default MembershipForm;

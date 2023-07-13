@@ -1,120 +1,98 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
+import Button from 'react-bootstrap/Button';
+import Form from 'react-bootstrap/Form';
+import Alert from 'react-bootstrap/Alert';
+import { withTranslation } from 'react-i18next';
 import { Loading, DatePicker } from './Utilities';
 import { ConfirmModal } from './ConfirmModal';
-import { withTranslation } from 'react-i18next';
 import { UISTATE_SAVED, UISTATE_SAVE_FAILED, UISTATE_SAVING } from '../shared/uiState'
+import useUserActions from '../actions/users';
 
-class UserProfile extends Component {
-	constructor(props) {
-		super(props);
-		this.state = {
-			user: this.props.user,
-            deleteModalVisible: false
-		};
+const UserProfile = ({ t, user, uiState, allowDelete }) => {
+    const {
+		submitProfile,
+		editProfileField,
+		deleteUser
+	} = useUserActions();
 
-		this.handleSubmit = this.handleSubmit.bind(this);
-		this.handleInput = this.handleInput.bind(this);
-        this.handleBirthDate = this.handleBirthDate.bind(this);
-        this.setProfileField = this.setProfileField.bind(this);
-        this.openDeleteModal = this.openDeleteModal.bind(this);
-        this.closeDeleteModal = this.closeDeleteModal.bind(this);
-        this.confirmDelete = this.confirmDelete.bind(this);
-	}
+    const [draft, setDraft] = useState(user);
+    const [deleteModalVisible, setDeleteModalVisible] = useState(false);
 
-	handleInput(key, e) {
-	    var value = e.target === undefined ? e : e.target.value;
-        this.setProfileField(key, value);
-	}
-
-    handleBirthDate(value) {
-        this.setProfileField('birthDate', value);
-    }
-
-    setProfileField(key, value) {
-        var state = Object.assign({}, this.state.user);
+    const setProfileField = (key, value) => {
+        var state = Object.assign({}, draft);
         state[key] = value;
-        this.setState({ user: state });
-        this.props.editProfileField();
+        setDraft(state);
+        editProfileField();
     }
 
-	handleSubmit(e) {
+	const handleInput = (key, e) => {
+	    var value = e.target === undefined ? e : e.target.value;
+        setProfileField(key, value);
+	}
+
+    const handleBirthDate = (value) => {
+        setProfileField('birthDate', value);
+    }
+
+	const handleSubmit = (e) => {
 		e.preventDefault();
-        this.props.submitProfile(this.state.user);
+        submitProfile(draft);
 	}
 
-    openDeleteModal() {
-        this.setState({deleteModalVisible: true})
+    const confirmDelete = (e) => {
+        setDeleteModalVisible(false);
+        deleteUser(draft.id);
     }
 
-    closeDeleteModal() {
-        this.setState({deleteModalVisible: false})
+    if (user == null) {
+        return <Loading />;
     }
+    
+    const { name, birthDate, gender, email } = draft;
 
-    confirmDelete() {
-        this.closeDeleteModal();
-        this.props.deleteUser(this.state.user.id);
-    }
+    const buttonText =
+        uiState === UISTATE_SAVING ? t('common:saving') :
+        uiState === UISTATE_SAVED ? t('common:saved') :
+            t('actions:saveInfo');
 
-	render() {
-        const { t, uiState, allowDelete } = this.props;
-
-        if (this.state.user == null) {
-            return <Loading />;
-        }
-        const { name, birthDate, gender, email } = this.state.user;
-        
-        const buttonText =
-            uiState === UISTATE_SAVING ? t('common:saving') :
-            uiState === UISTATE_SAVED ? t('common:saved') :
-                t('actions:saveInfo');
-
-		return (
-            <form onSubmit={this.handleSubmit}>
-                <div className="form-group">
-                    <label htmlFor="name">{t('common:name')}</label>
-                    <input type="text" required id="name" className="form-control" value={name || ''} onChange={(e)=>this.handleInput('name', e)} />
-                </div>
-                <div className="form-group">
-                    <label htmlFor="email">{t('common:email')}</label>
-                    <input type="text" readOnly className="form-control-plaintext" value={email || ''} />
-                </div>
-                <div className="form-group">
-                    <label htmlFor="birthDate">{t('users:birthDate')}</label>
-                    <DatePicker date={birthDate} onChange={this.handleBirthDate} />
-                </div>
-                <div className="form-group">
-                    <label>{t('users:gender')}</label>
-                    <div className="form-check">
-                        <input className="form-check-input" type="radio" name="gender" id="gender_male"
-                               value="male" onChange={(e) => this.handleInput('gender', e)}
-                               checked={gender === "male"} required />
-                        <label className="form-check-label" htmlFor="gender_male">{t('users:male')}</label>
-                    </div>
-                    <div className="form-check">
-                        <input className="form-check-input" type="radio" name="gender" id="gender_female"
-                               value="female" onChange={(e) => this.handleInput('gender', e)}
-                               checked={gender === "female"} required />
-                        <label className="form-check-label" htmlFor="gender_female">{t('users:female')}</label>
-                    </div>
-                </div>
-                <div className="form-group">
-                    {uiState === UISTATE_SAVE_FAILED && <div className="alert alert-danger">{t('common:errorSaving')}</div>}
-                    <button type="submit" className={uiState === UISTATE_SAVED ? "btn btn-success" : "btn btn-primary"}>{buttonText}</button>
-                    {" "}
-                    {allowDelete && <button type="button" className="btn btn-danger" onClick={this.openDeleteModal}>{t('actions:deleteProfile')}</button>}
-                </div>
-                <ConfirmModal 
-                    visible={this.state.deleteModalVisible} 
-                    onConfirm={this.confirmDelete}
-                    onCancel={this.closeDeleteModal} 
-                    title={t('common:pleaseConfirm')} 
-                    confirmText={t('common:delete')} 
-                    cancelText={t('common:cancel')} >
-                    {t('users:confirmDeleteProfile')}
-                </ConfirmModal>
-            </form>
-        );
-	}
-}
+    return (
+        <Form onSubmit={handleSubmit}>
+            <Form.Group controlId='name' className="mb-3">
+                <Form.Label>{t('common:name')}</Form.Label>
+                <Form.Control type="text" required value={name || ''} onChange={(e)=>handleInput('name', e)} />
+            </Form.Group>
+            <Form.Group controlId='email' className="mb-3">
+                <Form.Label>{t('common:email')}</Form.Label>
+                <Form.Control type="text" plaintext readOnly value={email || ''} />
+            </Form.Group>
+            <Form.Group controlId='birthDate' className="mb-3">
+                <Form.Label>{t('users:birthDate')}</Form.Label>
+                <DatePicker date={birthDate} onChange={handleBirthDate} id="birthDate" />
+            </Form.Group>
+            <Form.Group className="mb-3">
+                <Form.Label>{t('users:gender')}</Form.Label>
+                <Form.Check type='radio' name='gender' value="male" id="gender_male" onChange={(e) => handleInput('gender', e)}
+                    checked={gender === "male"} required label={t('users:male')} />
+                <Form.Check type="radio" name="gender" value="female" id="gender_female" onChange={(e) => handleInput('gender', e)}
+                    checked={gender === "female"} required label={t('users:female')} />
+            </Form.Group>
+            <Form.Group className="mb-3">
+                {uiState === UISTATE_SAVE_FAILED && <Alert variant="danger">{t('common:errorSaving')}</Alert>}
+                <Button type="submit" variant={uiState === UISTATE_SAVED ? "success" : "primary"}>{buttonText}</Button>
+                {" "}
+                {allowDelete && <Button type="button" variant="danger" onClick={() => setDeleteModalVisible(true)}>{t('actions:deleteProfile')}</Button>}
+            </Form.Group>
+            <ConfirmModal 
+                visible={deleteModalVisible} 
+                onConfirm={confirmDelete}
+                onCancel={() => setDeleteModalVisible(false)} 
+                title={t('common:pleaseConfirm')} 
+                confirmText={t('common:delete')} 
+                cancelText={t('common:cancel')} >
+                {t('users:confirmDeleteProfile')}
+            </ConfirmModal>
+        </Form>
+    );
+};
 
 export default withTranslation()(UserProfile);

@@ -1,22 +1,24 @@
 import React, { Component } from 'react';
-import Modal from 'react-bootstrap4-modal';
+import Modal from 'react-bootstrap/Modal';
+import Button from 'react-bootstrap/Button';
+import Form from 'react-bootstrap/Form';
 
-const ConfirmModal = ({ visible, title, confirmText, cancelText, confirmClassName, cancelClassName, onConfirm, onCancel, confirmDisabled, children }) => (
-  <Modal visible={visible}>
-    <div className="modal-header">
-      <h5 className="modal-title">{title}</h5>
-    </div>
-    <div className="modal-body">
+const ConfirmModal = ({ visible, title, confirmText, cancelText, confirmVariant, cancelVariant, onConfirm, onCancel, confirmDisabled, children }) => (
+  <Modal show={visible} onHide={onCancel}>
+    <Modal.Header>
+      <Modal.Title>{title}</Modal.Title>
+    </Modal.Header>
+    <Modal.Body>
       {children}
-    </div>
-    <div className="modal-footer">
-      <button type="button" className={cancelClassName || "btn btn-secondary"} onClick={onCancel}>
+    </Modal.Body>
+    <Modal.Footer>
+      <Button variant={cancelVariant || "secondary"} onClick={onCancel}>
         {cancelText}
-      </button>
-      <button type="button" className={confirmClassName || "btn btn-danger"} onClick={onConfirm} disabled={confirmDisabled}>
+      </Button>
+      <Button variant={confirmVariant || "danger"} onClick={onConfirm} disabled={confirmDisabled}>
         {confirmText}
-      </button>
-    </div>
+      </Button>
+    </Modal.Footer>
   </Modal>
 );
 
@@ -39,25 +41,25 @@ class NumberBoxModal extends Component
   }
 
   render() {
-    const { visible, title, confirmText, cancelText, confirmClassName, cancelClassName, onCancel } = this.props;
+    const { visible, title, confirmText, cancelText, confirmVariant, cancelVariant, onCancel } = this.props;
     return (
-      <Modal visible={visible}>
-        <form onSubmit={this.onSubmit}>
-        <div className="modal-header">
-          <h5 className="modal-title">{title}</h5>
-        </div>
-        <div className="modal-body">
+      <Modal show={visible} onHide={onCancel}>
+        <Form onSubmit={this.onSubmit}>
+        <Modal.Header>
+          <Modal.Title>{title}</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
           <input type={this.props.type} step={this.props.step} className="form-control" value={this.state.value} onChange={(e) => this.setState({value: e.target.value})} />
-        </div>
-        <div className="modal-footer">
-          <button type="button" className={cancelClassName || "btn btn-secondary"} onClick={onCancel}>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant={cancelVariant || "secondary"} onClick={onCancel}>
             {cancelText}
-          </button>
-          <button type="submit" className={confirmClassName || "btn btn-danger"}>
+          </Button>
+          <Button type="submit" variant={confirmVariant || "danger"}>
             {confirmText}
-          </button>
-        </div>
-        </form>
+          </Button>
+        </Modal.Footer>
+        </Form>
       </Modal>
     );
   }

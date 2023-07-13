@@ -4,7 +4,7 @@ import UserNavigation from './UserNavigation';
 import { Loading, Pagination } from './Utilities';
 import { withTranslation } from 'react-i18next';
 
-const UserTable = ({ t, users, list, page, lastPage, roles, setMembershipPaid, toggleUserRole }) => {
+const UserTable = ({ t, users, list, page, lastPage, roles }) => {
     if (!users || !roles) return <Loading />;
     return (
         <React.Fragment>
@@ -21,7 +21,7 @@ const UserTable = ({ t, users, list, page, lastPage, roles, setMembershipPaid, t
             </thead>
             <tbody>
                 {users.map(user =>
-                    <UserRow key={user.id} user={user} allRoles={roles} setMembershipPaid={setMembershipPaid} toggleUserRole={toggleUserRole} />
+                    <UserRow key={user.id} user={user} allRoles={roles} />
                 )}
             </tbody>
         </table>

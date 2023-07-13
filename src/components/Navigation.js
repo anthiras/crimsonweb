@@ -1,76 +1,62 @@
-import React, { Component } from 'react';
-import Auth from '../shared/Auth'
+import React from 'react';
 import { NavLink } from "react-router-dom";
 import { withTranslation } from 'react-i18next';
+import Nav from 'react-bootstrap/Nav';
+import Navbar from 'react-bootstrap/Navbar';
+import NavDropdown from 'react-bootstrap/NavDropdown';
+import { LinkContainer } from 'react-router-bootstrap'
 import i18n from '../shared/i18n';
-import { withPermissions } from '../containers/PermissionContainer';
+import { useAuth0 } from '@auth0/auth0-react';
+import usePermissions from '../hooks/usePermissions';
 
-class Navigation extends Component
-{
-    constructor() {
-        super();
-        this.auth = new Auth();
-        this.login = this.login.bind(this);
-        this.logout = this.logout.bind(this);
-    }
+const Navigation = ({ t }) => {
+    const { isAuthenticated, user, loginWithRedirect, logout } = useAuth0();
+    const permissions = usePermissions();
 
-    login(e) {
-        e.preventDefault();
-        this.auth.login();
-    }
-
-    logout(e) {
-        e.preventDefault();
-        this.auth.logout();
-    }
-
-    render() {
-        const t = this.props.t;
-        const permissions = this.props.permissions;
-
-        const isAuthenticated = this.auth.isAuthenticated();
-        const profile = isAuthenticated ? this.auth.getProfile() : {};
-
-        return (
-            <nav className="navbar navbar-expand navbar-dark bg-dark mb-3">
-                <ul className="navbar-nav mr-auto">
-                    <NavLink to="/courses" className="nav-link" activeClassName="active">{t('titles:courses')}</NavLink>
-                    <NavLink to="/membership" className="nav-link" activeClassName="active">{t('titles:membership')}</NavLink>
-                    {permissions['users:list'] && permissions['roles:assignRole:instructor'] && <NavLink to="/users" className="nav-link" activeClassName="active">{t('titles:users')}</NavLink>}
-                </ul>
-                <ul className="navbar-nav">
-                    <li className="nav-item dropdown">
-                        <button className="btn btn-link nav-link dropdown-toggle" id="languageDropdown"
-                           data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            {t('common:language:this')}
-                        </button>
-                        <div className="dropdown-menu dropdown-menu-right">
-                            <button className={"btn btn-link dropdown-item" + (i18n.language === "da" ? " active" : "")} onClick={() => i18n.changeLanguage('da')}>{t('common:language:da')}</button>
-                            <button className={"btn btn-link dropdown-item" + (i18n.language === "en" ? " active" : "")} onClick={() => i18n.changeLanguage('en')}>{t('common:language:en')}</button>
+    return (
+        <Navbar expand="sm" bg="dark" data-bs-theme="dark" className="mb-3">
+            <Nav className="me-auto">
+                <LinkContainer to="/courses/current">
+                    <Nav.Link>{t('titles:courses')}</Nav.Link>
+                </LinkContainer>
+                <LinkContainer to="/membership">
+                    <Nav.Link>{t('titles:membership')}</Nav.Link>
+                </LinkContainer>
+                {permissions['users:list'] && permissions['roles:assignRole:instructor'] && 
+                    <LinkContainer to="/users">
+                        <Nav.Link>{t('titles:users')}</Nav.Link>
+                    </LinkContainer>}
+            </Nav>
+            <Nav activeKey={i18n.language}>
+                <NavDropdown title={t('common:language:this')}>
+                    <NavDropdown.Item eventKey="da" onClick={() => i18n.changeLanguage('da')}>
+                        {t('common:language:da')}
+                    </NavDropdown.Item>
+                    <NavDropdown.Item  eventKey="en" onClick={() => i18n.changeLanguage('en')}>
+                        {t('common:language:en')}
+                    </NavDropdown.Item>
+                </NavDropdown>
+                {!isAuthenticated && (
+                    <Nav.Link onClick={() => loginWithRedirect({ appState: { returnTo: window.location.pathname } })}>
+                        {t('actions:signIn')}
+                    </Nav.Link>
+                )}
+                {isAuthenticated && (
+                    <NavDropdown title={
+                        <div className='d-inline'>
+                            <img src={user.picture} width="20" height="20" className="align-middle me-1" alt={user.name} />
+                            <span className="d-none d-md-inline">{user.name}</span>
                         </div>
-                    </li>
-                    {!isAuthenticated && (
-                        <li className="nav-item">
-                            <button className="btn btn-link nav-link" onClick={this.login}>{t('actions:signIn')}</button>
-                        </li>
-                    )}
-                    {isAuthenticated && (
-                        <li className="nav-item dropdown">
-                            <button className="btn btn-link nav-link dropdown-toggle" id="navbarDropdownMenuLink"
-                               data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <img src={profile.picture} width="20" height="20" className="align-middle mr-1" alt={profile.name} />
-                                <span className="d-none d-md-inline">{profile.name}</span>
-                            </button>
-                            <div className="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
-                                <NavLink to="/profile" className="dropdown-item" activeClassName="active">{t('titles:myProfile')}</NavLink>
-                                <button className="btn btn-link dropdown-item" onClick={this.logout}>{t('actions:signOut')}</button>
-                            </div>
-                        </li>
-                    )}
-                </ul>
-            </nav>
-        );
-    }
+                    }>
+                        <NavLink to="/profile" className={({ isActive }) => "dropdown-item" + (isActive ? " active" : "")}>{t('titles:myProfile')}</NavLink>
+                        <NavDropdown.Item onClick={() => logout({ returnTo: window.location.origin })}>{t('actions:signOut')}</NavDropdown.Item>
+                    </NavDropdown>
+                )}
+            </Nav>
+        </Navbar>
+    );
 }
 
-export default withTranslation()(withPermissions(Navigation));
+//const NavigationWithPermissions = (props) => { return <PermissionContainer ><Navigation {...props} /></PermissionContainer> };
+
+export default withTranslation()(Navigation);

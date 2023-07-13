@@ -1,106 +1,86 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
 import ParticipantList from "./ParticipantList";
 import { Loading } from './Utilities';
 import { withTranslation } from 'react-i18next';
 import { NavLink } from "react-router-dom";
+import Button from 'react-bootstrap/Button';
 import { TextAreaModal } from "./ConfirmModal";
 import { UISTATE_SAVED, UISTATE_SAVING } from '../shared/uiState'
 import { parseLocalDate } from '../shared/DateUtils';
+import useCourseActions from '../actions/courses';
 
-class CourseDetails extends Component {
-    constructor(props) {
-        super(props);
-        this.state = { sendMessageVisible: false }
-        this.toggleModal = this.toggleModal.bind(this);
-        this.sendMessage = this.sendMessage.bind(this);
-        this.editMessage = this.editMessage.bind(this);
-        this.launchMessage = this.launchMessage.bind(this);
+const CourseDetails = ({ t, course, participants }) => {
+    const [sendMessageVisible, toggleModal] = useState(false);
+
+    const { sendNotification, editNotification } = useCourseActions();
+
+    const sendMessage = (message) => sendNotification(course.id, message);
+    const editMessage = (message) => editNotification(course.id, message);
+    const launchMessage = () => {
+        editMessage('');
+        toggleModal(true);
+    };
+
+
+    if (!course) {
+        return <Loading />;
     }
+    
+    const {
+        id,
+        name,
+        instructors,
+        notificationUiState,
+        notificationMessage
+    } = course;
 
-    toggleModal(visible) {
-        this.setState({ sendMessageVisible: visible });
-    }
+    const courseStartsAt = parseLocalDate(course.startsAt);
+    const courseEndsAt = parseLocalDate(course.endsAt);
 
-    launchMessage() {
-        this.props.editNotification(this.props.course.id, "");
-        this.toggleModal(true);
-    }
+    const sendMessageButtonText = 
+        notificationUiState === UISTATE_SAVING ? t('common:sending') :
+        notificationUiState === UISTATE_SAVED ? t('common:sent') :
+            t('common:send');
+    const sendMessageButtonVariant =
+        notificationUiState === UISTATE_SAVING ? 'primary' :
+        notificationUiState === UISTATE_SAVED ? 'success' :
+            'primary';
+    const sendMessageButtonDisabled = 
+        notificationUiState === UISTATE_SAVING || notificationUiState === UISTATE_SAVED;
 
-    editMessage(message) {
-        this.props.editNotification(this.props.course.id, message);
-    }
+    return (
+        <React.Fragment>
+            <h1>{name}</h1>
+            <p>{ instructors.map(instructor => instructor.name).join(" & ") }</p>
+            <p>{ t('courses:scheduleSummary', { startDate: courseStartsAt, endDate: courseEndsAt, count: course.weeks }) }</p>
+            
+            <p>
+                <NavLink to={"/courses/"+id+"/edit"} className="btn btn-secondary">{ t('actions:editCourse') }</NavLink>
+                {" "}<Button variant="secondary" onClick={launchMessage}>{t('actions:messageParticipants')}</Button>
+            </p>
 
-    sendMessage(message) {
-        this.props.sendNotification(this.props.course.id, message);
-    }
+            <TextAreaModal
+                visible={sendMessageVisible}
+                title={t('courses:messagePendingAndConfirmedParticipants')}
+                onConfirm={sendMessage}
+                onCancel={() => toggleModal(false)}
+                onChange={editMessage}
+                confirmText={sendMessageButtonText}
+                cancelText={t('common:close')}
+                rows="4"
+                confirmVariant={sendMessageButtonVariant}
+                confirmDisabled={sendMessageButtonDisabled}
+                value={notificationMessage}
+             />
 
-    render() {
-        const { t, course, participants, confirmCourseParticipant, cancelCourseParticipant, setParticipantAmountPaid } = this.props;
-
-        if (!course) {
-            return <Loading />;
-        }
-        
-        const {
-            id,
-            name,
-            instructors,
-            notificationUiState,
-            notificationMessage
-        } = course;
-
-        const courseStartsAt = parseLocalDate(course.startsAt);
-        const courseEndsAt = parseLocalDate(course.endsAt);
-
-        const sendMessageButtonText = 
-            notificationUiState === UISTATE_SAVING ? t('common:sending') :
-            notificationUiState === UISTATE_SAVED ? t('common:sent') :
-                t('common:send');
-        const sendMessageButtonClass =
-            notificationUiState === UISTATE_SAVING ? 'btn btn-primary' :
-            notificationUiState === UISTATE_SAVED ? 'btn btn-success' :
-                'btn btn-primary';
-        const sendMessageButtonDisabled = 
-            notificationUiState === UISTATE_SAVING || notificationUiState === UISTATE_SAVED;
-
-        return (
-            <React.Fragment>
-                <h1>{name}</h1>
-                <p>{ instructors.map(instructor => instructor.name).join(" & ") }</p>
-                <p>{ t('courses:scheduleSummary', { startDate: courseStartsAt, endDate: courseEndsAt, count: course.weeks }) }</p>
-                
-                <p>
-                    <NavLink to={"/courses/"+id+"/edit"} className="btn btn-secondary">{ t('actions:editCourse') }</NavLink>
-                    {" "}<button type="button" className="btn btn-secondary" onClick={this.launchMessage}>{t('actions:messageParticipants')}</button>
-                </p>
-
-                <TextAreaModal
-                    visible={this.state.sendMessageVisible}
-                    title={t('courses:messagePendingAndConfirmedParticipants')}
-                    onConfirm={this.sendMessage}
-                    onCancel={() => this.toggleModal(false)}
-                    onChange={this.editMessage}
-                    confirmText={sendMessageButtonText}
-                    cancelText={t('common:close')}
-                    rows="4"
-                    confirmClassName={sendMessageButtonClass}
-                    confirmDisabled={sendMessageButtonDisabled}
-                    value={notificationMessage}
-                 />
-
-                <h2>{t('courses:participants')}</h2>
-                <ParticipantSummary participants={participants} t={t} />
-                <ParticipantList 
-                    courseId={id} 
-                    participants={participants} 
-                    confirmCourseParticipant={confirmCourseParticipant} 
-                    cancelCourseParticipant={cancelCourseParticipant}
-                    setParticipantAmountPaid={setParticipantAmountPaid} />
-            </React.Fragment>
-        );
-    }
+            <h2>{t('courses:participants')}</h2>
+            <ParticipantSummary participants={participants} t={t} />
+            <ParticipantList 
+                courseId={id} 
+                participants={participants} />
+        </React.Fragment>
+    );
 }
-
 const ParticipantSummary = ({t, participants }) => {
     const counts = participants.reduce((summary, participant) => {
         const status = participant.participation.status;

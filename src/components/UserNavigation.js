@@ -1,22 +1,31 @@
 import React from 'react';
-import { NavLink } from "react-router-dom";
 import { withTranslation } from 'react-i18next';
+import Nav from 'react-bootstrap/Nav';
+import { LinkContainer } from 'react-router-bootstrap'
 
 const UserNavigation = ({ t }) => (
-    <ul className="nav nav-pills mb-3">
-        <li className="nav-item">
-            <NavLink to="/users/all" className="nav-link" activeClassName="active" exact={false}>{t('users:all')}</NavLink>
-        </li>
-        <li className="nav-item">
-            <NavLink to="/users/members" className="nav-link" activeClassName="active" exact={false}>{t('users:members')}</NavLink>
-        </li>
-        <li className="nav-item">
-            <NavLink to="/users/paid" className="nav-link" activeClassName="active" exact={false}>{t('users:paidMembers')}</NavLink>
-        </li>
-        <li className="nav-item">
-            <NavLink to="/users/unpaid" className="nav-link" activeClassName="active" exact={false}>{t('users:unpaidMembers')}</NavLink>
-        </li>
-    </ul>
+    <Nav variant='pills' className="mb-3">
+        <Nav.Item>
+            <LinkContainer to="/users/all" end={false}>
+                <Nav.Link>{t('users:all')}</Nav.Link>
+            </LinkContainer>
+        </Nav.Item>
+        <Nav.Item>
+            <LinkContainer to="/users/members" end={false}>
+                <Nav.Link>{t('users:members')}</Nav.Link>
+                </LinkContainer>
+        </Nav.Item>
+        <Nav.Item>
+            <LinkContainer to="/users/paid" end={false}>
+                <Nav.Link>{t('users:paidMembers')}</Nav.Link>
+            </LinkContainer>
+        </Nav.Item>
+        <Nav.Item>
+            <LinkContainer to="/users/unpaid" end={false}>
+                <Nav.Link>{t('users:unpaidMembers')}</Nav.Link>
+            </LinkContainer>
+        </Nav.Item>
+    </Nav>
 )
 
 export default withTranslation()(UserNavigation);

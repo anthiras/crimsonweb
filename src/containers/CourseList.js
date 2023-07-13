@@ -1,33 +1,11 @@
-import React, { Component } from 'react';
-import { Loading } from '../components/Utilities';
-import {
-  fetchCourses
-} from '../actions/courses'
-import { connect } from 'react-redux'
+import React, { useEffect } from 'react';
+import { useParams } from 'react-router-dom';
+import useCourseActions from '../actions/courses'
+import { useSelector } from 'react-redux'
 import CourseCards from '../components/CourseCards'
 
-class CourseList extends Component
-{
-    componentDidMount() {
-        this.props.fetchCourses(this.props.list, this.props.page)
-    }
-
-    componentDidUpdate(prevProps) {
-        if (prevProps.list !== this.props.list || prevProps.page !== this.props.page) {
-            this.props.fetchCourses(this.props.list, this.props.page)
-        }
-    }
-
-    render() {
-        const { courses, isFetching, page, lastPage, list } = this.props
-        
-        if (isFetching) return <Loading />;
-        return <CourseCards courses={courses} page={page} lastPage={lastPage} list={list} />
-    }
-}
-
 function mapStateToProps(state, ownProps) {
-  const list = ownProps.match.params.list || 'current';
+  const list = ownProps.list || 'current';
   const { courses } = state
   const { coursesById, currentCourses, archivedCourses, myCourses } = courses;
   const courseList = 
@@ -36,7 +14,7 @@ function mapStateToProps(state, ownProps) {
     : list === 'mine' ? myCourses
     : [];
 
-  const page = parseInt(ownProps.match.params.page || 1);
+  const page = parseInt(ownProps.page || 1);
   const courseIds = courseList.pages[page];
   const coursesOnCurrentPage = courseIds ? courseIds.map(courseId => coursesById[courseId]) : [];
 
@@ -49,8 +27,18 @@ function mapStateToProps(state, ownProps) {
   }
 }
 
-const actionCreators = {
-    fetchCourses
+const CourseList = ({ list }) => {
+  let { page } = useParams();
+  page = page ? parseInt(page) : 1;
+  const { fetchCourses } = useCourseActions();
+  const { courses, isFetching, lastPage } = useSelector((state) => mapStateToProps(state, { list, page }))
+
+  useEffect(() => {
+    fetchCourses(list, page);
+  }, [list, page]);
+
+  return <CourseCards courses={courses} page={page} lastPage={lastPage} list={list} isFetching={isFetching} />
 }
 
-export default connect(mapStateToProps, actionCreators)(CourseList);
+
+export default CourseList;

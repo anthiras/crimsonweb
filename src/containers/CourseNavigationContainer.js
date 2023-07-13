@@ -1,8 +1,9 @@
-import { connect } from 'react-redux'
+import { useSelector } from 'react-redux'
+import { useParams } from 'react-router-dom';
 import CourseNavigation from '../components/CourseNavigation'
 
 function mapStateToProps(state, ownProps) {
-  const list = ownProps.match.params.list || null;
+  const list = ownProps.list || null;
   const { courses } = state
   const { currentCourses, archivedCourses, myCourses } = courses;
   const courseList = 
@@ -17,4 +18,11 @@ function mapStateToProps(state, ownProps) {
   }
 }
 
-export default connect(mapStateToProps, null)(CourseNavigation);
+const CourseNavigationContainer = () => {
+  const { list } = useParams();
+  const { links } = useSelector((state) => mapStateToProps(state, { list }))
+
+  return <CourseNavigation list={list} links={links} />
+}
+
+export default CourseNavigationContainer;

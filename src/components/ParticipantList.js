@@ -3,8 +3,9 @@ import ParticipantRow from "./ParticipantRow";
 import { withTranslation } from 'react-i18next';
 import currency from 'currency.js';
 
-const ParticipantList = ({ t, courseId, participants, confirmCourseParticipant, cancelCourseParticipant, setParticipantAmountPaid }) => {
+const ParticipantList = ({ t, courseId, participants }) => {
     const totalAmountPaid = participants.reduce((a, b) => a.add(b.participation.amountPaid), currency(0))
+    
     return <table className="table">
         <thead>
             <tr>
@@ -35,10 +36,7 @@ const ParticipantList = ({ t, courseId, participants, confirmCourseParticipant, 
                     key={participant.id} 
                     participant={participant} 
                     number={i+1}
-                    courseId={courseId}
-                    confirmCourseParticipant={confirmCourseParticipant}
-                    cancelCourseParticipant={cancelCourseParticipant}
-                    setParticipantAmountPaid={setParticipantAmountPaid} />)}
+                    courseId={courseId} />)}
         </tbody>
     </table>
 }
