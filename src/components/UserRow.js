@@ -2,7 +2,6 @@ import React from 'react';
 import UserRoleCheckbox from './UserRoleCheckbox';
 import { withTranslation } from 'react-i18next';
 import Button from 'react-bootstrap/Button';
-import "ie-array-find-polyfill";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCheckCircle } from "@fortawesome/free-solid-svg-icons/index";
 import { formatDate, parseUtcDate } from '../shared/DateUtils';

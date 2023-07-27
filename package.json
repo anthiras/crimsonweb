@@ -15,8 +15,6 @@
     "history": "^5.3.0",
     "i18next": "^23.2.7",
     "i18next-browser-languagedetector": "^7.1.0",
-    "ie-array-find-polyfill": "^1.1.0",
-    "ie-string-startswith-polyfill": "^1.0.1",
     "react": "^18.2.0",
     "react-app-polyfill": "^3.0.0",
     "react-bootstrap": "^2.8.0",
@@ -30,8 +28,7 @@
     "react-select": "^5.7.3",
     "redux": "^4.2.1",
     "redux-logger": "^3.0.6",
-    "redux-thunk": "^2.4.2",
-    "string.prototype.endswith": "^1.0.0"
+    "redux-thunk": "^2.4.2"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -47,5 +44,8 @@
     "not dead",
     "not ie <= 11",
     "not op_mini all"
-  ]
+  ],
+  "devDependencies": {
+    "@babel/plugin-proposal-private-property-in-object": "^7.21.11"
+  }
 }

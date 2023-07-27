@@ -10,7 +10,6 @@ import { Loading, DatePicker, UserPicker } from './Utilities';
 import { UISTATE_SAVED, UISTATE_SAVE_FAILED, UISTATE_SAVING } from '../shared/uiState'
 import { NavLink } from 'react-router-dom'
 import { ConfirmModal } from './ConfirmModal';
-import "ie-array-find-polyfill";
 import { format } from 'date-fns-tz'
 import { parseLocalDate } from '../shared/DateUtils';
 import useCourseActions from '../actions/courses';
