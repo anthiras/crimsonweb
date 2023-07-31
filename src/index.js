@@ -3,11 +3,10 @@ import React from 'react';
 import { createRoot } from 'react-dom/client';
 import App from './components/App';
 //import * as serviceWorker from './serviceWorker';
+import { configureStore } from '@reduxjs/toolkit'
 import { Provider } from 'react-redux'
-import { createStore, applyMiddleware } from 'redux'
 import rootReducer from './reducers/index'
-import thunkMiddleware from 'redux-thunk'
-import { createLogger } from 'redux-logger'
+import logger from 'redux-logger'
 import callApiMiddleware from './middleware/callApiMiddleware'
 import * as Sentry from '@sentry/browser';
 import Auth0ProviderWithRedirectCallback from './components/Auth0ProviderWithRedirectCallback';
@@ -15,12 +14,14 @@ import { BrowserRouter } from "react-router-dom";
 import "react-datepicker/dist/react-datepicker.css";
 import './index.css';
 
-const store = createStore(
-	rootReducer,
-	applyMiddleware(
-		thunkMiddleware,
-		createLogger(),
-		callApiMiddleware))
+const store = configureStore({
+	reducer: rootReducer,
+	middleware: (getDefaultMiddleware) => getDefaultMiddleware({
+		serializableCheck: {
+			ignoredActionPaths: ['shouldCallApi', 'callApi']
+		}
+	}).concat([logger, callApiMiddleware]),
+})
 
 if (process.env.REACT_APP_SENTRY_DSN) {
 	Sentry.init({

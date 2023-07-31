@@ -132,10 +132,10 @@ const courseList = list => (state = emptyCourseList, action) => {
 function coursesById(state = {}, action) {
     switch (action.type) {
         case RECEIVE_COURSES:
-            return action.response.data.reduce((state, obj) => {
-                state[obj.id] = obj;
-                return state;
-            }, state);
+            const objectsById = Object.fromEntries(
+                action.response.data.map((obj) => [obj.id, obj])
+            );
+            return Object.assign({}, state, objectsById);
         case SUBMIT_PARTICIPATION_SUCCESS:
             // fall through
         case TOGGLE_SIGNUP_MODAL:

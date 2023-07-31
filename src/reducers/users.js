@@ -138,10 +138,10 @@ function user(state = {}, action) {
 function usersById(state = {}, action) {
     switch (action.type) {
         case RECEIVE_USERS:
-            return action.response.data.reduce((state, obj) => {
-                state[obj.id] = obj;
-                return state;
-            }, state);
+            const objectsById = Object.fromEntries(
+                action.response.data.map((obj) => [obj.id, obj])
+            );
+            return Object.assign({}, state, objectsById);
         case SET_MEMBERSHIP_PAID_SUCCESS:
             // fall through
         case TOGGLE_USER_ROLE_SUCCESS:
