@@ -2,28 +2,19 @@ import React, { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux'
 import useCourseActions from '../actions/courses'
+import { selectCourse } from '../reducers/courses';
 import CourseEditor from '../components/CourseEditor'
 import { Loading } from '../components/Utilities';
 
-function mapStateToProps(state, ownProps) {
-	const courseId = ownProps.courseId;
-	const course = courseId == null ? null : state.courses.coursesById[courseId];
-
-	return { 
-		course: course, 
-		courseId: courseId,
-		uiState: state.courses.courseEditor.uiState
-	};
-}
-
 const CourseEditorContainer = () => {
 	const { courseId } = useParams();
-	const { course, uiState } = useSelector((state) => mapStateToProps(state, { courseId }));
+	const course = useSelector((state) => selectCourse(state, courseId));
+	const uiState = useSelector((state) => state.courses.courseEditor.uiState);
 
 	const { fetchCourse } = useCourseActions();
 
 	useEffect(() => {
-		if (courseId) fetchCourse(courseId)
+		fetchCourse(courseId);
 	}, [courseId]);
 
 	if (courseId != null && course == null)

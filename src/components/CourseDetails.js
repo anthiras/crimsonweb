@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import ParticipantList from "./ParticipantList";
-import { Loading } from './Utilities';
 import { withTranslation } from 'react-i18next';
 import { NavLink } from "react-router-dom";
 import Button from 'react-bootstrap/Button';
@@ -21,11 +20,6 @@ const CourseDetails = ({ t, course, participants }) => {
         toggleModal(true);
     };
 
-
-    if (!course) {
-        return <Loading />;
-    }
-    
     const {
         id,
         name,

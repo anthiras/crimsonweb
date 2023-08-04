@@ -4,44 +4,29 @@ import useUserActions from '../actions/users'
 import { useSelector } from 'react-redux'
 import UserTable from '../components/UserTable'
 import { Loading } from '../components/Utilities';
-
-function mapStateToProps(state, ownProps) {
-	const { users, roles, permissions } = state;
-	const page = parseInt(ownProps.page || 1);
-	const list = ownProps.list || 'all';
-	const userList = users.userLists[list];
-	const pageLoaded = page in userList.pages;
-	const invalidated = userList.invalidated;
-	const usersOnCurrentPage = pageLoaded ? userList.pages[page].map(userId => users.usersById[userId]) : [];
-
-	return { 
-		users: usersOnCurrentPage, 
-		list: list,
-		page: page,
-		invalidated: invalidated,
-		lastPage: userList.lastPage,
-		roles: roles,
-		permissions: permissions.items }
-}
+import { selectUsersOnListAndPage } from '../reducers/users';
 
 const UserList = () => {
 	let { list, page } = useParams();
 	page = page ? parseInt(page) : 1;
 
 	const { fetchUsersIfNeeded, fetchRolesIfNeeded, fetchPermissions } = useUserActions();
-	const props = useSelector((state) => mapStateToProps(state, { list, page }));
+
+	const { users, lastPage } = useSelector((state) => selectUsersOnListAndPage(state, list, page));
+	const roles = useSelector((state) => state.roles);
+	const permissions = useSelector((state) => state.permissions.items);
 
 	useEffect(() => {
 		fetchUsersIfNeeded(list, page);
 		fetchRolesIfNeeded();
 		fetchPermissions();
-	}, [list, page]);
+	}, [list, page, fetchUsersIfNeeded, fetchRolesIfNeeded, fetchPermissions]);
 
-	if (!props.users || !props.roles || !props.permissions) 
+	if (!users || !roles || !permissions) 
 		return <Loading />;
-	if (!props.permissions['users:list'] || !props.permissions['roles:assignRole:instructor'])
+	if (!permissions['users:list'] || !permissions['roles:assignRole:instructor'])
 		throw new Error('Insufficient permissions');
-	return <UserTable {...props} list={list} page={page} />;
+	return <UserTable users={users} list={list} page={page} lastPage={lastPage} roles={roles} />;
 };
 
 export default UserList;

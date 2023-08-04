@@ -1,7 +1,8 @@
 import { useAuth0 } from '@auth0/auth0-react'
 import useApi from '../shared/Api'
-import history from '../shared/History'
 import { useDispatch } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
+import { useCallback } from 'react'
 
 export const REQUEST_COURSES = 'REQUEST_COURSES'
 export const REQUEST_COURSES_ERROR = 'REQUEST_COURSES_ERROR'
@@ -39,6 +40,7 @@ const useCourseActions = () => {
 	const { isAuthenticated, loginWithRedirect } = useAuth0();
 	const { get, post, del, put } = useApi();
 	const dispatch = useDispatch();
+	const navigate = useNavigate();
 
 	return {
 		fetchCourses: (list, page) => dispatch({
@@ -78,8 +80,8 @@ const useCourseActions = () => {
 				: () => post('/v1/courses', course),
 			payload: { course, courseId: course.id },
 			onSuccess: course.id
-				? () => history.push('/courses/'+course.id)
-				: response => history.push('/courses/'+response.id)
+				? () => navigate('/courses/'+course.id)
+				: response => navigate('/courses/'+response.id)
 		}),
 
 		editCourseField: courseId => dispatch({
@@ -91,7 +93,7 @@ const useCourseActions = () => {
 			types: [DELETE_COURSE, DELETE_COURSE_SUCCESS, DELETE_COURSE_ERROR],
 			callApi: () => del('/v1/courses/'+courseId),
 			payload: { courseId },
-			onSuccess: () => history.push('/courses')
+			onSuccess: () => navigate('/courses')
 		}),
 
 		fetchCourseParticipants: courseId => dispatch({

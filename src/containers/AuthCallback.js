@@ -8,7 +8,7 @@ const AuthCallback = () => {
 	const navigate = useNavigate();
 	const { getIdTokenClaims } = useAuth0();
 
-	useEffect(() => {
+	const storeClaims = () => {
 		getIdTokenClaims()
 			.then((idToken) => 
 				fetch(process.env.REACT_APP_API_URL + '/v1/auth0user',
@@ -21,7 +21,11 @@ const AuthCallback = () => {
 					body: JSON.stringify({ idToken: idToken.__raw })
 				}))
 			.then(() => navigate(searchParams.get('returnTo') || '/'));
-	}, [])
+	};
+
+	useEffect(() => {
+		storeClaims();
+	}, []);
 
 	return <Loading />;
 }

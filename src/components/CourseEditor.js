@@ -46,7 +46,7 @@ const CourseEditor = ({ t, course, uiState }) => {
         return {
             id: course.id,
             name: course.name,
-            description: course.description,
+            description: course.description ?? '',
             startsAtDate: format(startsAt, "yyyy-MM-dd"),
             startsAtTime: format(startsAt, "HH:mm:ss"),
             weeks: course.weeks,

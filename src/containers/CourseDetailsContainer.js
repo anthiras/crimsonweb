@@ -1,22 +1,29 @@
+import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux'
+import { selectCourse, selectParticipants } from '../reducers/courses';
 import CourseDetails from '../components/CourseDetails'
-
-function mapStateToProps(state, ownProps) {
-	const courseId = ownProps.courseId;
-	const course = state.courses.coursesById[courseId];
-	const participants = state.courses.participantsById[courseId] || []
-
-	return { course, courseId, participants };
-}
+import useCourseActions from '../actions/courses';
+import { Loading } from '../components/Utilities';
 
 const CourseDetailsContainer = () => {
 	const { courseId } = useParams();
-	const { course, participants } = useSelector((state) => mapStateToProps(state, { courseId }));
+	const course = useSelector((state) => selectCourse(state, courseId));
+	const participants = useSelector((state) => selectParticipants(state, courseId));
+
+	const { fetchCourse, fetchCourseParticipants } = useCourseActions();
+
+	useEffect(() => {
+		fetchCourse(courseId);
+		fetchCourseParticipants(courseId);
+	}, [courseId]);
+
+	if (courseId != null && course == null)
+		return <Loading />;
 
 	return <CourseDetails 
 		course={course} 
-		participants={participants}
+		participants={participants || []}
 		key={course == null ? null : course.id} />;
 };
 

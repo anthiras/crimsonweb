@@ -1,4 +1,3 @@
-import 'react-app-polyfill/ie11';
 import React from 'react';
 import { createRoot } from 'react-dom/client';
 import App from './components/App';
@@ -18,7 +17,7 @@ const store = configureStore({
 	reducer: rootReducer,
 	middleware: (getDefaultMiddleware) => getDefaultMiddleware({
 		serializableCheck: {
-			ignoredActionPaths: ['shouldCallApi', 'callApi']
+			ignoredActionPaths: ['shouldCallApi', 'callApi', 'onSuccess', 'response']
 		}
 	}).concat([logger, callApiMiddleware]),
 })

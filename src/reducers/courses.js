@@ -1,4 +1,5 @@
 import { combineReducers } from 'redux'
+import { createSelector } from '@reduxjs/toolkit';
 import {
   REQUEST_COURSES, RECEIVE_COURSES, INVALIDATE_COURSES, 
   TOGGLE_SIGNUP_MODAL, 
@@ -216,3 +217,23 @@ export const courses = combineReducers({
     myCourses: courseList('mine'),
     courseEditor,
     participantsById })
+
+export const selectCoursesById = (state) => state.courses.coursesById;
+export const selectParticipantsById = (state) => state.courses.participantsById;
+
+export const selectCourse = (state, id) => state.courses.coursesById[id];
+export const selectParticipants = (state, id) => state.courses.participantsById[id];
+
+export const selectCurrentCourses = (state) => state.courses.currentCourses;
+export const selectArchivedCourses = (state) => state.courses.archivedCourses;
+export const selectMyCourses = (state) => state.courses.myCourses;
+
+export const selectCourseList = createSelector(
+    [selectCurrentCourses, selectArchivedCourses, selectMyCourses, (_s, list) => list],
+    (currentCourses, archivedCourses, myCourses, list) => {
+        if (list === 'current') return currentCourses;
+        if (list === 'archive') return archivedCourses;
+        if (list === 'mine') return myCourses;
+        return undefined;
+    },
+);

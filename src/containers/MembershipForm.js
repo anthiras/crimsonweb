@@ -8,10 +8,8 @@ const MembershipForm = () => {
 	const { fetchCurrentMembershipPeriodIfNeeded } = useMembershipActions();
 	const { fetchProfileIfNeeded } = useUserActions();
 
-	const { profile, currentMembershipPeriod } = useSelector((state) => ({
-		profile: state.profile,
-		currentMembershipPeriod: state.membership.currentMembershipPeriod
-	}))
+	const profile = useSelector((state) => state.profile);
+	const currentMembershipPeriod = useSelector((state) => state.membership.currentMembershipPeriod);
 
 	useEffect(() => {
 		fetchCurrentMembershipPeriodIfNeeded();

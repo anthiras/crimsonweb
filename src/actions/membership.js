@@ -1,5 +1,6 @@
 import { useSelector, useDispatch } from 'react-redux'
 import useApi from '../shared/Api'
+import { useCallback } from 'react'
 
 export const REQUEST_CURRENT_MEMBERSHIP_PERIOD = 'REQUEST_CURRENT_MEMBERSHIP_PERIOD'
 export const RECEIVE_CURRENT_MEMBERSHIP_PERIOD = 'RECEIVE_CURRENT_MEMBERSHIP_PERIOD'
@@ -46,7 +47,7 @@ const useMembershipActions = () => {
 			}
 		},
   
-		submitMembership: membership => {
+		submitMembership: (membership) => {
 			dispatch(submitMembershipAction(membership))
 			post('/v1/membership', membership)
 				.then((membership) => dispatch(submitMembershipSuccess(membership)))
