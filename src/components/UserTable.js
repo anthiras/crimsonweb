@@ -3,12 +3,14 @@ import UserRow from "./UserRow";
 import UserNavigation from './UserNavigation';
 import { Loading, Pagination } from './Utilities';
 import { withTranslation } from 'react-i18next';
+import history from '../shared/History';
 
-const UserTable = ({ t, users, list, page, lastPage, roles, setMembershipPaid, toggleUserRole }) => {
+const UserTable = ({ t, users, list, page, lastPage, roles, setMembershipPaid, toggleUserRole, query }) => {
     if (!users || !roles) return <Loading />;
     return (
         <React.Fragment>
-        <UserNavigation />
+        <UserNavigation query={query} />
+        <input type="text" className="form-control" value={query} onChange={(e) => history.push('?query=' + encodeURIComponent(e.target.value))} placeholder="Search" />
         <table className="table">
             <thead>
                 <tr>
@@ -25,7 +27,7 @@ const UserTable = ({ t, users, list, page, lastPage, roles, setMembershipPaid, t
                 )}
             </tbody>
         </table>
-        <Pagination page={page} lastPage={lastPage} urlForPage={(page) => '/users/'+list+'/'+page} />
+        <Pagination page={page} lastPage={lastPage} urlForPage={(page) => '/users/'+list+'/'+page+'?query='+encodeURIComponent(query)} />
         </React.Fragment>
     );
 }

@@ -61,14 +61,17 @@ const usersListByPage = list => (state = {}, action) => {
             if (list !== action.list)
                 return state;
             return Object.assign({}, state, {
-                [action.page]: action.response.data.map(x => x.id)
+                [action.page]: {
+                    userIds: action.response.data.map(x => x.id),
+                    query: action.query
+                }
             })
         default:
             return state;
     }
 }
 
-const emptyUserList = { pages: {}, isFetching: false, links: {}, invalidated: false };
+const emptyUserList = { pages: {}, isFetching: false, links: {}, query: '', invalidated: false };
 
 const userList = list => (state = emptyUserList, action) => {
     switch (action.type) {

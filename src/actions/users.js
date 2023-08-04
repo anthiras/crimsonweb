@@ -55,7 +55,7 @@ export const submitProfile = user => ({
 	payload: { user }
 })
 
-const userListUrl = (list, page) => {
+const userListUrl = (list, page, query) => {
 	let url = '/v1/users?include[]=roles&include[]=memberships'
 	if (list === 'members')
 		url += '&isMember=true';
@@ -63,18 +63,20 @@ const userListUrl = (list, page) => {
 		url += '&isPaidMember=true';
 	if (list === 'unpaid')
 		url += '&isMember=true&isPaidMember=false';
+	if (query)
+		url += '&query=' + encodeURIComponent(query);
 	url += '&page=' + page;
 	return url;
 }
 
-export const fetchUsersIfNeeded = (list, page) => ({
+export const fetchUsersIfNeeded = (list, page, query) => ({
 	types: [REQUEST_USERS, RECEIVE_USERS, REQUEST_USERS_ERROR],
 	shouldCallApi: state => { 
 		let userList = state.users.userLists[list];
-		return !userList.pages[page] || userList.invalidated;
+		return !userList.pages[page] || userList.invalidated || userList.pages[page].query !== query;
 	},
-	callApi: () => get(userListUrl(list, page)),
-	payload: { list, page }
+	callApi: () => get(userListUrl(list, page, query)),
+	payload: { list, page, query }
 })
 
 export const fetchRolesIfNeeded = () => ({
