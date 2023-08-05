@@ -10,7 +10,7 @@ const UserTable = ({ t, users, list, page, lastPage, roles, setMembershipPaid, t
     return (
         <React.Fragment>
         <UserNavigation query={query} />
-        <input type="text" className="form-control" value={query} onChange={(e) => history.push('?query=' + encodeURIComponent(e.target.value))} placeholder="Search" />
+        <input type="text" className="form-control" value={query} onChange={(e) => history.push('?query=' + encodeURIComponent(e.target.value))} placeholder={t('common:search')} />
         <table className="table">
             <thead>
                 <tr>
