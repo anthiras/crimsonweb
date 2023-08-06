@@ -5,12 +5,14 @@ import { Loading, Pagination } from './Utilities';
 import { withTranslation } from 'react-i18next';
 import history from '../shared/History';
 
+const queryString = (query) => query ? '?query=' + encodeURIComponent(query) : '';
+
 const UserTable = ({ t, users, list, page, lastPage, roles, setMembershipPaid, toggleUserRole, query }) => {
     if (!users || !roles) return <Loading />;
     return (
         <React.Fragment>
         <UserNavigation query={query} />
-        <input type="text" className="form-control" value={query} onChange={(e) => history.push('?query=' + encodeURIComponent(e.target.value))} placeholder={t('common:search')} />
+        <input type="text" className="form-control" value={query} onChange={(e) => history.push('?query='+(e.target.value ? encodeURIComponent(e.target.value) : ''))} placeholder={t('common:search')} />
         <table className="table">
             <thead>
                 <tr>
@@ -27,7 +29,7 @@ const UserTable = ({ t, users, list, page, lastPage, roles, setMembershipPaid, t
                 )}
             </tbody>
         </table>
-        <Pagination page={page} lastPage={lastPage} urlForPage={(page) => '/users/'+list+'/'+page+'?query='+encodeURIComponent(query)} />
+        <Pagination page={page} lastPage={lastPage} urlForPage={(page) => '/users/'+list+'/'+page+queryString(query)} />
         </React.Fragment>
     );
 }
