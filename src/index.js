@@ -10,6 +10,8 @@ import callApiMiddleware from './middleware/callApiMiddleware'
 import * as Sentry from '@sentry/browser';
 import Auth0ProviderWithRedirectCallback from './components/Auth0ProviderWithRedirectCallback';
 import { BrowserRouter } from "react-router-dom";
+import "primereact/resources/themes/lara-light-indigo/theme.css";
+import "primereact/resources/primereact.min.css";
 import "react-datepicker/dist/react-datepicker.css";
 import './index.css';
 

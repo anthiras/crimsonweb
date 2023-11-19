@@ -31,7 +31,7 @@ export const DELETE_USER_ERROR = 'DELETE_USER_ERROR'
 
 
 const userListUrl = (list, page) => {
-	let url = '/v1/users?include[]=roles&include[]=memberships'
+	let url = '/v1/users?include[]=roles&include[]=memberships&pageSize=10000'
 	if (list === 'members')
 		url += '&isMember=true';
 	if (list === 'paid')

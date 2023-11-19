@@ -139,7 +139,9 @@
     "names": {
       "Administrator": "Administrator",
       "Instructor": "Instructor"
-    }
+    },
+    "assign": "Assign",
+    "unassign": "Unassign"
   },
   "content": {
     "notice": ""
