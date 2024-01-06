@@ -30,14 +30,14 @@ const CourseCardsPlaceholder = () => (
 			<Placeholder xs={2} />
 		</Placeholder>
 	<Row>
-		<Col sm="4"><CourseCardPlaceholder /></Col>
-		<Col sm="4"><CourseCardPlaceholder /></Col>
-		<Col sm="4"><CourseCardPlaceholder /></Col>
+		<Col md="6" lg="4"><CourseCardPlaceholder /></Col>
+		<Col md="6" lg="4"><CourseCardPlaceholder /></Col>
+		<Col md="6" lg="4"><CourseCardPlaceholder /></Col>
 	</Row>
 	<Row>
-		<Col sm="4"><CourseCardPlaceholder /></Col>
-		<Col sm="4"><CourseCardPlaceholder /></Col>
-		<Col sm="4"><CourseCardPlaceholder /></Col>
+		<Col md="6" lg="4"><CourseCardPlaceholder /></Col>
+		<Col md="6" lg="4"><CourseCardPlaceholder /></Col>
+		<Col md="6" lg="4"><CourseCardPlaceholder /></Col>
 	</Row>
 </React.Fragment>);
 
@@ -55,7 +55,7 @@ const CourseCards = ({ t, courses, page, lastPage, list, isFetching }) => {
 			<h4>{t('common:week')} {courseWeek.week}</h4>
 			<Row >
 				{courseWeek.courses.map(course =>
-					<Col sm="4" key={course.id}>
+					<Col md="6" lg="4" key={course.id}>
 						<CourseCard course={course} />
 					</Col>
 				)}

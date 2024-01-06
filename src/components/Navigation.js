@@ -14,7 +14,7 @@ const Navigation = ({ t }) => {
     const permissions = usePermissions();
 
     return (
-        <Navbar expand="sm" bg="dark" data-bs-theme="dark" className="mb-3">
+        <Navbar bg="dark" data-bs-theme="dark" className="mb-3">
             <Nav className="me-auto">
                 <LinkContainer to="/courses/current">
                     <Nav.Link>{t('titles:courses')}</Nav.Link>
@@ -28,7 +28,7 @@ const Navigation = ({ t }) => {
                     </LinkContainer>}
             </Nav>
             <Nav activeKey={i18n.language}>
-                <NavDropdown title={t('common:language:this')}>
+                <NavDropdown title={t('common:language:this')} align='end'>
                     <NavDropdown.Item eventKey="da" onClick={() => i18n.changeLanguage('da')}>
                         {t('common:language:da')}
                     </NavDropdown.Item>
@@ -42,7 +42,7 @@ const Navigation = ({ t }) => {
                     </Nav.Link>
                 )}
                 {isAuthenticated && (
-                    <NavDropdown title={
+                    <NavDropdown align='end' title={
                         <div className='d-inline'>
                             <img src={user.picture} width="20" height="20" className="align-middle me-1" alt={user.name} />
                             <span className="d-none d-md-inline">{user.name}</span>

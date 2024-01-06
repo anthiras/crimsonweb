@@ -67,7 +67,9 @@
     "signupDate": "Signup date",
     "role": "Role",
     "lead": "Lead",
+    "leads": "Leads",
     "follow": "Follow",
+    "followers": "Followers",
     "signupError": "An error occurred while attempting to signup for the class.",
     "xLessons": "{{count}} lessons",
     "createNew": "Create new class",
@@ -98,6 +100,7 @@
     "andThe": "and the",
     "privacyPolicy": "privacy policy",
     "messagePendingAndConfirmedParticipants": "Message all (pending and confirmed) participants",
+    "receivers": "Receivers",
     "iCalFeed": "iCal feed"
   },
   "users": {
@@ -133,7 +136,9 @@
     "closedForRegistration": "Membership registration is currently closed.",
     "informationHere": "Read about membership here",
     "membershipPaid": "Membership paid",
-    "membershipUnpaid": "Membership unpaid"
+    "membershipUnpaid": "Membership unpaid",
+    "member": "Member",
+    "notAMember": "No membership"
   },
   "roles": {
     "names": {

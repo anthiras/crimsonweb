@@ -84,6 +84,7 @@ class TextAreaModal extends Component
   render() {
     return (<ConfirmModal {...this.props} onConfirm={this.onConfirm}>
       <textarea className="form-control" rows={this.props.rows} onChange={this.onChange} value={this.props.value} />
+      {this.props.children}
     </ConfirmModal>);
   }
 }

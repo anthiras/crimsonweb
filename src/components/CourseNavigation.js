@@ -15,7 +15,7 @@ const CourseNavigation = ({ t, list, links }) => {
 
     return (<Row>
         <Col>
-            <Nav variant="pills" className="mb-3">
+            <Nav variant="underline" className="mb-3">
                 <Nav.Item>
                     <LinkContainer to="/courses/current">
                         <Nav.Link>{t('courses:current')}</Nav.Link>

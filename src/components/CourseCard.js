@@ -9,6 +9,7 @@ import Placeholder from 'react-bootstrap/Placeholder';
 import SignUpModal from './SignUpModal';
 import { parseLocalDate } from '../shared/DateUtils';
 import useCourseActions from '../actions/courses';
+import InstructorsAvatarGroup from './InstructorsAvatarGroup';
 
 const Description = ({text}) => {
     if (!text) return null;
@@ -39,8 +40,8 @@ const CourseCard = ({ t, course }) => {
         <React.Fragment>
             <Card bg={bg} text={text} className="mb-4">
                 <Card.Body>
-                    <Card.Title>{ course.name } {process.env.PUBLIC_URL}</Card.Title>
-                    <h6 className="card-subtitle mb-1">{ course.instructors.map(instructor => instructor.name).join(" & ") }</h6>
+                    <InstructorsAvatarGroup instructors={course.instructors} />
+                    <Card.Title className='my-2'>{ course.name } {process.env.PUBLIC_URL}</Card.Title>
                     <Card.Text className={mutedClass}>{ t('courses:xLessons', {count: course.weeks}) }</Card.Text>
                     <Description text={course.description} />
                     <CourseStatus t={t} course={course} />
@@ -86,11 +87,11 @@ const CourseStatus = ({ t, course }) => {
 export const CourseCardPlaceholder = () => 
     <Card className='mb-4'>
         <Card.Body>
-            <Placeholder as={Card.Title} animation="glow">
-                <Placeholder xs={10} />
-            </Placeholder>
             <Placeholder as="h6" animation="glow">
                 <Placeholder xs={8} />
+            </Placeholder>
+            <Placeholder as={Card.Title} animation="glow">
+                <Placeholder xs={10} />
             </Placeholder>
             <Placeholder as={Card.Text} animation="glow">
                 <Placeholder xs={2} />

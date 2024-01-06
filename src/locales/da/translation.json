@@ -67,7 +67,9 @@
     "signupDate": "Tilmeldingsdato",
     "role": "Rolle",
     "lead": "Fører",
+    "leads": "Førere",
     "follow": "Følger",
+    "follows": "Følgere",
     "signupError": "Der opstod en fejl i tilmeldingsprocessen.",
     "xLessons": "{{count}} lektioner",
     "createNew": "Opret nyt hold",
@@ -98,6 +100,7 @@
     "andThe": "og",
     "privacyPolicy": "persondatapolitikken",
     "messagePendingAndConfirmedParticipants": "Send besked til alle (anmodede og bekræftede) deltagere",
+    "receivers": "Modtagere",
     "iCalFeed": "iCal feed"
   },
   "users": {
@@ -133,7 +136,9 @@
     "closedForRegistration": "Der er i øjeblikket lukket for registrering af medlemskab.",
     "informationHere": "Læs om medlemskab her",
     "membershipPaid": "Kontingent betalt",
-    "membershipUnpaid": "Kontingent mangler"
+    "membershipUnpaid": "Kontingent mangler",
+    "member": "Medlem",
+    "notAMember": "Ikke medlem"
   },
   "roles": {
     "names": {

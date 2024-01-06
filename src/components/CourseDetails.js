@@ -3,10 +3,14 @@ import ParticipantList from "./ParticipantList";
 import { withTranslation } from 'react-i18next';
 import { NavLink } from "react-router-dom";
 import Button from 'react-bootstrap/Button';
+import Row from 'react-bootstrap/Row';
 import { TextAreaModal } from "./ConfirmModal";
 import { UISTATE_SAVED, UISTATE_SAVING } from '../shared/uiState'
 import { parseLocalDate } from '../shared/DateUtils';
 import useCourseActions from '../actions/courses';
+import InstructorsAvatarGroup from './InstructorsAvatarGroup';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import {faPencil, faEnvelope} from "@fortawesome/free-solid-svg-icons/index";
 
 const CourseDetails = ({ t, course, participants }) => {
     const [sendMessageVisible, toggleModal] = useState(false);
@@ -25,12 +29,12 @@ const CourseDetails = ({ t, course, participants }) => {
         name,
         instructors,
         notificationUiState,
-        notificationMessage
+        notificationMessage,
     } = course;
 
     const courseStartsAt = parseLocalDate(course.startsAt);
     const courseEndsAt = parseLocalDate(course.endsAt);
-
+    
     const sendMessageButtonText = 
         notificationUiState === UISTATE_SAVING ? t('common:sending') :
         notificationUiState === UISTATE_SAVED ? t('common:sent') :
@@ -44,14 +48,18 @@ const CourseDetails = ({ t, course, participants }) => {
 
     return (
         <React.Fragment>
+            <div className="float-end">
+                <Button variant="outline-secondary" onClick={launchMessage} title={t('actions:messageParticipants')}>
+                    <FontAwesomeIcon icon={faEnvelope} />
+                </Button>
+                {" "}
+                <NavLink to={"/courses/"+id+"/edit"} className="btn btn-outline-secondary" title={ t('actions:editCourse') }>
+                    <FontAwesomeIcon icon={faPencil} />
+                </NavLink>
+            </div>
+            <InstructorsAvatarGroup instructors={instructors} size='large' />
             <h1>{name}</h1>
-            <p>{ instructors.map(instructor => instructor.name).join(" & ") }</p>
             <p>{ t('courses:scheduleSummary', { startDate: courseStartsAt, endDate: courseEndsAt, count: course.weeks }) }</p>
-            
-            <p>
-                <NavLink to={"/courses/"+id+"/edit"} className="btn btn-secondary">{ t('actions:editCourse') }</NavLink>
-                {" "}<Button variant="secondary" onClick={launchMessage}>{t('actions:messageParticipants')}</Button>
-            </p>
 
             <TextAreaModal
                 visible={sendMessageVisible}
@@ -65,34 +73,26 @@ const CourseDetails = ({ t, course, participants }) => {
                 confirmVariant={sendMessageButtonVariant}
                 confirmDisabled={sendMessageButtonDisabled}
                 value={notificationMessage}
-             />
+             >
+                <p className='mt-3'>{t('courses:receivers')}:</p>
+                <p style={{ whiteSpace: 'pre-wrap'}}>{participants.filter(p => p.participation.status !== 'cancelled').map(p => p.email + "\n")}</p>
+            </TextAreaModal>
 
-            <h2>{t('courses:participants')}</h2>
-            <ParticipantSummary participants={participants} t={t} />
-            <ParticipantList 
-                courseId={id} 
-                participants={participants} />
+            <Row>
+                <ParticipantList 
+                    lg={5}
+                    role='lead'
+                    courseId={id} 
+                    participants={participants.filter(p => p.participation.role === 'lead')} />
+                <ParticipantList 
+                    lg={{span: 5, offset: 1}}
+                    role='follow'
+                    courseId={id} 
+                    participants={participants.filter(p => p.participation.role === 'follow')} />
+            </Row>
+
         </React.Fragment>
     );
 }
-const ParticipantSummary = ({t, participants }) => {
-    const counts = participants.reduce((summary, participant) => {
-        const status = participant.participation.status;
-        const role = participant.participation.role;
-        if (!summary.hasOwnProperty(status)) {
-            summary[status] = { lead: 0, follow: 0 };
-        }
-        summary[status][role]++;
-        return summary;
-    }, {})
-
-    const statusSummaries = Object.keys(counts).map(status => 
-        <ParticipantStatusSummary key={status} t={t} status={status} lead={counts[status].lead} follow={counts[status].follow} />);
-
-    return (<ul>{statusSummaries}</ul>);
-}
-
-const ParticipantStatusSummary = ({t, status, lead, follow }) => 
-    (<li>{lead+follow} {t('courses:status:'+status)} ({lead} {t('courses:lead')} + {follow} {t('courses:follow')})</li>);
 
 export default withTranslation()(CourseDetails);

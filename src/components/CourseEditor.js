@@ -149,19 +149,19 @@ const CourseEditor = ({ t, course, uiState }) => {
         <Form onSubmit={handleSubmit}>
             <section>
                 <legend>{t('courses:courseInformation')}</legend>
-                <Form.Group>
+                <Form.Group className='mb-2'>
                     <Form.Label>{t('common:name')}</Form.Label>
                     <Form.Control type="text" required value={draft.name} onChange={(e)=>handleInput('name', e)} />
                 </Form.Group>
-                <Form.Group>
+                <Form.Group className='mb-2'>
                     <Form.Label>{t('common:description')}</Form.Label>
                     <Form.Control as="textarea" value={draft.description} onChange={(e)=>handleInput('description', e)} rows="3" />
                 </Form.Group>
-                <Form.Group>
+                <Form.Group className='mb-2'>
                     <Form.Label>{t('users:instructors')}</Form.Label>
                     <UserPicker value={draft.instructors} onChange={(e)=>handleInput('instructors', e)} />
                 </Form.Group>
-                <Row>
+                <Row className='mb-2'>
                     <Form.Group as={Col} className="col-md-3 col-sm-6 col-12">
                         <Form.Label>{t('common:startDate')}</Form.Label>
                         <DatePicker date={draft.startsAtDate} onChange={(val)=>handleInput('startsAtDate', val)} />
@@ -182,12 +182,12 @@ const CourseEditor = ({ t, course, uiState }) => {
             </section>
             <section>
                 <legend>{t('courses:registrationRules')}</legend>
-                <Form.Group>
+                <Form.Group className='mb-2'>
                     <Form.Label>{t('courses:signupScheme')}</Form.Label>
                     <Select id="signupScheme" options={signupSchemes} value={draft.signupScheme} onChange={(e) => handleInput('signupScheme', e)} />
                 </Form.Group>
                 {draft.signupScheme.value === 'auto' &&
-                    <Row>
+                    <Row className='mb-2'>
                         <Form.Group as={Col} className="col-md-3 col-sm-6 col-12">
                             <Form.Label>{t('courses:maxParticipants')}</Form.Label>
                             <Form.Control type="number" min="1" id="maxParticipants" className={autoLimitsAreValid ? "" : "is-invalid"} value={maxParticipantsValid ? draft.maxParticipants : ''} onChange={(e)=>handleInput('maxParticipants', e)} />
@@ -198,12 +198,12 @@ const CourseEditor = ({ t, course, uiState }) => {
                         </Form.Group>
                     </Row>
                 }
-                <Form.Group>
+                <Form.Group className='mb-2'>
                     <Form.Label>{t('courses:openForRegistration')}</Form.Label>
                     <Select id="allowRegistration" options={allowRegistrationOptions} value={draft.allowRegistration} onChange={(e) => handleInput('allowRegistration', e)} />
                 </Form.Group>
             </section>
-            <Form.Group>
+            <Form.Group className='mb-2'>
                 {uiState === UISTATE_SAVE_FAILED && <Alert variant="danger">{t('common:errorSaving')}</Alert>}
                 <Button type="submit" variant={uiState === UISTATE_SAVED ? "success" : "primary"} disabled={!formValid}>{buttonText}</Button>
                 {" "}
