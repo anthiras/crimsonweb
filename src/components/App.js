@@ -30,7 +30,7 @@ const App = ({ t }) => {
 
     return (<React.Fragment>
         <Navigation />
-        <Container>
+        {/* <Container> */}
             {t('content:notice') && <Alert variant="primary">{t('content:notice')}</Alert>}
             <ErrorBoundary>
             <Routes>
@@ -38,6 +38,9 @@ const App = ({ t }) => {
                 <Route path="courses">
                     <Route path="current/:page?" element={
                         <React.Fragment><CourseNavigationContainer /><CourseList list="current" /></React.Fragment>
+                    } />
+                    <Route path="events/:page?" element={
+                        <React.Fragment><CourseNavigationContainer /><CourseList list="events" /></React.Fragment>
                     } />
                     <Route path="mine/:page?" element={
                         <React.Fragment><CourseNavigationContainer /><CourseList list="mine" /></React.Fragment>
@@ -57,7 +60,7 @@ const App = ({ t }) => {
             </Routes>
             </ErrorBoundary>
             <Footer />
-        </Container>
+        {/* </Container> */}
     </React.Fragment>);
 }
 

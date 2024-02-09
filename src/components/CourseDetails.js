@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import ParticipantList from "./ParticipantList";
 import { withTranslation } from 'react-i18next';
 import { NavLink } from "react-router-dom";
+import Container from 'react-bootstrap/Container';
 import Button from 'react-bootstrap/Button';
 import Row from 'react-bootstrap/Row';
 import { TextAreaModal } from "./ConfirmModal";
@@ -11,11 +12,15 @@ import useCourseActions from '../actions/courses';
 import InstructorsAvatarGroup from './InstructorsAvatarGroup';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {faPencil, faEnvelope} from "@fortawesome/free-solid-svg-icons/index";
+import Description from './Description';
+import SignUpModal from './SignUpModal';
+import usePermissions from '../hooks/usePermissions';
+import Participation from './Participation';
 
 const CourseDetails = ({ t, course, participants }) => {
     const [sendMessageVisible, toggleModal] = useState(false);
 
-    const { sendNotification, editNotification } = useCourseActions();
+    const { sendNotification, editNotification, signup, toggleSignupModal } = useCourseActions();
 
     const sendMessage = (message) => sendNotification(course.id, message);
     const editMessage = (message) => editNotification(course.id, message);
@@ -30,6 +35,7 @@ const CourseDetails = ({ t, course, participants }) => {
         instructors,
         notificationUiState,
         notificationMessage,
+        weeks,
     } = course;
 
     const courseStartsAt = parseLocalDate(course.startsAt);
@@ -46,20 +52,25 @@ const CourseDetails = ({ t, course, participants }) => {
     const sendMessageButtonDisabled = 
         notificationUiState === UISTATE_SAVING || notificationUiState === UISTATE_SAVED;
 
+    const permissions = usePermissions();
+
     return (
-        <React.Fragment>
-            <div className="float-end">
-                <Button variant="outline-secondary" onClick={launchMessage} title={t('actions:messageParticipants')}>
-                    <FontAwesomeIcon icon={faEnvelope} />
-                </Button>
-                {" "}
-                <NavLink to={"/courses/"+id+"/edit"} className="btn btn-outline-secondary" title={ t('actions:editCourse') }>
-                    <FontAwesomeIcon icon={faPencil} />
-                </NavLink>
-            </div>
+        <Container fluid>
+            {permissions["courses:create"] && 
+                <div className="float-end">
+                    <Button variant="outline-secondary" onClick={launchMessage} title={t('actions:messageParticipants')}>
+                        <FontAwesomeIcon icon={faEnvelope} />
+                    </Button>
+                    {" "}
+                    <NavLink to={"/courses/"+id+"/edit"} className="btn btn-outline-secondary" title={ t('actions:editCourse') }>
+                        <FontAwesomeIcon icon={faPencil} />
+                    </NavLink>
+                </div>
+            }
             <InstructorsAvatarGroup instructors={instructors} size='large' />
-            <h1>{name}</h1>
-            <p>{ t('courses:scheduleSummary', { startDate: courseStartsAt, endDate: courseEndsAt, count: course.weeks }) }</p>
+            <h1 className='mt-1'>{name}</h1>
+            <p>{ t('courses:scheduleSummary', { startDate: courseStartsAt, endDate: courseEndsAt, count: weeks }) }</p>
+            <Description text={course.description} />
 
             <TextAreaModal
                 visible={sendMessageVisible}
@@ -78,7 +89,9 @@ const CourseDetails = ({ t, course, participants }) => {
                 <p style={{ whiteSpace: 'pre-wrap'}}>{participants.filter(p => p.participation.status !== 'cancelled').map(p => p.email + "\n")}</p>
             </TextAreaModal>
 
-            <Row>
+            <Participation course={course} />
+
+            {permissions["courses:create"] && <Row>
                 <ParticipantList 
                     lg={5}
                     role='lead'
@@ -89,9 +102,10 @@ const CourseDetails = ({ t, course, participants }) => {
                     role='follow'
                     courseId={id} 
                     participants={participants.filter(p => p.participation.role === 'follow')} />
-            </Row>
+            </Row>}
 
-        </React.Fragment>
+            <SignUpModal course={course} close={() => toggleSignupModal(course.id, false)} signup={signup}  />
+        </Container>
     );
 }
 

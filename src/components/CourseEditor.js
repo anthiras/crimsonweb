@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import Select from 'react-select';
 import { withTranslation } from 'react-i18next';
+import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/Button';
@@ -145,7 +146,7 @@ const CourseEditor = ({ t, course, uiState }) => {
 
     const formValid = autoLimitsAreValid;
 
-    return (
+    return (<Container fluid>
         <Form onSubmit={handleSubmit}>
             <section>
                 <legend>{t('courses:courseInformation')}</legend>
@@ -221,7 +222,7 @@ const CourseEditor = ({ t, course, uiState }) => {
                 {t('common:confirmDelete')}
             </ConfirmModal>
         </Form>
-    );
+    </Container>);
 }
 
 export default withTranslation()(CourseEditor);

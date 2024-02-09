@@ -1,14 +1,11 @@
 import React from 'react';
 import { withTranslation } from 'react-i18next';
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
+import Container from 'react-bootstrap/Container';
 
 const Footer = ({t}) => (
-	<Row>
-	    <Col>
-	        <address className="text-muted">© {new Date().getFullYear()} {t('content:copyright')}</address>
-	    </Col>
-	</Row>
+	<Container fluid>
+	    <address className="text-muted">© {new Date().getFullYear()} {t('content:copyright')}</address>
+	</Container>
 );
 
 export default withTranslation()(Footer);

@@ -1,6 +1,7 @@
 import React from 'react';
 import { withTranslation } from 'react-i18next';
 import { useAuth0 } from '@auth0/auth0-react';
+import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Nav from 'react-bootstrap/Nav';
@@ -13,12 +14,18 @@ const CourseNavigation = ({ t, list, links }) => {
     const { isAuthenticated } = useAuth0();
     const permissions = usePermissions();
 
-    return (<Row>
+    return (<Container fluid>
+    <Row>
         <Col>
             <Nav variant="underline" className="mb-3">
                 <Nav.Item>
                     <LinkContainer to="/courses/current">
                         <Nav.Link>{t('courses:current')}</Nav.Link>
+                    </LinkContainer>
+                </Nav.Item>
+                <Nav.Item>
+                    <LinkContainer to="/courses/events">
+                        <Nav.Link>{t('courses:events')}</Nav.Link>
                     </LinkContainer>
                 </Nav.Item>
                 {isAuthenticated &&
@@ -35,13 +42,6 @@ const CourseNavigation = ({ t, list, links }) => {
                     </LinkContainer>
                 </Nav.Item>
                 }
-                {permissions['courses:create'] &&
-                <Nav.Item>
-                    <LinkContainer to="/courses/create">
-                        <Nav.Link><span className="oi oi-plus"/> {t('courses:createNew')}</Nav.Link>
-                    </LinkContainer>
-                </Nav.Item>
-                }
             </Nav>
         </Col>
         {list === 'mine' && links != null &&
@@ -51,7 +51,8 @@ const CourseNavigation = ({ t, list, links }) => {
                 </DropdownButton>
             </Col>
         }
-    </Row>)
+    </Row>
+    </Container>)
 }
 
 //const CourseNavigationWithPermissions = () => (<PermissionContainer><CourseNavigation /></PermissionContainer>);

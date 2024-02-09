@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import Container from 'react-bootstrap/Container';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Alert from 'react-bootstrap/Alert';
@@ -55,7 +56,7 @@ const UserProfile = ({ t, user, uiState, allowDelete }) => {
         uiState === UISTATE_SAVED ? t('common:saved') :
             t('actions:saveInfo');
 
-    return (
+    return (<Container fluid>
         <Form onSubmit={handleSubmit}>
             <section>
                 <legend>{t('titles:myProfile')}</legend>
@@ -95,6 +96,7 @@ const UserProfile = ({ t, user, uiState, allowDelete }) => {
                 </ConfirmModal>
             </section>
         </Form>
+        </Container>
     );
 };
 

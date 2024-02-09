@@ -36,7 +36,7 @@
     "description": "Beskrivelse"
   },
   "titles": {
-    "courses": "Hold",
+    "courses": "Hold & events",
     "users": "Brugere",
     "myProfile": "Min profil",
     "membership": "Medlemskab"
@@ -58,11 +58,12 @@
     "messageParticipants": "Send besked til deltagerne..."
   },
   "courses": {
-    "current": "Aktuelle hold",
-    "events": "Aktuelle events",
+    "current": "Hold",
+    "events": "Events",
     "archive": "Arkiv",
     "mine": "Mine hold",
-    "signupConfirmed": "Tilmelding bekræftet",
+    "signupConfirmed": "Tilmelding godkendt",
+    "signupPending": "Afventer godkendelse",
     "signupRequested": "Tilmelding sendt",
     "signupFor": "Tilmeld",
     "signupDate": "Tilmeldingsdato",
@@ -75,8 +76,12 @@
     "xLessons": "{{count}} lektioner",
     "createNew": "Opret nyt hold",
     "lessonDuration": "Lektionernes varighed (minutter)",
-    "scheduleSummary": "{{ startDate, PP }} {{ startDate, HH:mm }}–{{ endDate, HH:mm }}",
-    "scheduleSummary_plural": "{{ startDate, eeee }}e {{ startDate, HH:mm }}–{{ endDate, HH:mm }} fra {{ startDate, PP }}",
+    "scheduleSummary_one": "{{ startDate, PP }} {{ startDate, HH:mm }}–{{ endDate, HH:mm }}",
+    "scheduleSummary_other": "{{ count }} {{ startDate, eeee }}e {{ startDate, HH:mm }}–{{ endDate, HH:mm }} fra {{ startDate, PP }}",
+    "weekday": "{{ date, eeee }}",
+    "shortDate": "{{ date, d }}. {{ date, MMM }}",
+    "timeInterval": "{{ startDate, HH:mm }}–{{ endDate, HH:mm }}",
+    "monthYear": "{{ date, MMMM yyyy }}",
     "participants": "Deltagere",
     "confirmReject": "Er du siker på at du vil afvise deltageren? Denne handling kan ikke fortrydes.",
     "status": {

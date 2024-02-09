@@ -1,227 +1,108 @@
-import React, { Component } from 'react'; 
+import React from 'react'; 
 import { withTranslation } from 'react-i18next';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {faCheckCircle} from "@fortawesome/free-solid-svg-icons/index";
-import { getDateOfISOWeek } from '../shared/DateUtils';
+import Container from 'react-bootstrap/Container';
+import { weekdayToDate, parseYearAndWeek, yearWeekAndWeekdayToDate, parseLocalDate, allWeeks } from '../shared/DateUtils';
+import CourseCard from './CourseCard';
+import { Pagination } from './Utilities';
 import styles from './CourseCalendar.module.css';
 
-const courses = [
-    {
-        "name": "Crossbody salsa open level",
-        "startTime": "17:30",
-        "endTime": "18:45",
-        "weeks": 4,
-        "instructors": "Elisa & Jan",
-        "weekday": "Tir"
-    },
-    {
-        "name": "Zouk 1",
-        "startTime": "19:00",
-        "endTime": "20:15",
-        "weeks": 8,
-        "instructors": "Randi & Peter",
-        "status": "confirmed"
-    }
-];
+const CourseRow = ({t, courses, yearWeeks, index }) => {
+    const coursesByWeek = courses.reduce((result, c) => {
+        result[c.yearWeeks[0]] = c;
+        return result;
+    }, {});
 
-const courses2 = [
-    {
-        "name": "Cuban salsa intermediate",
-        "startTime": "17:30",
-        "endTime": "18:45",
-        "weeks": 8,
-        "instructors": "Nic & Bella",
-        "weekday": "Ons"
-    },
-    {
-        "name": "Cuban salsa beginners",
-        "startTime": "17:30",
-        "endTime": "18:45",
-        "weeks": 8,
-        "instructors": "John Doe"
-    },
-    {
-        "name": "Workshop",
-        "startTime": "17:30",
-        "endTime": "18:45",
-        "weeks": 1,
-        "instructors": "Elisa & Jan"
-    }
-];
-
-const CourseRow = ({t, c, yearWeeks }) => (
-    <tr key={c.id}>
-        <th></th>
-        {yearWeeks.map(yearWeek => <td>
-            {yearWeek === c.yearWeeks[0] && 
-                <div className={styles.course + " " + styles["weeks-"+c.weeks] + " " + (c.status === "confirmed" ? "bg-success text-white" : "")}
-                onClick={(e) => console.log(c.name)}>
-                <div className={styles.title}>{c.name}</div>
-                {c.status === "confirmed" && <p className={styles.status}><FontAwesomeIcon icon={faCheckCircle} size="lg"/> Tilmeldt</p>}
-                <div className={styles.subtitle}>{c.startTime} — {c.endTime}</div>
+    return (
+    <tr key={index}>
+        {yearWeeks.map(yearWeek => <td key={yearWeek}>
+            {coursesByWeek[yearWeek] && 
+            <div className='position-relative p-0'>
+                <div className='position-absolute z-1' style={{ width: `calc(${coursesByWeek[yearWeek].weeks}00% + ${coursesByWeek[yearWeek].weeks-1}px)`}}>
+                    <CourseCard t={t} course={coursesByWeek[yearWeek]} />
+                </div>
             </div>
             }
         </td>)}
     </tr>
-);
+    );
+}
 
-const date = (yearWeek, weekday) => 
-    getDateOfISOWeek(yearWeek.substr(0, 4), yearWeek.substr(4, 6)) + weekday;
+const arrangeCoursesIntoRows = courses => {
+    let rows = [[]];
 
-const WeekdayRows = ({t, courses, yearWeeks, weekday}) =>
-    <React.Fragment>
+    const anyCoursesOverlap = courses => {
+        let yearWeeks = courses.flatMap(c => c.yearWeeks);
+        return yearWeeks.length > new Set(yearWeeks).size; // duplicate weeks
+    }
+
+    courses.forEach(c => {
+        let rowIndex = 0;
+        // Create a new row if adding this course would cause an overlap
+        while (anyCoursesOverlap([c, ...rows[rowIndex]]) && rowIndex++) {}
+        if (rowIndex > rows.length - 1) {
+            rows.push([]);
+        }
+        rows[rowIndex].push(c);
+    });
+
+    return rows;
+}
+
+const WeekdayRows = ({t, courses, yearWeeks, weekday}) => {
+    const rows = arrangeCoursesIntoRows(courses);
+    return (
+    <>
         <tr className={styles.dates}>
-            <th>{weekday}</th>
-            {yearWeeks.map(yearWeek => <td>{date(yearWeek, weekday)}</td>)}
+            <th className='sticky-left' rowSpan={rows.length+1}>{t('courses:weekday', { date: weekdayToDate(weekday) })}</th>
+            {yearWeeks.map(yearWeek => <DateHeader key={yearWeek} t={t} yearWeek={yearWeek} weekday={weekday} />)}
         </tr>
-        {courses.map(c => CourseRow({t, c, yearWeeks }))}
-    </React.Fragment>;
+        {rows.map((c, i) => CourseRow({t, courses: c, yearWeeks, index: i }))}
+    </>);
+}
 
-const allWeeks = courses => [...new Set(courses.flatMap(c => c.weekNumbers))].sort()
+const DateHeader = ({t, yearWeek, weekday }) => {
+    const { year, week } = parseYearAndWeek(yearWeek);
+    return <td>{t('courses:shortDate', { date: yearWeekAndWeekdayToDate(year, week, weekday)})}</td>
+}
+
+const calendarWeeks = courses => {
+    const start = parseLocalDate(courses.map(c => c.startsAt).sort()[0]);
+    const end = parseLocalDate(courses.map(c => c.endsAt).sort().reverse()[0]);
+    return allWeeks(start, end);
+}
 
 const allWeekdays = courses => [...new Set(courses.map(c => c.weekday))].sort();
 
-const CourseTable = ({t, courses }) => {
-    const yearWeeks = allWeeks(courses);
+const CourseCalendar = ({t, courses, page, lastPage, list, isFetching }) => {
+    if (!courses.length)
+        return <div></div>;
+
+    const yearWeeks = calendarWeeks(courses);
     const weekdays = allWeekdays(courses);
+
+    const pct = window.innerWidth > 992 ? 6 : 11;
+
+    const tableWidth = yearWeeks.length * pct + 12;
     
-    return (<table className={'table table-vertical-borders ' + styles.table}>
-        <thead className='sticky'>
-            <tr>
-                <th></th>
-                <th>Uge {yearWeeks[0]}</th>
-                {yearWeeks.slice(1).map(week => <th>{week}</th>)}
-            </tr>
-        </thead>
-        <tbody>
-            {weekdays.map(weekday =>
-                <WeekdayRows t={t} courses={courses.filter(c => c.weekday === weekday)} yearWeeks={yearWeeks} weekday={weekday} />
-            )}
-        </tbody>
-    </table>);
-}
-
-class CourseCalendar extends Component {
-    constructor(props) {
-        super(props);
-
-        this.state = {
-            activeCourse: null
-        };
-
-        this.nextTable = React.createRef();
-
-        this.toggleCourse = this.toggleCourse.bind(this);
-        this.next = this.next.bind(this);
-    }
-
-
-    toggleCourse(c) {
-        if (this.state.activeCourse === c) {
-            this.setState({activeCourse: null});
-        } else {
-            this.setState({activeCourse: c});
-        }
-    }
-
-    next() {
-        this.nextTable.current.scrollIntoView({ behavior: 'smooth' });
-    }
-
-    render() {
-        const { t } = this.props;
-        const toggleCourse = this.toggleCourse;
-        const activeCourse = this.state.activeCourse
-
-        return (
-            <div className={'row '+ styles.row}>
-            <div className={styles.container}>
-            <table className={'table table-vertical-borders ' + styles.table}>
+    return (<>
+        <div className='w-100 overflow-x-scroll'>
+            <table className={'table table-vertical-borders ' + styles.table} style={{ width: tableWidth + '%'}}>
                 <thead className='sticky'>
                     <tr>
-                        <th>Denne blok</th>
-                        <th>Uge 43</th>
-                        <th>44</th>
-                        <th>45</th> 
-                        <th>46</th>
-                        <th>47</th>
-                        <th>48</th>
-                        <th>49</th>
-                        <th>50</th>
+                        <th className='sticky-left'></th>
+                        <th>{t('common:week')} {parseYearAndWeek(yearWeeks[0]).week}</th>
+                        {yearWeeks.slice(1).map(week => <th key={week}>{parseYearAndWeek(week).week}</th>)}
                     </tr>
                 </thead>
                 <tbody>
-                    <tr className={styles.dates}>
-                        <th>Tir</th>
-                        <td>18. okt</td>
-                        <td>25. okt</td>
-                        <td>1. nov</td>
-                        <td>8. nov</td>
-                        <td>15. nov</td>
-                        <td>22. nov</td>
-                        <td>29. nov</td>
-                        <td>6. dec</td>
-                    </tr>
-                    {courses.map(c => CourseRow({t, c, toggleCourse, isActive: c.name === activeCourse }))}
-                    <tr className={styles.dates}>
-                        <th>Ons</th>
-                        <td>19. okt</td>
-                        <td>26. okt</td>
-                        <td>2. nov</td>
-                        <td>9. nov</td>
-                        <td>16. nov</td>
-                        <td>23. nov</td>
-                        <td>30. nov</td>
-                        <td>7. dec</td>
-                    </tr>
-                    {courses2.map(c => CourseRow({t, c, toggleCourse, isActive: c.name === activeCourse }))}
+                    {weekdays.map(weekday =>
+                        <WeekdayRows key={weekday} t={t} courses={courses.filter(c => c.weekday === weekday)} yearWeeks={yearWeeks} weekday={weekday} />
+                    )}
                 </tbody>
             </table>
-            <table className={'table table-vertical-borders ' + styles.table} ref={this.nextTable}>
-                <thead className='sticky'>
-                    <tr>
-                        <th><a href="#next" onClick={this.next}>Næste blok</a></th>
-                        <th>Uge 43</th>
-                        <th>44</th>
-                        <th>45</th> 
-                        <th>46</th>
-                        <th>47</th>
-                        <th>48</th>
-                        <th>49</th>
-                        <th>50</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr className={styles.dates}>
-                        <th>Tir</th>
-                        <td>18. okt</td>
-                        <td>25. okt</td>
-                        <td>1. nov</td>
-                        <td>8. nov</td>
-                        <td>15. nov</td>
-                        <td>22. nov</td>
-                        <td>29. nov</td>
-                        <td>6. dec</td>
-                    </tr>
-                    {courses.map(c => CourseRow({t, c, toggleCourse, isActive: c.name === activeCourse }))}
-                    <tr className={styles.dates}>
-                        <th>Ons</th>
-                        <td>19. okt</td>
-                        <td>26. okt</td>
-                        <td>2. nov</td>
-                        <td>9. nov</td>
-                        <td>16. nov</td>
-                        <td>23. nov</td>
-                        <td>30. nov</td>
-                        <td>7. dec</td>
-                    </tr>
-                    {courses2.map(c => CourseRow({t, c, toggleCourse, isActive: c.name === activeCourse }))}
-                </tbody>
-            </table>
-            </div>
-            </div>
-        );
-    }
+        </div>
+        {lastPage > 1 && <Container><Pagination page={page} lastPage={lastPage} urlForPage={(page) => '/courses/'+list+'/'+page} /></Container>}
+    </>);
 }
 
 export default withTranslation()(CourseCalendar);

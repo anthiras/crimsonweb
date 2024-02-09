@@ -47,11 +47,13 @@ const useCourseActions = () => {
 			types: [REQUEST_COURSES, RECEIVE_COURSES, REQUEST_COURSES_ERROR],
 			shouldCallApi: state => {
 				return list === 'current' ? !state.courses.currentCourses.pages[page]
+					: list === 'events' ? !state.courses.currentEvents.pages[page]
 					: list === 'archive' ? !state.courses.archivedCourses.pages[page]
 					: list === 'mine' ? !state.courses.myCourses.pages[page]
 					: false;
 			},
-			callApi: list === 'current' ? () => get('/v1/courses?include[]=instructors&endsAfter=now&page='+page)
+			callApi: list === 'current' ? () => get('/v1/courses?include[]=instructors&endsAfter=now&minWeeks=2&page='+page)
+				: list === 'events' ? () => get('/v1/courses?include[]=instructors&endsAfter=now&maxWeeks=1&page='+page)
 				: list === 'archive' ? () => get('/v1/courses?include[]=instructors&endsBefore=now&direction=desc&page='+page)
 				: list === 'mine' ? () => get('/v1/courses?include[]=instructors&endsAfter=now&mine=1&page='+page)
 				: () => {},

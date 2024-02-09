@@ -15,20 +15,17 @@ import { parseLocalDate, addWeeks, yearAndWeek } from '../shared/DateUtils';
 
 const mapCourse = (course) => {
     const startsAtDate = parseLocalDate(course.startsAt);
-    const endsAtDate = parseLocalDate(course.endsAt);
 
-    const yearWeeks = Array(course.weeks).keys().map(i => yearAndWeek(addWeeks(startsAtDate, i)));
+    const yearWeeks = [...Array(course.weeks).keys()].map(i => yearAndWeek(addWeeks(startsAtDate, i)));
 
     return { 
         ...course,
-        startsAtDate,
-        endsAtDate,
         yearWeeks,
-        weekday: ((startsAtDate.getDay()-1)+7)%7,
+        weekday: startsAtDate.getDay(), // ((startsAtDate.getDay()-1)+7)%7, // 0=Monday
     }
 }
 
-function course(state, action) {
+function course(state = {}, action) {
     switch (action.type) {
         case SUBMIT_PARTICIPATION_SUCCESS:
             if (!action.isCurrentUser)
@@ -150,7 +147,7 @@ function coursesById(state = {}, action) {
     switch (action.type) {
         case RECEIVE_COURSES:
             const objectsById = Object.fromEntries(
-                action.response.data.map((obj) => [obj.id, obj])
+                action.response.data.map((obj) => [obj.id, mapCourse(obj)])
             );
             return Object.assign({}, state, objectsById);
         case SUBMIT_PARTICIPATION_SUCCESS:
@@ -229,6 +226,7 @@ function participantsById(state = {}, action) {
 export const courses = combineReducers({ 
     coursesById, 
     currentCourses: courseList('current'), 
+    currentEvents: courseList('events'),
     archivedCourses: courseList('archive'),
     myCourses: courseList('mine'),
     courseEditor,
@@ -241,13 +239,15 @@ export const selectCourse = (state, id) => state.courses.coursesById[id];
 export const selectParticipants = (state, id) => state.courses.participantsById[id];
 
 export const selectCurrentCourses = (state) => state.courses.currentCourses;
+export const selectCurrentEvents = (state) => state.courses.currentEvents;
 export const selectArchivedCourses = (state) => state.courses.archivedCourses;
 export const selectMyCourses = (state) => state.courses.myCourses;
 
 export const selectCourseList = createSelector(
-    [selectCurrentCourses, selectArchivedCourses, selectMyCourses, (_s, list) => list],
-    (currentCourses, archivedCourses, myCourses, list) => {
+    [selectCurrentCourses, selectCurrentEvents, selectArchivedCourses, selectMyCourses, (_s, list) => list],
+    (currentCourses, currentEvents, archivedCourses, myCourses, list) => {
         if (list === 'current') return currentCourses;
+        if (list === 'events') return currentEvents;
         if (list === 'archive') return archivedCourses;
         if (list === 'mine') return myCourses;
         return undefined;
