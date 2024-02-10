@@ -30,21 +30,24 @@ const CourseRow = ({t, courses, yearWeeks, index }) => {
 const arrangeCoursesIntoRows = courses => {
     let rows = [[]];
 
-    const anyCoursesOverlap = courses => {
-        let yearWeeks = courses.flatMap(c => c.yearWeeks);
+    const anyCoursesOverlap = c => {
+        let yearWeeks = c.flatMap(c => c.yearWeeks);
         return yearWeeks.length > new Set(yearWeeks).size; // duplicate weeks
     }
 
     courses.forEach(c => {
         let rowIndex = 0;
-        // Create a new row if adding this course would cause an overlap
-        while (anyCoursesOverlap([c, ...rows[rowIndex]]) && rowIndex++) {}
-        if (rowIndex > rows.length - 1) {
-            rows.push([]);
+        // Go to next row if adding this course would cause an overlap
+        while (anyCoursesOverlap([c, ...rows[rowIndex]])) {
+            rowIndex++;
+            if (rowIndex > rows.length - 1) {
+                // Add row
+                rows.push([]);
+            }
         }
         rows[rowIndex].push(c);
     });
-
+    
     return rows;
 }
 
@@ -56,7 +59,7 @@ const WeekdayRows = ({t, courses, yearWeeks, weekday}) => {
             <th className='sticky-left' rowSpan={rows.length+1}>{t('courses:weekday', { date: weekdayToDate(weekday) })}</th>
             {yearWeeks.map(yearWeek => <DateHeader key={yearWeek} t={t} yearWeek={yearWeek} weekday={weekday} />)}
         </tr>
-        {rows.map((c, i) => CourseRow({t, courses: c, yearWeeks, index: i }))}
+        {rows.map((c, i) => <CourseRow t={t} courses={c} yearWeeks={yearWeeks} index={i} />)}
     </>);
 }
 

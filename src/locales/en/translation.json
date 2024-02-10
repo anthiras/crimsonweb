@@ -71,7 +71,7 @@
     "lead": "Lead",
     "leads": "Leads",
     "follow": "Follow",
-    "followers": "Followers",
+    "follows": "Followers",
     "signupError": "An error occurred while attempting to signup for the class.",
     "xLessons": "{{count}} lessons",
     "createNew": "Create new class",

@@ -56,7 +56,7 @@ function course(state = {}, action) {
                 showSignupModal: true
             })
         case FETCH_COURSE_SUCCESS:
-            return Object.assign({}, mapCourse(state), action.response)
+            return Object.assign({}, state, mapCourse(action.response))
         case SEND_NOTIFICATION:
             // fall through
         case SEND_NOTIFICATION_SUCCESS:
