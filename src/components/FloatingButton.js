@@ -6,7 +6,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 const FloatingButton = ({linkTo, icon}) => {
     const navigate = useNavigate();
     return <Button
-        className='rounded-circle border border-2 border-white text-white'
+        className='rounded-circle border border-2 border-white text-white z-3'
         variant='primary'
         size='lg'
         style={{position: 'fixed', right: '30px', bottom: '30px'}}

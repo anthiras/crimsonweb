@@ -57,6 +57,4 @@ const Navigation = ({ t }) => {
     );
 }
 
-//const NavigationWithPermissions = (props) => { return <PermissionContainer ><Navigation {...props} /></PermissionContainer> };
-
 export default withTranslation()(Navigation);

@@ -1,5 +1,4 @@
 import React from 'react';
-import Container from 'react-bootstrap/Container';
 import CourseEditorContainer from '../containers/CourseEditorContainer';
 import CourseList from '../containers/CourseList'
 import CourseNavigationContainer from '../containers/CourseNavigationContainer';
@@ -28,40 +27,38 @@ const App = ({ t }) => {
         return <Loading />;
     }
 
-    return (<React.Fragment>
+    return (<>
         <Navigation />
-        {/* <Container> */}
-            {t('content:notice') && <Alert variant="primary">{t('content:notice')}</Alert>}
-            <ErrorBoundary>
-            <Routes>
-                <Route path="" element={<Navigate to="/courses/current" />} />
-                <Route path="courses">
-                    <Route path="current/:page?" element={
-                        <React.Fragment><CourseNavigationContainer /><CourseList list="current" /></React.Fragment>
-                    } />
-                    <Route path="events/:page?" element={
-                        <React.Fragment><CourseNavigationContainer /><CourseList list="events" /></React.Fragment>
-                    } />
-                    <Route path="mine/:page?" element={
-                        <React.Fragment><CourseNavigationContainer /><CourseList list="mine" /></React.Fragment>
-                    } />
-                    <Route path="archive/:page?" element={
-                        <React.Fragment><CourseNavigationContainer /><CourseList list="archive" /></React.Fragment>
-                    } />
-                    <Route path="create" element={<CourseEditorContainer />} />
-                    <Route path=":courseId/edit" element={<CourseEditorContainer />} />
-                    <Route path=":courseId" element={<CourseDetailsContainer />} />
-                </Route>
-                <Route path="/users" element={<Navigate to="/users/all" />} />
-                <Route path="/users/:list/:page?" element={<UserList />} />
-                <Route path="/profile" element={<MyProfile />} />
-                <Route path="/membership" element={<MembershipForm />} />
-                <Route path="/callback" element={<AuthCallback/>} />
-            </Routes>
-            </ErrorBoundary>
-            <Footer />
-        {/* </Container> */}
-    </React.Fragment>);
+        {t('content:notice') && <Alert variant="primary">{t('content:notice')}</Alert>}
+        <ErrorBoundary>
+        <Routes>
+            <Route path="" element={<Navigate to="/courses/current" />} />
+            <Route path="courses">
+                <Route path="current/:page?" element={
+                    <React.Fragment><CourseNavigationContainer /><CourseList list="current" /></React.Fragment>
+                } />
+                <Route path="events/:page?" element={
+                    <React.Fragment><CourseNavigationContainer /><CourseList list="events" /></React.Fragment>
+                } />
+                <Route path="mine/:page?" element={
+                    <React.Fragment><CourseNavigationContainer /><CourseList list="mine" /></React.Fragment>
+                } />
+                <Route path="archive/:page?" element={
+                    <React.Fragment><CourseNavigationContainer /><CourseList list="archive" /></React.Fragment>
+                } />
+                <Route path="create" element={<CourseEditorContainer />} />
+                <Route path=":courseId/edit" element={<CourseEditorContainer />} />
+                <Route path=":courseId" element={<CourseDetailsContainer />} />
+            </Route>
+            <Route path="/users" element={<Navigate to="/users/all" />} />
+            <Route path="/users/:list/:page?" element={<UserList />} />
+            <Route path="/profile" element={<MyProfile />} />
+            <Route path="/membership" element={<MembershipForm />} />
+            <Route path="/callback" element={<AuthCallback/>} />
+        </Routes>
+        </ErrorBoundary>
+        <Footer />
+    </>);
 }
 
 export default withTranslation()(App);

@@ -88,7 +88,7 @@ const CourseCards = ({ t, courses, page, lastPage, list, isFetching }) => {
 				</tbody>
 			</table>
 		</React.Fragment>))}
-		{lastPage > 1 && <Pagination page={page} lastPage={lastPage} urlForPage={(page) => '/courses/'+list+'/'+page} />}
+		{lastPage > 1 && <Container><Pagination page={page} lastPage={lastPage} urlForPage={(page) => '/courses/'+list+'/'+page} /></Container>}
 		</>;
 		
 		
