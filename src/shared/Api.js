@@ -35,10 +35,18 @@ const useApi = () => {
             'Accept': 'application/json'
         };
         if (isAuthenticated) {
-            const accessToken = await getAccessTokenSilently();
+            const accessToken = await tryGetAccessToken();
             headers.Authorization = `Bearer ${accessToken}`;
         }
         return headers;
+    }
+
+    async function tryGetAccessToken() {
+        try {
+            return await getAccessTokenSilently();
+        } catch (error) {
+            loginWithRedirect();
+        }
     }
 
     async function get(url) {
