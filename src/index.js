@@ -7,7 +7,7 @@ import { Provider } from 'react-redux'
 import rootReducer from './reducers/index'
 import logger from 'redux-logger'
 import callApiMiddleware from './middleware/callApiMiddleware'
-import * as Sentry from '@sentry/browser';
+import * as Sentry from '@sentry/react';
 import Auth0ProviderWithRedirectCallback from './components/Auth0ProviderWithRedirectCallback';
 import { BrowserRouter } from "react-router-dom";
 import "primereact/resources/themes/lara-light-indigo/theme.css";
@@ -27,7 +27,7 @@ const store = configureStore({
 if (process.env.REACT_APP_SENTRY_DSN) {
 	Sentry.init({
 	  dsn: process.env.REACT_APP_SENTRY_DSN,
-	  environment: process.env.REACT_APP_SENTRY_ENVIRONMENT
+	  environment: process.env.REACT_APP_SENTRY_ENVIRONMENT,
 	});
 }
 
