@@ -160,7 +160,7 @@ const CourseEditor = ({ t, course, uiState }) => {
                 </Form.Group>
                 <Form.Group className='mb-2'>
                     <Form.Label>{t('users:instructors')}</Form.Label>
-                    <UserPicker value={draft.instructors} onChange={(e)=>handleInput('instructors', e)} />
+                    <UserPicker value={draft.instructors} role='e4dff4be-253c-4782-a480-89d9202dacbd' onChange={(e)=>handleInput('instructors', e)} />
                 </Form.Group>
                 <Row className='mb-2'>
                     <Form.Group as={Col} className="col-md-3 col-sm-6 col-12">

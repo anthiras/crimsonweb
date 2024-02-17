@@ -71,11 +71,10 @@ class DatePicker extends Component {
 
 const UserPicker = (props) => {
     const { get } = useApi();
+    const roleFilter = props.role ? '&role=' + props.role : '';
 
     const searchUsers = (input) => {
-        const url = input
-        ? '/v1/users?query='+(input || '')
-        : '/v1/users?isRecentInstructor=true'
+        const url = `/v1/users?query=${encodeURIComponent(input)}${roleFilter}`;
         return get(url)
             .then(result => result.data.map(user => {
                     return {
