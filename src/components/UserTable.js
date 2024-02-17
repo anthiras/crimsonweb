@@ -53,6 +53,7 @@ const UserTable = ({ t, users, roles }) => {
     const [filters] = useState({
         name: { value: null, matchMode: FilterMatchMode.CONTAINS },
         email: { value: null, matchMode: FilterMatchMode.CONTAINS },
+        gender: { value: null, matchMode: FilterMatchMode.IN },
         ...Object.fromEntries(roles.map((r) => ['role_'+r.id, { value: null, matchMode: FilterMatchMode.EQUALS }])),
         membershipStatus: { value: null, matchMode: FilterMatchMode.IN },
     });
@@ -60,6 +61,10 @@ const UserTable = ({ t, users, roles }) => {
         { value: 'paid', label: t('membership:membershipPaid'), severity: 'success' },
         { value: 'unpaid', label: t('membership:membershipUnpaid'), severity: 'warning' },
         { value: 'none', label: '', severity: undefined },
+    ];
+    const genders = [
+        { value: 'male', label: t('users:male') },
+        { value: 'female', label: t('users:female') },
     ];
 
     const mapUser = (user) => {
@@ -95,6 +100,18 @@ const UserTable = ({ t, users, roles }) => {
             optionLabel="label"
         />;
 
+    const genderFilterTemplate = (options) =>
+        <MultiSelect
+            value={options.value}
+            options={genders}
+            onChange={(e) => options.filterApplyCallback(e.value)}
+            optionLabel="label"
+        />;
+
+    const genderBodyTemplate = (rowData) => rowData.gender ? t('users:'+rowData.gender) : '';
+
+    const birthDateBodyTemplate = (rowData) => rowData.birthDate ? formatDate(new Date(rowData.birthDate)) : '';
+
     const actionsTemplate = (rowData) => <Actions t={t} rowData={rowData} roles={roles} />;
 
     const userRows = users.map(mapUser);
@@ -103,6 +120,8 @@ const UserTable = ({ t, users, roles }) => {
         <DataTable value={userRows} dataKey="id" paginator rows={20} rowsPerPageOptions={[10, 20, 50, 100]} sortField="name" filters={filters} filterDisplay="row">
             <Column field="name" header={t('common:name')} sortable filter></Column>
             <Column field="email" header={t('common:email')} sortable filter></Column>
+            <Column field="gender" header={t('users:gender')} sortable filter body={genderBodyTemplate} filterElement={genderFilterTemplate} showFilterMenu={false}></Column>
+            <Column field="birthDate" header={t('users:birthDate')} sortable body={birthDateBodyTemplate}></Column>
             {roles.map((role) => <Column field={"role_"+role.id} key={role.id} header={t('roles:names:'+role.name)} dataType="boolean" sortable body={roleBodyTemplate(role)} filter filterElement={roleFilterTemplate}></Column>)}
             <Column field="membershipStatus" header={t('titles:membership')} body={membershipBodyTemplate} sortable filter filterElement={membershipFilterTemplate} showFilterMenu={false}></Column>
             <Column body={actionsTemplate}></Column>

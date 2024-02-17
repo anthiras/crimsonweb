@@ -13,7 +13,7 @@ export const parseUtcDate = value => utcToZonedTime(parse(value+'Z', "yyyy-MM-dd
 // Parse local date string
 export const parseLocalDate = value => parse(value, "yyyy-MM-dd HH:mm:ss", new Date());
 
-export const formatDate = date => format(date, "Pp", { locale: currentLocale() });
+export const formatDate = date => format(date, "P", { locale: currentLocale() });
 
 export const toUtc = date => zonedTimeToUtc(date, process.env.REACT_APP_TIMEZONE);
 
