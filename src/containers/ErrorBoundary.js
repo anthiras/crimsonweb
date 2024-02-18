@@ -1,33 +1,10 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { withTranslation } from 'react-i18next';
-import * as Sentry from '@sentry/browser';
+import * as Sentry from '@sentry/react';
 
-class ErrorBoundary extends Component {
-    constructor(props) {
-        super(props);
-        this.state = { error: null };
-    }
-
-    componentDidCatch(error, errorInfo) {
-      this.setState({ error });
-      Sentry.withScope(scope => {
-        Object.keys(errorInfo).forEach(key => {
-          scope.setExtra(key, errorInfo[key]);
-        });
-        Sentry.captureException(error);
-      });
-    }
-
-    render() {
-    	const { t } = this.props;
-        if (this.state.error) {
-            return (
-              <p className="lead text-center text-muted my-5">{t('common:anErrorOccurred')}</p>
-            );
-        } else {
-            return this.props.children;
-        }
-    }
-}
+const ErrorBoundary = ({ t, children }) => 
+  <Sentry.ErrorBoundary className="lead text-center text-muted my-5" fallback={<p>{t('common:anErrorOccurred')}</p>}>
+    {children}
+  </Sentry.ErrorBoundary>;
 
 export default withTranslation()(ErrorBoundary);

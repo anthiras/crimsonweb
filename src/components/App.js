@@ -1,4 +1,5 @@
 import React from 'react';
+import * as Sentry from "@sentry/react";
 import CourseEditorContainer from '../containers/CourseEditorContainer';
 import CourseList from '../containers/CourseList'
 import CourseNavigationContainer from '../containers/CourseNavigationContainer';
@@ -16,6 +17,8 @@ import AuthCallback from '../containers/AuthCallback';
 import { useAuth0 } from '@auth0/auth0-react';
 import { Loading } from '../components/Utilities';
 
+const SentryRoutes = Sentry.withSentryReactRouterV6Routing(Routes);
+
 const App = ({ t }) => {
     const { isLoading, error } = useAuth0();
 
@@ -31,7 +34,7 @@ const App = ({ t }) => {
         <Navigation />
         {t('content:notice') && <Alert variant="primary">{t('content:notice')}</Alert>}
         <ErrorBoundary>
-        <Routes>
+        <SentryRoutes>
             <Route path="" element={<Navigate to="/courses/current" />} />
             <Route path="courses">
                 <Route path="current/:page?" element={
@@ -55,7 +58,7 @@ const App = ({ t }) => {
             <Route path="/profile" element={<MyProfile />} />
             <Route path="/membership" element={<MembershipForm />} />
             <Route path="/callback" element={<AuthCallback/>} />
-        </Routes>
+        </SentryRoutes>
         </ErrorBoundary>
         <Footer />
     </>);
