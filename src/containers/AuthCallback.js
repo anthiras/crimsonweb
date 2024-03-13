@@ -1,10 +1,32 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Loading } from '../components/Utilities';
-import Auth from '../shared/Auth'
+import { useNavigate, useSearchParams } from 'react-router-dom';
+import { useAuth0 } from '@auth0/auth0-react';
 
-const AuthCallback = (nextState) => {
-	const auth = new Auth();
-	auth.handleAuthentication(nextState);
+const AuthCallback = () => {
+	const [searchParams] = useSearchParams();
+	const navigate = useNavigate();
+	const { getIdTokenClaims } = useAuth0();
+
+	const storeClaims = () => {
+		getIdTokenClaims()
+			.then((idToken) => 
+				fetch(process.env.REACT_APP_API_URL + '/v1/auth0user',
+				{
+					method: 'POST',
+					headers: {
+						'Accept': 'application/json',
+						'Content-Type': 'application/json'
+					},
+					body: JSON.stringify({ idToken: idToken.__raw })
+				}))
+			.then(() => navigate(searchParams.get('returnTo') || '/'));
+	};
+
+	useEffect(() => {
+		storeClaims();
+	}, []);
+
 	return <Loading />;
 }
 

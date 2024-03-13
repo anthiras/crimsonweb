@@ -1,56 +1,48 @@
-import React, { Component } from 'react';
-import { Loading } from '../components/Utilities';
-import {
-  fetchCourses
-} from '../actions/courses'
-import { connect } from 'react-redux'
+import React, { useEffect } from 'react';
+import { useParams } from 'react-router-dom';
+import useCourseActions from '../actions/courses'
+import { useSelector } from 'react-redux'
+import { createSelector } from '@reduxjs/toolkit';
+import { selectCourseList, selectCoursesById } from '../reducers/courses';
 import CourseCards from '../components/CourseCards'
+import CourseCalendar from '../components/CourseCalendar';
+import FloatingButton from '../components/FloatingButton';
+import usePermissions from '../hooks/usePermissions';
+import { faPlus } from "@fortawesome/free-solid-svg-icons/index";
 
-class CourseList extends Component
-{
-    componentDidMount() {
-        this.props.fetchCourses(this.props.list, this.props.page)
+const selectCourseListPage = createSelector(
+  [selectCoursesById, selectCourseList, (_s, _l, page) => page],
+  (coursesById, courseList, page) => {
+    const courseIds = courseList.pages[page];
+    const coursesOnCurrentPage = courseIds ? courseIds.map(courseId => coursesById[courseId]) : [];
+  
+    return {
+      courses: coursesOnCurrentPage,
+      isFetching: courseList.isFetching,
+      lastPage: courseList.lastPage
     }
-
-    componentDidUpdate(prevProps) {
-        if (prevProps.list !== this.props.list || prevProps.page !== this.props.page) {
-            this.props.fetchCourses(this.props.list, this.props.page)
-        }
-    }
-
-    render() {
-        const { courses, isFetching, page, lastPage, list } = this.props
-        
-        if (isFetching) return <Loading />;
-        return <CourseCards courses={courses} page={page} lastPage={lastPage} list={list} />
-    }
-}
-
-function mapStateToProps(state, ownProps) {
-  const list = ownProps.match.params.list || 'current';
-  const { courses } = state
-  const { coursesById, currentCourses, archivedCourses, myCourses } = courses;
-  const courseList = 
-    list === 'current' ? currentCourses
-    : list === 'archive' ? archivedCourses
-    : list === 'mine' ? myCourses
-    : [];
-
-  const page = parseInt(ownProps.match.params.page || 1);
-  const courseIds = courseList.pages[page];
-  const coursesOnCurrentPage = courseIds ? courseIds.map(courseId => coursesById[courseId]) : [];
-
-  return {
-    courses: coursesOnCurrentPage,
-    isFetching: courseList.isFetching,
-    list: list,
-    page: page,
-    lastPage: courseList.lastPage
   }
+);
+
+const CourseList = ({ list }) => {
+  let { page } = useParams();
+  page = page ? parseInt(page) : 1;
+  const { fetchCourses } = useCourseActions();
+  const { courses, isFetching, lastPage } = useSelector((state) => selectCourseListPage(state, list, page));
+  const permissions = usePermissions();
+
+  useEffect(() => {
+    fetchCourses(list, page);
+  }, [list, page]);
+
+  return <React.Fragment>
+    {list === 'current' ? 
+      <CourseCalendar courses={courses} page={page} lastPage={lastPage} list={list} isFetching={isFetching} />
+    : <CourseCards courses={courses} page={page} lastPage={lastPage} list={list} isFetching={isFetching} />}
+    {permissions['courses:create'] && 
+      <FloatingButton linkTo="/courses/create" icon={faPlus} />}
+  </React.Fragment>
 }
 
-const actionCreators = {
-    fetchCourses
-}
 
-export default connect(mapStateToProps, actionCreators)(CourseList);
+export default CourseList;

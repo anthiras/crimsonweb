@@ -1,67 +1,32 @@
-import React, { Component } from 'react';
-import {
-  fetchUsersIfNeeded,
-  fetchRolesIfNeeded,
-  setMembershipPaid,
-  toggleUserRole,
-  fetchPermissions
-} from '../actions/users'
-import { connect } from 'react-redux'
+import React, { useEffect } from 'react';
+import { useParams } from 'react-router-dom';
+import useUserActions from '../actions/users'
+import { useSelector } from 'react-redux'
 import UserTable from '../components/UserTable'
 import { Loading } from '../components/Utilities';
+import { selectUsersOnListAndPage } from '../reducers/users';
 
-class UserList extends Component
-{
-	componentDidMount() {
-		this.props.fetchUsersIfNeeded(this.props.list, this.props.page, this.props.query)
-		this.props.fetchRolesIfNeeded()
-		this.props.fetchPermissions()
-	}
+const UserList = () => {
+	let { list } = useParams();
+	const page = 1; // Server side paging no longer used
 
-	componentDidUpdate(prevProps) {
-		if (this.props.page !== prevProps.page || this.props.list !== prevProps.list || this.props.query !== prevProps.query || this.props.invalidated !== prevProps.invalidated) {
-			this.props.fetchUsersIfNeeded(this.props.list, this.props.page, this.props.query)
-		}
-	}
+	const { fetchUsersIfNeeded, fetchRolesIfNeeded, fetchPermissions } = useUserActions();
 
-	render() {
-		const { users, roles, list, page, lastPage, setMembershipPaid, toggleUserRole, permissions, query } = this.props;
-		if (!users || !roles || !permissions) 
-			return <Loading />;
-		if (!permissions['users:list'] || !permissions['roles:assignRole:instructor'])
-			throw new Error('Insufficient permissions');
-		return (<UserTable users={users} roles={roles} page={page} lastPage={lastPage} list={list} setMembershipPaid={setMembershipPaid} toggleUserRole={toggleUserRole} query={query} />)
-	}
-}
+	const { users } = useSelector((state) => selectUsersOnListAndPage(state, list, page));
+	const roles = useSelector((state) => state.roles);
+	const permissions = useSelector((state) => state.permissions.items);
 
-function mapStateToProps(state, ownProps) {
-	const { users, roles, permissions } = state;
-	const page = parseInt(ownProps.match.params.page || 1);
-	const list = ownProps.match.params.list || 'all';
-	const searchParams = new URLSearchParams(ownProps.location.search);
-	const query = searchParams.get('query');
-	const userList = users.userLists[list];
-	const pageLoaded = page in userList.pages;
-	const invalidated = userList.invalidated;
-	const usersOnCurrentPage = pageLoaded ? userList.pages[page].userIds.map(userId => users.usersById[userId]) : [];
+	useEffect(() => {
+		fetchUsersIfNeeded(list, page);
+		fetchRolesIfNeeded();
+		fetchPermissions();
+	}, [list, page, fetchUsersIfNeeded, fetchRolesIfNeeded, fetchPermissions]);
 
-	return { 
-		users: usersOnCurrentPage, 
-		list: list,
-		page: page,
-		invalidated: invalidated,
-		lastPage: userList.lastPage,
-		roles: roles,
-		permissions: permissions.items,
-		query: query }
-}
+	if (!users || !roles || !permissions) 
+		return <Loading />;
+	if (!permissions['users:list'] || !permissions['roles:assignRole:instructor'])
+		throw new Error('Insufficient permissions');
+	return <UserTable users={users} roles={roles} />;
+};
 
-const actionCreators = {
-	fetchUsersIfNeeded,
-	fetchRolesIfNeeded,
-	setMembershipPaid,
-	toggleUserRole,
-	fetchPermissions
-}
-
-export default connect(mapStateToProps, actionCreators)(UserList);
+export default UserList;

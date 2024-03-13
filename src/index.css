@@ -5,3 +5,34 @@
 .react-datepicker__input-container {
 	display: block;;
 }
+
+.table-vertical-borders thead,
+.table-vertical-borders tbody,
+.table-vertical-borders thead th,
+.table-vertical-borders tbody th,
+.table-vertical-borders thead td,
+.table-vertical-borders tbody td {
+	border-left: 0px solid rgba(0, 0, 0, 0.125);
+	border-right: 0px solid rgba(0, 0, 0, 0.125);
+	border-top: 0px solid rgba(0, 0, 0, 0.125);
+	border-bottom: 0px solid rgba(0, 0, 0, 0.125);
+}
+
+.table-vertical-borders thead th,
+.table-vertical-borders tbody td,
+.table-vertical-borders tbody th,
+.table-vertical-borders thead td {
+	border-left: 1px solid rgba(0, 0, 0, 0.125);
+	border-right: 1px solid rgba(0, 0, 0, 0.125);
+}
+
+thead.sticky {
+	position: sticky;
+	top: 0;
+}
+
+td.sticky-left, th.sticky-left {
+	position: sticky;
+	left: 0;
+	z-index: 2;
+}

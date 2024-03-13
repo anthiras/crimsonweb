@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {faSpinner} from "@fortawesome/free-solid-svg-icons/index";
-import { NavLink } from "react-router-dom";
 import { withTranslation } from 'react-i18next';
 import ReactDatePicker from 'react-datepicker'
 import { format } from 'date-fns-tz'
-import AsyncSelect from 'react-select/lib/Async';
-import { get } from '../shared/Api'
+import AsyncSelect from 'react-select/async';
+import BootstrapPagination from 'react-bootstrap/Pagination';
+import { LinkContainer } from 'react-router-bootstrap'
+import useApi from '../shared/Api';
 
 const Loading = () => (
     <div className="d-flex justify-content-center text-secondary p-4">
@@ -23,23 +24,25 @@ const Pagination = withTranslation()(({page, lastPage, urlForPage, t }) => {
         .filter(pageNo => pageNo > 0 && pageNo <= lastPage);
 
     return (
-        <nav aria-label="Page navigation">
-          <ul className="pagination">
-            <li className={"page-item" + (page === 1 ? " disabled" : "")}>
-                <NavLink className="page-link" to={urlForPage(page-1)}>{t('common:previous')}</NavLink>
-            </li>
-            
+        <BootstrapPagination>
+            <LinkContainer to={urlForPage(1)}>
+                <BootstrapPagination.First disabled={page === 1} />
+            </LinkContainer>
+            <LinkContainer to={urlForPage(page-1)}>
+                <BootstrapPagination.Prev disabled={page === 1} />
+            </LinkContainer>
             {pageNumbers.map(pageNumber => 
-                <li key={pageNumber} className={"page-item" + (pageNumber === page ? " active": "")}>
-                    <NavLink className="page-link" to={urlForPage(pageNumber)}>{pageNumber}</NavLink>
-                </li>
+                <LinkContainer to={urlForPage(pageNumber)} key={pageNumber}>
+                    <BootstrapPagination.Item active={pageNumber === page}>{pageNumber}</BootstrapPagination.Item>
+                </LinkContainer>
             )}
-
-            <li className={"page-item" + (page === lastPage ? " disabled" : "")}>
-                <NavLink className="page-link" to={urlForPage(page+1)}>{t('common:next')}</NavLink>
-            </li>
-          </ul>
-        </nav>
+            <LinkContainer to={urlForPage(page+1)}>
+                <BootstrapPagination.Next disabled={page === lastPage} />
+            </LinkContainer>
+            <LinkContainer to={urlForPage(lastPage)}>
+                <BootstrapPagination.Last disabled={page === lastPage} />
+            </LinkContainer>
+        </BootstrapPagination>
     );
 })
 
@@ -66,11 +69,12 @@ class DatePicker extends Component {
     }
 }
 
-class UserPicker extends Component {
-    searchUsers(input) {
-        const url = input
-            ? '/v1/users?query='+(input || '')
-            : '/v1/users?isRecentInstructor=true'
+const UserPicker = (props) => {
+    const { get } = useApi();
+    const roleFilter = props.role ? '&role=' + props.role : '';
+
+    const searchUsers = (input) => {
+        const url = `/v1/users?query=${encodeURIComponent(input)}${roleFilter}`;
         return get(url)
             .then(result => result.data.map(user => {
                     return {
@@ -81,9 +85,8 @@ class UserPicker extends Component {
             );
     }
 
-    render() {
-        return <AsyncSelect cacheOptions isMulti defaultOptions loadOptions={this.searchUsers} {...this.props} />
-    }
+    return <AsyncSelect cacheOptions isMulti defaultOptions loadOptions={searchUsers} {...props} />
 }
+
 
 export { Loading, Pagination, DatePicker, UserPicker };

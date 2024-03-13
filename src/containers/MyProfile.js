@@ -1,33 +1,22 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux'
-import { 
-	fetchProfileIfNeeded,
-	submitProfile,
-	editProfileField,
-	deleteUser
-} from '../actions/users'
+import React, { useEffect } from 'react';
+import { useSelector } from 'react-redux'
 import UserProfile from '../components/UserProfile'
+import useUserActions from '../actions/users';
 
-class MyProfile extends Component
-{
-	componentDidMount() {
-		this.props.fetchProfileIfNeeded();
-	}
+const MyProfile = () => {
+	const { fetchProfileIfNeeded } = useUserActions();
 
-	render() {
-		const { user, uiState, submitProfile, editProfileField, deleteUser } = this.props;
-		const key = user == null ? null : user.id;
-		return (<UserProfile key={key} user={user} uiState={uiState} submitProfile={submitProfile} editProfileField={editProfileField} deleteUser={deleteUser} allowDelete={true} />)
-	}
+	useEffect(() => {
+		fetchProfileIfNeeded();
+	}, []);
+
+	const { uiState, user } = useSelector((state) => state.profile);
+
+	return <UserProfile 
+		key={user?.id}
+		user={user}
+		uiState={uiState}
+		allowDelete={true} />
 }
 
-const actionCreators = {
-	submitProfile,
-	editProfileField,
-	fetchProfileIfNeeded,
-	deleteUser
-}
-
-const mapStateToProps = state => state.profile;
-
-export default connect(mapStateToProps, actionCreators)(MyProfile);
+export default MyProfile;

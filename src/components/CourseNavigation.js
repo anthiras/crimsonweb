@@ -1,50 +1,60 @@
 import React from 'react';
-import { NavLink } from "react-router-dom";
 import { withTranslation } from 'react-i18next';
-import { withPermissions } from '../containers/PermissionContainer';
-import Auth from '../shared/Auth'
+import { useAuth0 } from '@auth0/auth0-react';
+import Container from 'react-bootstrap/Container';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
+import Nav from 'react-bootstrap/Nav';
+import DropdownButton from 'react-bootstrap/DropdownButton';
+import Dropdown from 'react-bootstrap/Dropdown';
+import { LinkContainer } from 'react-router-bootstrap'
+import usePermissions from '../hooks/usePermissions';
 
-const auth = new Auth();
+const CourseNavigation = ({ t, list, links }) => {
+    const { isAuthenticated } = useAuth0();
+    const permissions = usePermissions();
 
-const CourseNavigation = ({ t, permissions, list, links }) => (
-    <div className="row">
-        <div className="col-10">
-            <ul className="nav nav-pills mb-3">
-                <li className="nav-item">
-                    <NavLink to="/courses/current" className="nav-link" activeClassName="active" exact={false}>{t('courses:current')}</NavLink>
-                </li>
-                {auth.isAuthenticated() &&
-                <li className="nav-item">
-                    <NavLink to="/courses/mine" className="nav-link" activeClassName="active" exact={false}>{t('courses:mine')}</NavLink>
-                </li>
+    return (<Container fluid>
+    <Row>
+        <Col>
+            <Nav variant="underline" className="mb-3">
+                <Nav.Item>
+                    <LinkContainer to="/courses/current">
+                        <Nav.Link>{t('courses:current')}</Nav.Link>
+                    </LinkContainer>
+                </Nav.Item>
+                <Nav.Item>
+                    <LinkContainer to="/courses/events">
+                        <Nav.Link>{t('courses:events')}</Nav.Link>
+                    </LinkContainer>
+                </Nav.Item>
+                {isAuthenticated &&
+                <Nav.Item>
+                    <LinkContainer to="/courses/mine">
+                        <Nav.Link>{t('courses:mine')}</Nav.Link>
+                    </LinkContainer>
+                </Nav.Item>
                 }
                 {permissions['courses:create'] &&
-                <li className="nav-item">
-                    <NavLink to="/courses/archive" className="nav-link" activeClassName="active" exact={false}>{t('courses:archive')}</NavLink>
-                </li>
+                <Nav.Item>
+                    <LinkContainer to="/courses/archive">
+                        <Nav.Link>{t('courses:archive')}</Nav.Link>
+                    </LinkContainer>
+                </Nav.Item>
                 }
-                {permissions['courses:create'] &&
-                <li className="nav-item">
-                    <NavLink  to="/courses/create" className="nav-link" activeClassName="active" exact={true}>
-                        <span className="oi oi-plus"/> {t('courses:createNew')}
-                    </NavLink>
-                </li>
-                }
-            </ul>
-        </div>
+            </Nav>
+        </Col>
         {list === 'mine' && links != null &&
-            <div className="col-2 text-right">
-                <div className="dropdown">
-                  <button className="btn btn-outline-secondary" type="button" id="courseListActions" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    …
-                  </button>
-                  <div className="dropdown-menu dropdown-menu-right" aria-labelledby="courseListActions">
-                    <a className="dropdown-item" href={links['ics']}>{t('courses:iCalFeed')}</a>
-                  </div>
-                </div>
-            </div>
+            <Col className="text-end">
+                <DropdownButton title="…" id="courseListActions" variant="outline-secondary">
+                    <Dropdown.Item href={links['ics']}>{t('courses:iCalFeed')}</Dropdown.Item>
+                </DropdownButton>
+            </Col>
         }
-    </div>
-);
+    </Row>
+    </Container>)
+}
 
-export default withTranslation()(withPermissions(CourseNavigation));
+//const CourseNavigationWithPermissions = () => (<PermissionContainer><CourseNavigation /></PermissionContainer>);
+
+export default withTranslation()(CourseNavigation);

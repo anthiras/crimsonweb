@@ -30,14 +30,13 @@
     "open": "Åben",
     "close": "Luk",
     "closed": "Lukket",
-    "search": "Søg",
     "send": "Send",
     "sending": "Sender...",
     "sent": "Sendt!",
     "description": "Beskrivelse"
   },
   "titles": {
-    "courses": "Hold",
+    "courses": "Hold & events",
     "users": "Brugere",
     "myProfile": "Min profil",
     "membership": "Medlemskab"
@@ -59,22 +58,30 @@
     "messageParticipants": "Send besked til deltagerne..."
   },
   "courses": {
-    "current": "Aktuelle hold",
+    "current": "Hold",
+    "events": "Events",
     "archive": "Arkiv",
     "mine": "Mine hold",
-    "signupConfirmed": "Tilmelding bekræftet",
+    "signupConfirmed": "Tilmelding godkendt",
+    "signupPending": "Afventer godkendelse",
     "signupRequested": "Tilmelding sendt",
     "signupFor": "Tilmeld",
     "signupDate": "Tilmeldingsdato",
     "role": "Rolle",
     "lead": "Fører",
+    "leads": "Førere",
     "follow": "Følger",
+    "follows": "Følgere",
     "signupError": "Der opstod en fejl i tilmeldingsprocessen.",
     "xLessons": "{{count}} lektioner",
     "createNew": "Opret nyt hold",
     "lessonDuration": "Lektionernes varighed (minutter)",
-    "scheduleSummary": "{{ startDate, PP }} {{ startDate, HH:mm }}–{{ endDate, HH:mm }}",
-    "scheduleSummary_plural": "{{ startDate, eeee }}e {{ startDate, HH:mm }}–{{ endDate, HH:mm }} fra {{ startDate, PP }}",
+    "scheduleSummary_one": "{{ startDate, PP }} {{ startDate, HH:mm }}–{{ endDate, HH:mm }}",
+    "scheduleSummary_other": "{{ count }} {{ startDate, eeee }}e {{ startDate, HH:mm }}–{{ endDate, HH:mm }} fra {{ startDate, PP }}",
+    "weekday": "{{ date, eeee }}",
+    "shortDate": "{{ date, d }}. {{ date, MMM }}",
+    "timeInterval": "{{ startDate, HH:mm }}–{{ endDate, HH:mm }}",
+    "monthYear": "{{ date, MMMM yyyy }}",
     "participants": "Deltagere",
     "confirmReject": "Er du siker på at du vil afvise deltageren? Denne handling kan ikke fortrydes.",
     "status": {
@@ -99,6 +106,7 @@
     "andThe": "og",
     "privacyPolicy": "persondatapolitikken",
     "messagePendingAndConfirmedParticipants": "Send besked til alle (anmodede og bekræftede) deltagere",
+    "receivers": "Modtagere",
     "iCalFeed": "iCal feed"
   },
   "users": {
@@ -134,13 +142,17 @@
     "closedForRegistration": "Der er i øjeblikket lukket for registrering af medlemskab.",
     "informationHere": "Læs om medlemskab her",
     "membershipPaid": "Kontingent betalt",
-    "membershipUnpaid": "Kontingent mangler"
+    "membershipUnpaid": "Kontingent mangler",
+    "member": "Medlem",
+    "notAMember": "Ikke medlem"
   },
   "roles": {
     "names": {
       "Administrator": "Administrator",
       "Instructor": "Underviser"
-    }
+    },
+    "assign": "Tildel",
+    "unassign": "Fjern"
   },
   "content": {
     "notice": ""

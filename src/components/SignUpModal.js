@@ -1,5 +1,8 @@
 import React, {Component} from "react";
-import Modal from 'react-bootstrap4-modal';
+import Modal from 'react-bootstrap/Modal';
+import Button from 'react-bootstrap/Button';
+import Form from 'react-bootstrap/Form';
+import Alert from 'react-bootstrap/Alert';
 import { withTranslation } from 'react-i18next';
 
 class SignUpModal extends Component
@@ -35,44 +38,31 @@ class SignUpModal extends Component
         const modalId = "signup" + course.id;
         const role = this.state.role;
 
-        return <Modal visible={course.showSignupModal || false} onClickBackdrop={close}>
-            <form onSubmit={this.submitSignup}>
-                <div className="modal-header">
-                    <h5 className="modal-title">{t('courses:signupFor')} {course.name}</h5>
-                    <button type="button" className="close" aria-label="Close" onClick={close}>
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div className="modal-body">
-                    <div className="form-group">
-                    <label>{t('courses:role')}</label>
-                        <div className="form-check">
-                            <input className="form-check-input" type="radio" name="role" id={modalId + "_lead"}
-                                   value="lead" onChange={(e) => this.setRole('lead')} checked={role === "lead"} required />
-                            <label className="form-check-label" htmlFor={modalId + "_lead"}>{t('courses:lead')}</label>
-                        </div>
-                        <div className="form-check">
-                            <input className="form-check-input" type="radio" name="role"
-                                   id={modalId + "_follow"}
-                                   value="follow" onChange={(e) => this.setRole('follow')} checked={role === "follow"} required />
-                            <label className="form-check-label" htmlFor={modalId + "_follow"}>{t('courses:follow')}</label>
-                        </div>
-                    </div>
-                    <div className="form-group">
-                        <label>{t('courses:terms')}</label>
-                        <div className="form-check">
-                            <input className="form-check-input" type="checkbox" name="acceptTerms" value="true" id={modalId + "_acceptTerms"} required />
-                            <label className="form-check-label" htmlFor={modalId + "_acceptTerms"}>{t('courses:iAcceptThe')} <a href={process.env.REACT_APP_TERMS} target="_blank" rel="noopener noreferrer">{t('courses:registrationTerms')}</a> {t('courses:andThe')} <a href={process.env.REACT_APP_PRIVACY_POLICY} target="_blank" rel="noopener noreferrer">{t('courses:privacyPolicy')}</a>.</label>
-                        </div>
-                    </div>
-                    {course.signupError && <div className="alert alert-danger">{t('courses:signupError')}</div>}
-                </div>
-                <div className="modal-footer">
-                    <button type="button" onClick={close} className="btn btn-secondary">{t('common:cancel')}
-                    </button>
-                    <button type="submit" className="btn btn-primary" disabled={course.signupProcessing}>{course.signupProcessing ? t('common:saving') : t('actions:confirmSignup')}</button>
-                </div>
-            </form>
+        return <Modal show={course.showSignupModal || false} onHide={close}>
+            <Form onSubmit={this.submitSignup}>
+                <Modal.Header closeButton>
+                    <Modal.Title>{t('courses:signupFor')} {course.name}</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    <Form.Group>
+                        <Form.Label>{t('courses:role')}</Form.Label>
+                        <Form.Check type="radio" label={t('courses:lead')} name="role" id={modalId + "_lead"} checked={role === "lead"} required onChange={(e) => this.setRole('lead')} value="lead" />
+                        <Form.Check type="radio" label={t('courses:follow')} name="role" id={modalId + "_follow"} checked={role === "follow"} required onChange={(e) => this.setRole('follow')} value="follow" />
+                    </Form.Group>
+                    <Form.Group>
+                        <Form.Label>{t('courses:terms')}</Form.Label>
+                        <Form.Check type="checkbox">
+                            <Form.Check.Input type="checkbox" name="acceptTerms" value="true" id={modalId + "_acceptTerms"} required />
+                            <Form.Check.Label>{t('courses:iAcceptThe')} <a href={process.env.REACT_APP_TERMS} target="_blank" rel="noopener noreferrer">{t('courses:registrationTerms')}</a> {t('courses:andThe')} <a href={process.env.REACT_APP_PRIVACY_POLICY} target="_blank" rel="noopener noreferrer">{t('courses:privacyPolicy')}</a>.</Form.Check.Label>
+                        </Form.Check>
+                    </Form.Group>
+                    {course.signupError && <Alert variant="danger">{t('courses:signupError')}</Alert>}
+                </Modal.Body>
+                <Modal.Footer>
+                    <Button variant="secondary" onClick={close}>{t('common:cancel')}</Button>
+                    <Button variant="primary" type="submit" disabled={course.signupProcessing}>{course.signupProcessing ? t('common:saving') : t('actions:confirmSignup')}</Button>
+                </Modal.Footer>
+            </Form>
         </Modal>
     }
 }

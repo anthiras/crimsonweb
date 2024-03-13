@@ -1,56 +1,33 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux'
-import {
-  fetchCourse, fetchCourseParticipants, confirmCourseParticipant, 
-  cancelCourseParticipant, setParticipantAmountPaid,
-  sendNotification, editNotification
-} from '../actions/courses'
+import { useEffect } from 'react';
+import { useParams } from 'react-router-dom';
+import { useSelector } from 'react-redux'
+import { selectCourse, selectParticipants } from '../reducers/courses';
 import CourseDetails from '../components/CourseDetails'
+import useCourseActions from '../actions/courses';
+import { Loading } from '../components/Utilities';
+import usePermissions from '../hooks/usePermissions';
 
-class CourseDetailsContainer extends Component
-{
-	componentDidMount() {
-		this.props.fetchCourse(this.props.courseId)
-		this.props.fetchCourseParticipants(this.props.courseId)
-	}
+const CourseDetailsContainer = () => {
+	const { courseId } = useParams();
+	const course = useSelector((state) => selectCourse(state, courseId));
+	const participants = useSelector((state) => selectParticipants(state, courseId));
+	const permissions = usePermissions();
 
-	componentDidUpdate(prevProps) {
-		if (prevProps.courseId !== this.props.courseId) {
-			this.props.fetchCourse(this.props.courseId)
-			this.props.fetchCourseParticipants(this.props.courseId)
-		}
-	}
+	const { fetchCourse, fetchCourseParticipants } = useCourseActions();
 
-	render() {
-		const { course, participants, fetchCourse, confirmCourseParticipant, 
-			cancelCourseParticipant, setParticipantAmountPaid, 
-			sendNotification, editNotification } = this.props;
+	useEffect(() => {
+		fetchCourse(courseId);
+		if (permissions['courses:manageParticipants'])
+			fetchCourseParticipants(courseId);
+	}, [courseId]);
 
-		return (<CourseDetails 
-			course={course} 
-			participants={participants}
-			key={course == null ? null : course.id} 
-			fetchCourse={fetchCourse}
-			confirmCourseParticipant={confirmCourseParticipant}
-			cancelCourseParticipant={cancelCourseParticipant}
-			setParticipantAmountPaid={setParticipantAmountPaid}
-			sendNotification={sendNotification}
-			editNotification={editNotification} />);
-	}
-}
+	if (courseId != null && course == null)
+		return <Loading />;
 
-function mapStateToProps(state, ownProps) {
-	const courseId = ownProps.match.params.courseId;
-	const course = state.courses.coursesById[courseId];
-	const participants = state.courses.participantsById[courseId] || []
+	return <CourseDetails 
+		course={course} 
+		participants={participants || []}
+		key={course == null ? null : course.id} />;
+};
 
-	return { course, courseId, participants };
-}
-
-const actionCreators = {
-	fetchCourse, fetchCourseParticipants, confirmCourseParticipant, 
-	cancelCourseParticipant, setParticipantAmountPaid, sendNotification, 
-	editNotification
-}
-
-export default connect(mapStateToProps, actionCreators)(CourseDetailsContainer);
+export default CourseDetailsContainer;

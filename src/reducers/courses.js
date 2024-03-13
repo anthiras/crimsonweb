@@ -1,4 +1,5 @@
 import { combineReducers } from 'redux'
+import { createSelector } from '@reduxjs/toolkit';
 import {
   REQUEST_COURSES, RECEIVE_COURSES, INVALIDATE_COURSES, 
   TOGGLE_SIGNUP_MODAL, 
@@ -10,8 +11,21 @@ import {
   SEND_NOTIFICATION, SEND_NOTIFICATION_SUCCESS, SEND_NOTIFICATION_ERROR, EDIT_NOTIFICATION
 } from '../actions/courses'
 import { resolveUiState } from '../shared/uiState'
+import { parseLocalDate, addWeeks, yearAndWeek } from '../shared/DateUtils';
 
-function course(state, action) {
+const mapCourse = (course) => {
+    const startsAtDate = parseLocalDate(course.startsAt);
+
+    const yearWeeks = [...Array(course.weeks).keys()].map(i => yearAndWeek(addWeeks(startsAtDate, i)));
+
+    return { 
+        ...course,
+        yearWeeks,
+        weekday: startsAtDate.getDay(), // ((startsAtDate.getDay()-1)+7)%7, // 0=Monday
+    }
+}
+
+function course(state = {}, action) {
     switch (action.type) {
         case SUBMIT_PARTICIPATION_SUCCESS:
             if (!action.isCurrentUser)
@@ -42,7 +56,7 @@ function course(state, action) {
                 showSignupModal: true
             })
         case FETCH_COURSE_SUCCESS:
-            return Object.assign({}, state, action.response)
+            return Object.assign({}, state, mapCourse(action.response))
         case SEND_NOTIFICATION:
             // fall through
         case SEND_NOTIFICATION_SUCCESS:
@@ -132,10 +146,10 @@ const courseList = list => (state = emptyCourseList, action) => {
 function coursesById(state = {}, action) {
     switch (action.type) {
         case RECEIVE_COURSES:
-            return action.response.data.reduce((state, obj) => {
-                state[obj.id] = obj;
-                return state;
-            }, state);
+            const objectsById = Object.fromEntries(
+                action.response.data.map((obj) => [obj.id, mapCourse(obj)])
+            );
+            return Object.assign({}, state, objectsById);
         case SUBMIT_PARTICIPATION_SUCCESS:
             // fall through
         case TOGGLE_SIGNUP_MODAL:
@@ -212,7 +226,30 @@ function participantsById(state = {}, action) {
 export const courses = combineReducers({ 
     coursesById, 
     currentCourses: courseList('current'), 
+    currentEvents: courseList('events'),
     archivedCourses: courseList('archive'),
     myCourses: courseList('mine'),
     courseEditor,
     participantsById })
+
+export const selectCoursesById = (state) => state.courses.coursesById;
+export const selectParticipantsById = (state) => state.courses.participantsById;
+
+export const selectCourse = (state, id) => state.courses.coursesById[id];
+export const selectParticipants = (state, id) => state.courses.participantsById[id];
+
+export const selectCurrentCourses = (state) => state.courses.currentCourses;
+export const selectCurrentEvents = (state) => state.courses.currentEvents;
+export const selectArchivedCourses = (state) => state.courses.archivedCourses;
+export const selectMyCourses = (state) => state.courses.myCourses;
+
+export const selectCourseList = createSelector(
+    [selectCurrentCourses, selectCurrentEvents, selectArchivedCourses, selectMyCourses, (_s, list) => list],
+    (currentCourses, currentEvents, archivedCourses, myCourses, list) => {
+        if (list === 'current') return currentCourses;
+        if (list === 'events') return currentEvents;
+        if (list === 'archive') return archivedCourses;
+        if (list === 'mine') return myCourses;
+        return undefined;
+    },
+);

@@ -1,3 +1,4 @@
+import { createSelector } from '@reduxjs/toolkit';
 import {
     REQUEST_PROFILE, RECEIVE_PROFILE, SUBMIT_PROFILE, SUBMIT_PROFILE_SUCCESS, SUBMIT_PROFILE_ERROR,
     EDIT_PROFILE_FIELD, REQUEST_USERS, RECEIVE_USERS, RECEIVE_ROLES, 
@@ -61,17 +62,14 @@ const usersListByPage = list => (state = {}, action) => {
             if (list !== action.list)
                 return state;
             return Object.assign({}, state, {
-                [action.page]: {
-                    userIds: action.response.data.map(x => x.id),
-                    query: action.query
-                }
+                [action.page]: action.response.data.map(x => x.id)
             })
         default:
             return state;
     }
 }
 
-const emptyUserList = { pages: {}, isFetching: false, links: {}, query: '', invalidated: false };
+const emptyUserList = { pages: {}, isFetching: false, links: {}, invalidated: false };
 
 const userList = list => (state = emptyUserList, action) => {
     switch (action.type) {
@@ -141,10 +139,10 @@ function user(state = {}, action) {
 function usersById(state = {}, action) {
     switch (action.type) {
         case RECEIVE_USERS:
-            return action.response.data.reduce((state, obj) => {
-                state[obj.id] = obj;
-                return state;
-            }, state);
+            const objectsById = Object.fromEntries(
+                action.response.data.map((obj) => [obj.id, obj])
+            );
+            return Object.assign({}, state, objectsById);
         case SET_MEMBERSHIP_PAID_SUCCESS:
             // fall through
         case TOGGLE_USER_ROLE_SUCCESS:
@@ -217,3 +215,24 @@ export function permissions(state = {
             return state;
     }
 }
+
+const selectUserLists = (state) => state.users.userLists;
+
+const selectUsersById = (state) => state.users.usersById;
+
+export const selectUserList = createSelector(
+    [selectUserLists, (_s, list) => list],
+    (userLists, list) => userLists[list]
+);
+
+export const selectUsersOnListAndPage = createSelector(
+    [selectUserList, selectUsersById, (_s, _l, page) => page],
+    (userList, usersById, page) => {
+        const pageLoaded = page in userList.pages;
+        const usersOnCurrentPage = pageLoaded ? userList.pages[page].map(userId => usersById[userId]) : [];
+        return {
+            users: usersOnCurrentPage,
+            lastPage: userList.lastPage
+        }
+    }
+);

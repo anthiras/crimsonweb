@@ -30,14 +30,13 @@
     "open": "Open",
     "close": "Close",
     "closed": "Closed",
-    "search": "Search",
     "send": "Send",
     "sending": "Sending...",
     "sent": "Sent!",
     "description": "Description"
   },
   "titles": {
-    "courses": "Classes",
+    "courses": "Classes & events",
     "users": "Users",
     "myProfile": "My profile",
     "membership": "Membership"
@@ -59,22 +58,30 @@
     "messageParticipants": "Message participants..."
   },
   "courses": {
-    "current": "Current classes",
+    "current": "Classes",
+    "events": "Events",
     "archive": "Archive",
     "mine": "My classes",
-    "signupConfirmed": "Signup confirmed",
+    "signupConfirmed": "Signup approved",
+    "signupPending": "Awaiting approval",
     "signupRequested": "Signup requested",
     "signupFor": "Sign up for",
     "signupDate": "Signup date",
     "role": "Role",
     "lead": "Lead",
+    "leads": "Leads",
     "follow": "Follow",
+    "follows": "Followers",
     "signupError": "An error occurred while attempting to signup for the class.",
     "xLessons": "{{count}} lessons",
     "createNew": "Create new class",
     "lessonDuration": "Duration of lessons (minutes)",
-    "scheduleSummary": "{{ startDate, PP }} {{ startDate, HH:mm }}–{{ endDate, HH:mm }}",
-    "scheduleSummary_plural": "{{ startDate, eeee }}s {{ startDate, HH:mm }}–{{ endDate, HH:mm }} from {{ startDate, PP }}",
+    "scheduleSummary_one": "{{ startDate, PP }} {{ startDate, HH:mm }}–{{ endDate, HH:mm }}",
+    "scheduleSummary_other": "{{ count }} {{ startDate, eeee }}s {{ startDate, HH:mm }}–{{ endDate, HH:mm }} from {{ startDate, PP }}",
+    "weekday": "{{ date, eeee }}",
+    "shortDate": "{{ date, MMM }} {{ date, d }}",
+    "timeInterval": "{{ startDate, HH:mm }}–{{ endDate, HH:mm }}",
+    "monthYear": "{{ date, MMMM yyyy }}",
     "participants": "Participants",
     "confirmReject": "Are you sure you want to reject the participant? This action cannot be undone.",
     "status": {
@@ -99,6 +106,7 @@
     "andThe": "and the",
     "privacyPolicy": "privacy policy",
     "messagePendingAndConfirmedParticipants": "Message all (pending and confirmed) participants",
+    "receivers": "Receivers",
     "iCalFeed": "iCal feed"
   },
   "users": {
@@ -134,13 +142,17 @@
     "closedForRegistration": "Membership registration is currently closed.",
     "informationHere": "Read about membership here",
     "membershipPaid": "Membership paid",
-    "membershipUnpaid": "Membership unpaid"
+    "membershipUnpaid": "Membership unpaid",
+    "member": "Member",
+    "notAMember": "No membership"
   },
   "roles": {
     "names": {
       "Administrator": "Administrator",
       "Instructor": "Instructor"
-    }
+    },
+    "assign": "Assign",
+    "unassign": "Unassign"
   },
   "content": {
     "notice": ""

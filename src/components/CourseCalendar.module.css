@@ -1,0 +1,71 @@
+.table a, table a:hover {
+	text-decoration: inherit;
+	color: inherit;
+}
+
+.table {
+	table-layout: fixed;
+}
+
+.table thead th:is(:first-child),
+.table tbody th:is(:first-child) {
+	border-left: 0;
+	background-color: #ebebeb;
+	writing-mode: tb;
+}
+
+.table thead {
+	z-index: 2;
+}
+
+.table thead th {
+	padding: 0.5rem;
+}
+
+.table thead th:not(:first-child) {
+	text-align: center;
+	background-color: white;
+	background-clip: padding-box;
+}
+
+.table tbody td {
+	padding: 0px;
+	width: 11%;
+}
+
+@media (min-width: 992px) {
+	.table tbody td  {
+		width: 6%;
+	}
+
+	.table thead th:is(:first-child),
+	.table tbody th:is(:first-child) {
+		writing-mode: initial;
+	}
+}
+
+.table tbody th {
+	width: 12%;
+	text-align: left;
+	padding: 0.75rem 0.5rem;
+}
+
+.table tbody tr {
+	height: calc(3rem + 20px + 4px + 5px);
+	transition: height 0.3s;
+}
+
+.table tbody tr.dates {
+	position: static;
+	height: auto;
+}
+
+.table tbody .dates td,
+.dates th {
+	color: #666;
+	padding: 0.75rem 0.5rem;
+	text-transform: uppercase;
+	text-align: center;
+	font-weight: bold;
+	font-size: 85%;
+}

@@ -1,53 +1,29 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux'
-import {
-  fetchCourse, saveCourse, editCourseField, deleteCourse
-} from '../actions/courses'
+import React, { useEffect } from 'react';
+import { useParams } from 'react-router-dom';
+import { useSelector } from 'react-redux'
+import useCourseActions from '../actions/courses'
+import { selectCourse } from '../reducers/courses';
 import CourseEditor from '../components/CourseEditor'
 import { Loading } from '../components/Utilities';
 
-class CourseEditorContainer extends Component
-{
-	componentDidMount() {
-		if (this.props.courseId) {
-			this.props.fetchCourse(this.props.courseId)
-		}
-	}
+const CourseEditorContainer = () => {
+	const { courseId } = useParams();
+	const course = useSelector((state) => selectCourse(state, courseId));
+	const uiState = useSelector((state) => state.courses.courseEditor.uiState);
 
-	componentDidUpdate(prevProps) {
-		if (prevProps.courseId !== this.props.courseId && this.props.courseId) {
-			this.props.fetchCourse(this.props.courseId)
-		}
-	}
+	const { fetchCourse } = useCourseActions();
 
-	render() {
-		const { courseId, course, fetchCourse, saveCourse, editCourseField, deleteCourse, uiState } = this.props;
-		if (courseId != null && course == null)
-			return <Loading />;
-		return (<CourseEditor 
-			course={course} 
-			key={course == null ? null : course.id} 
-			fetchCourse={fetchCourse}
-			saveCourse={saveCourse}
-			editCourseField={editCourseField}
-			deleteCourse={deleteCourse}
-			uiState={uiState} />);
-	}
-}
+	useEffect(() => {
+		fetchCourse(courseId);
+	}, [courseId]);
 
-function mapStateToProps(state, ownProps) {
-	const courseId = ownProps.match.params.courseId;
-	const course = courseId == null ? null : state.courses.coursesById[courseId];
+	if (courseId != null && course == null)
+		return <Loading />;
 
-	return { 
-		course: course, 
-		courseId: courseId,
-		uiState: state.courses.courseEditor.uiState
-	};
-}
+	return <CourseEditor 
+		course={course} 
+		uiState={uiState}
+		key={course == null ? null : course.id} />;
+};
 
-const actionCreators = {
-	fetchCourse, saveCourse, editCourseField, deleteCourse
-}
-
-export default connect(mapStateToProps, actionCreators)(CourseEditorContainer);
+export default CourseEditorContainer;
