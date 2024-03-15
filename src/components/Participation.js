@@ -16,7 +16,9 @@ const Participation = ({ t, course }) => {
 
     if (!signedUp)
         return <div className='d-grid mb-3'>
-            <Button variant='primary' size='lg' onClick={() => toggleSignupModal(course.id, true)}>{t('actions:signUp')}</Button>
+            {course.allowRegistration
+            ? <Button variant='primary' size='lg' onClick={() => toggleSignupModal(course.id, true)}>{t('actions:signUp')}</Button>
+            : <Button variant='secondary' size='lg' disabled>{t('courses:signupNotOpen')}</Button>}
         </div>
 
     return <Alert variant={alertVariant}>

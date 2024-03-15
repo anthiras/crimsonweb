@@ -63,6 +63,7 @@
     "archive": "Archive",
     "mine": "My classes",
     "signupConfirmed": "Signup approved",
+    "signupNotOpen": "Signup is not currently open",
     "signupPending": "Awaiting approval",
     "signupRequested": "Signup requested",
     "signupFor": "Sign up for",

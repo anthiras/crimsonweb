@@ -63,6 +63,7 @@
     "archive": "Arkiv",
     "mine": "Mine hold",
     "signupConfirmed": "Tilmelding godkendt",
+    "signupNotOpen": "Tilmelding er ikke åben i øjeblikket",
     "signupPending": "Afventer godkendelse",
     "signupRequested": "Tilmelding sendt",
     "signupFor": "Tilmeld",
