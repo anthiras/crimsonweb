@@ -19,14 +19,14 @@ const CourseDetailsContainer = () => {
 		fetchCourse(courseId);
 		if (permissions['courses:manageParticipants'])
 			fetchCourseParticipants(courseId);
-	}, [courseId]);
+	}, [courseId, permissions]);
 
 	if (courseId != null && course == null)
 		return <Loading />;
 
 	return <CourseDetails 
 		course={course} 
-		participants={participants || []}
+		participants={participants}
 		key={course == null ? null : course.id} />;
 };
 

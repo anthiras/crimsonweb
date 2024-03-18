@@ -16,6 +16,7 @@ import Description from './Description';
 import SignUpModal from './SignUpModal';
 import usePermissions from '../hooks/usePermissions';
 import Participation from './Participation';
+import currency from 'currency.js';
 
 const CourseDetails = ({ t, course, participants }) => {
     const [sendMessageVisible, toggleModal] = useState(false);
@@ -54,6 +55,8 @@ const CourseDetails = ({ t, course, participants }) => {
 
     const permissions = usePermissions();
 
+    const totalAmountPaid = participants?.reduce((a, b) => a.add(b.participation.amountPaid), currency(0, { symbol: ''}));
+
     return (
         <Container fluid>
             {permissions["courses:create"] && 
@@ -86,12 +89,17 @@ const CourseDetails = ({ t, course, participants }) => {
                 value={notificationMessage}
              >
                 <p className='mt-3'>{t('courses:receivers')}:</p>
-                <p style={{ whiteSpace: 'pre-wrap'}}>{participants.filter(p => p.participation.status !== 'cancelled').map(p => p.email + "\n")}</p>
+                <p style={{ whiteSpace: 'pre-wrap'}}>{participants?.filter(p => p.participation.status !== 'cancelled')?.map(p => p.email + "\n")}</p>
             </TextAreaModal>
 
             <Participation course={course} />
 
-            {permissions["courses:create"] && <Row>
+            {permissions["courses:create"] && <div>
+                <h2>{t('courses:amountPaid')}</h2>
+                <p>{totalAmountPaid?.format()}</p>
+            </div>}
+
+            {permissions["courses:create"] && participants && <Row>
                 <ParticipantList 
                     lg={5}
                     role='lead'
