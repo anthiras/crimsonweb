@@ -2,6 +2,11 @@
     table-layout: fixed;
 }
 
+.table a, table a:hover {
+	text-decoration: inherit;
+	color: inherit;
+}
+
 .table th {
 	width: 12%;
 	text-align: left;
