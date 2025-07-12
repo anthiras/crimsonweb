@@ -123,7 +123,9 @@
     "member": "Member",
     "members": "Members",
     "paidMembers": "Paid members",
-    "unpaidMembers": "Unpaid members"
+    "unpaidMembers": "Unpaid members",
+    "nameNotEmail": "Must be your name, not your email address",
+    "fillProfile": "Please fill out your profile"
   },
   "membership": {
     "period": "{{ lastRenewal, P}} – {{ nextRenewal, P}}",

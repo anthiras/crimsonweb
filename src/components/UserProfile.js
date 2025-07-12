@@ -62,7 +62,7 @@ const UserProfile = ({ t, user, uiState, allowDelete }) => {
                 <legend>{t('titles:myProfile')}</legend>
                 <Form.Group controlId='name' className="mb-2">
                     <Form.Label>{t('common:name')}</Form.Label>
-                    <Form.Control type="text" required value={name || ''} onChange={(e)=>handleInput('name', e)} />
+                    <Form.Control type="text" required value={name || ''} onChange={(e)=>handleInput('name', e)} pattern="[^@]+" title={t('users:nameNotEmail')} />
                 </Form.Group>
                 <Form.Group controlId='email' className="mb-2">
                     <Form.Label>{t('common:email')}</Form.Label>

@@ -18,7 +18,7 @@ import usePermissions from '../hooks/usePermissions';
 import Participation from './Participation';
 import currency from 'currency.js';
 
-const CourseDetails = ({ t, course, participants }) => {
+const CourseDetails = ({ t, course, participants, profile }) => {
     const [sendMessageVisible, toggleModal] = useState(false);
 
     const { sendNotification, editNotification, signup, toggleSignupModal } = useCourseActions();
@@ -112,7 +112,7 @@ const CourseDetails = ({ t, course, participants }) => {
                     participants={participants.filter(p => p.participation.role === 'follow')} />
             </Row>}
 
-            <SignUpModal course={course} close={() => toggleSignupModal(course.id, false)} signup={signup}  />
+            <SignUpModal course={course} close={() => toggleSignupModal(course.id, false)} signup={signup} profile={profile} />
         </Container>
     );
 }

@@ -32,7 +32,7 @@ export function profile(state = {
         case SUBMIT_PROFILE_SUCCESS:
             return Object.assign({}, state, {
                 uiState: 'saved',
-                user: action.user
+                user: Object.assign({}, state.user, action.user)
             })
         case EDIT_PROFILE_FIELD:
             return Object.assign({}, state, {

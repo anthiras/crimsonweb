@@ -4,6 +4,7 @@ import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Alert from 'react-bootstrap/Alert';
 import { withTranslation } from 'react-i18next';
+import UserName from "./UserName";
 
 class SignUpModal extends Component
 {
@@ -34,12 +35,16 @@ class SignUpModal extends Component
     }
 
     render() {
-        const { t, course, close } = this.props;
+        const { t, course, close, profile } = this.props;
+        const { user, uiState } = profile;
         const modalId = "signup" + course.id;
         const role = this.state.role;
 
+        const nameCompleted = user != null &&
+            !user.name.includes('@');
+
         return <Modal show={course.showSignupModal || false} onHide={close}>
-            <Form onSubmit={this.submitSignup}>
+            {nameCompleted && <Form onSubmit={this.submitSignup}>
                 <Modal.Header closeButton>
                     <Modal.Title>{t('courses:signupFor')} {course.name}</Modal.Title>
                 </Modal.Header>
@@ -62,7 +67,18 @@ class SignUpModal extends Component
                     <Button variant="secondary" onClick={close}>{t('common:cancel')}</Button>
                     <Button variant="primary" type="submit" disabled={course.signupProcessing}>{course.signupProcessing ? t('common:saving') : t('actions:confirmSignup')}</Button>
                 </Modal.Footer>
-            </Form>
+            </Form>}
+            {!nameCompleted && <React.Fragment>
+                <Modal.Header closeButton>
+                    <Modal.Title>{t('users:fillProfile')}</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    <UserName user={user} uiState={uiState} />
+                </Modal.Body>
+                <Modal.Footer>
+                    <Button variant="secondary" onClick={close}>{t('common:cancel')}</Button>
+                </Modal.Footer>
+            </React.Fragment>}
         </Modal>
     }
 }

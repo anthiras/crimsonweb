@@ -123,7 +123,9 @@
     "member": "Medlem",
     "members": "Medlemmer",
     "paidMembers": "Betalende medlemmer",
-    "unpaidMembers": "Afventer betaling"
+    "unpaidMembers": "Afventer betaling",
+    "nameNotEmail": "Dit navn, ikke din e-mailadresse",
+    "fillProfile": "Udfyld din profil"
   },
   "membership": {
     "period": "{{ lastRenewal, P}} – {{ nextRenewal, P}}",
