@@ -3,7 +3,8 @@ import {
     REQUEST_PROFILE, RECEIVE_PROFILE, SUBMIT_PROFILE, SUBMIT_PROFILE_SUCCESS, SUBMIT_PROFILE_ERROR,
     EDIT_PROFILE_FIELD, REQUEST_USERS, RECEIVE_USERS, RECEIVE_ROLES, 
     SET_MEMBERSHIP_PAID_SUCCESS, TOGGLE_USER_ROLE_SUCCESS,
-    REQUEST_PERMISSIONS, REQUEST_PERMISSIONS_SUCCESS, REQUEST_PERMISSIONS_ERROR, INVALIDATE_PERMISSIONS
+    REQUEST_PERMISSIONS, REQUEST_PERMISSIONS_SUCCESS, REQUEST_PERMISSIONS_ERROR, INVALIDATE_PERMISSIONS,
+    DELETE_MEMBERSHIP_SUCCESS
 } from '../actions/users'
 import {
     SUBMIT_MEMBERSHIP, SUBMIT_MEMBERSHIP_SUCCESS, SUBMIT_MEMBERSHIP_ERROR
@@ -88,6 +89,8 @@ const userList = list => (state = emptyUserList, action) => {
                 invalidated: false
             })
         case SET_MEMBERSHIP_PAID_SUCCESS:
+            // fall through
+        case DELETE_MEMBERSHIP_SUCCESS:
             return Object.assign({}, state, {
                 invalidated: true
             })
@@ -110,6 +113,8 @@ const userLists = (state = emptyUserLists, action) => {
                 [action.list]: userList(action.list)(state[action.list], action)
             })
         case SET_MEMBERSHIP_PAID_SUCCESS:
+            // fall through
+        case DELETE_MEMBERSHIP_SUCCESS:
             return Object.assign({}, state, {
                 'paid': userList('paid')(state['paid'], action),
                 'unpaid': userList('unpaid')(state['unpaid'], action)
@@ -124,6 +129,10 @@ function user(state = {}, action) {
         case SET_MEMBERSHIP_PAID_SUCCESS:
             return Object.assign({}, state, {
                 currentMembership: action.response
+            });
+        case DELETE_MEMBERSHIP_SUCCESS:
+            return Object.assign({}, state, {
+                currentMembership: null
             });
         case TOGGLE_USER_ROLE_SUCCESS:
             return Object.assign({}, state, {
@@ -144,6 +153,8 @@ function usersById(state = {}, action) {
             );
             return Object.assign({}, state, objectsById);
         case SET_MEMBERSHIP_PAID_SUCCESS:
+            // fall through
+        case DELETE_MEMBERSHIP_SUCCESS:
             // fall through
         case TOGGLE_USER_ROLE_SUCCESS:
             const userId = action.userId;
@@ -168,6 +179,8 @@ export function users(state = {
                 userLists: userLists(state.userLists, action)
             })
         case SET_MEMBERSHIP_PAID_SUCCESS:
+            // fall through
+        case DELETE_MEMBERSHIP_SUCCESS:
             // fall through
         case TOGGLE_USER_ROLE_SUCCESS:
             return Object.assign({}, state, {

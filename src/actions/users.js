@@ -18,6 +18,9 @@ export const RECEIVE_ROLES_ERROR = 'RECEIVE_ROLES_ERROR'
 export const SET_MEMBERSHIP_PAID = 'SET_MEMBERSHIP_PAID'
 export const SET_MEMBERSHIP_PAID_SUCCESS = 'SET_MEMBERSHIP_PAID_SUCCESS'
 export const SET_MEMBERSHIP_PAID_ERROR = 'SET_MEMBERSHIP_PAID_ERROR'
+export const DELETE_MEMBERSHIP = 'DELETE_MEMBERSHIP'
+export const DELETE_MEMBERSHIP_SUCCESS = 'DELETE_MEMBERSHIP_SUCCESS'
+export const DELETE_MEMBERSHIP_ERROR = 'DELETE_MEMBERSHIP_ERROR'
 export const TOGGLE_USER_ROLE = 'TOGGLE_USER_ROLE'
 export const TOGGLE_USER_ROLE_SUCCESS = 'TOGGLE_USER_ROLE_SUCCESS'
 export const TOGGLE_USER_ROLE_ERROR = 'TOGGLE_USER_ROLE_ERROR'
@@ -96,6 +99,12 @@ const useUserActions = () => {
 		setMembershipPaid: userId => dispatch({
 			types: [SET_MEMBERSHIP_PAID, SET_MEMBERSHIP_PAID_SUCCESS, SET_MEMBERSHIP_PAID_ERROR],
 			callApi: () => post('/v1/membership/'+userId+'/setPaid'),
+			payload: { userId }
+		}),
+
+		deleteMembership: userId => dispatch({
+			types: [DELETE_MEMBERSHIP, DELETE_MEMBERSHIP_SUCCESS, DELETE_MEMBERSHIP_ERROR],
+			callApi: () => del('/v1/membership/'+userId),
 			payload: { userId }
 		}),
 

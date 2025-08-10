@@ -16,7 +16,7 @@ const userHasRole = (rowData, role) => rowData.roles.find((r) => { return r.id =
 
 const Actions = ({t, rowData, roles}) => {
     const actions = useRef(null);
-    const { toggleUserRole, setMembershipPaid } = useUserActions();
+    const { toggleUserRole, setMembershipPaid, deleteMembership } = useUserActions();
     const permissions = usePermissions();
 
     const menuItems = [
@@ -38,6 +38,11 @@ const Actions = ({t, rowData, roles}) => {
                     label: `${t('common:approve')} ${rowData.currentMembership.paymentMethod} ${formatDate(parseUtcDate(rowData.currentMembership.createdAt))}`,
                     command: () => setMembershipPaid(rowData.id),
                     disabled: !permissions['membership:setPaid']
+                },
+                {
+                    label: t('common:delete'),
+                    command: () => deleteMembership(rowData.id),
+                    disabled: !permissions['membership:delete'],
                 },
             ]
         })
